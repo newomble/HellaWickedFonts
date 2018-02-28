@@ -1,5 +1,4 @@
 var express = require('express'),
-    passport = require('passport'),
     session = require("express-session"),
     bodyParser = require("body-parser"),
     app = express();
@@ -8,7 +7,7 @@ app.use(session({ secret: "hella wikced kimbo jambo" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //include the endpoints
-require('./loadendpoints.js')(app);
+require('./app/loadendpoints.js')(app);
 
 app.listen(3000, function () {
   console.log('port 3000');
