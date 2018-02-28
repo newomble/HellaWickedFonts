@@ -4,16 +4,11 @@ var express = require('express'),
     bodyParser = require("body-parser"),
     app = express();
 app.use(express.static("public"));
-app.use(session({ secret: "cats" }));
+app.use(session({ secret: "hella wikced kimbo jambo" }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
-require('./config/passport')(passport);
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
-
+//include the endpoints
+require('./loadendpoints.js')(app);
 
 app.listen(3000, function () {
   console.log('port 3000');
