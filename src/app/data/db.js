@@ -1,31 +1,31 @@
-var mysql = require('mysql');
-var myhost = "localhost",
-myuser="root",
-mypassword="",
-mydatabase="hellawickedfonts";
-//returns result of query
-module.exports = function(sqlQuery,callback){
-	var conn = mysql.createConnection({
-		host: myhost,
-		user: myuser,
-		password: mypassword,
-		database: mydatabase
-	});
-	res = new Array();
-    query = conn.query(sqlQuery);
-	query.on('error',function (err) {
-		console.log('A database error occurred:');
-		console.log(err);
-		res = false;
-	});
-	
-	query.on('result',function (result) {
-		res.push(result);
-	});
+const pg = require('pg');
+const connectionString ='postgres://localhost:5432/';
 
-  query.on('end',function (result) {
-    conn.end();
-    callback(res);
-  });
-	
+//returns result of query
+function ex(sqlQuery,params,callback){
+	pg.connect(connectionString, (err, client, done) => {
+		const results = [];
+		// Handle connection errors
+		if(err) {
+		  done();
+		  console.log(err);
+		  //TODO proper db log
+		  return false;
+		}
+		
+		var postQuery = client.query(sqlQuery,params );
+		
+		postQuery.on('row', (row) => {
+		  results.push(row);
+		});
+		// After all data is returned, close connection and return results
+		postQuery.on('end', () => {
+		  done();
+		  return res.json(results);
+		});
+	});
+}
+
+module.exports = {
+	execute: ex
 }
