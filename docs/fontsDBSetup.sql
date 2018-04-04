@@ -4,7 +4,7 @@
 -- 
 -- Created: 4/4/2018
 -- Command line:
--- psql -h localhost -U posgres -f fontsDBSetup.sql
+-- psql -h localhost -U postgres -f fontsDBSetup.sql
 -- -----------------------------------------------------
 
 DROP DATABASE IF EXISTS hellawickedfonts;
