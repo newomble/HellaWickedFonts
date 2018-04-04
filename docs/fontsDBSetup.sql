@@ -1,21 +1,23 @@
-DROP DATABASE IF EXISTS hellawickedfonts;
 
+-- -----------------------------------------------------
+-- HellaWickedFonts Database Script
+-- 
+-- Created: 4/4/2018
+-- -----------------------------------------------------
+
+DROP DATABASE IF EXISTS hellawickedfonts;
 CREATE DATABASE hellawickedfonts;
 \c hellawickedfonts;
 
-DROP TABLE IF EXISTS comment;
-CREATE TABLE comment(
-	comment_id SERIAL,
-	FOREIGN KEY (user_id) REFERENCES user,
-	FOREIGN KEY (font_id) REFERENCES font,
-	comment_text TEXT,
-	rating INT,
-	PRIMARY KEY (comment_id)
-);
+-- -----------------------------------------------------
+-- User Table
+-- -----------------------------------------------------
+DROP SEQUENCE IF EXISTS user_id_seq CASCADE;
+CREATE SEQUENCE user_id_seq START 1;
 
-DROP TABLE IF EXISTS user;
-CREATE TABLE user(
-	user_id SERIAL,
+DROP TABLE IF EXISTS public.user  CASCADE;
+CREATE TABLE public.user(
+	user_id INT NOT NULL DEFAULT nextval('user_id_seq'),
 	username VARCHAR(45),
 	password VARCHAR(45),
 	salt VARCHAR(45),
@@ -23,49 +25,92 @@ CREATE TABLE user(
 	PRIMARY KEY (user_id)
 );
 
-DROP TABLE IF EXISTS rating;
-CREATE TABLE rating(
-	rating_id SERIAL,
-	FOREIGN KEY (user_id) REFERENCES user,
-	FOREIGN KEY (font_id) REFERENCES font,
-	rating SMALLINT,
-	FOREIGN KEY (comment_id) REFERENCES comment,
-	PRIMARY KEY (rating_id)
-);
+-- -----------------------------------------------------
+-- Font Table
+-- -----------------------------------------------------
+DROP SEQUENCE IF EXISTS font_id_seq CASCADE;
+CREATE SEQUENCE font_id_seq START 1;
 
-DROP TABLE IF EXISTS user;
-CREATE TABLE user(
-	user_id SERIAL,
-	username VARCHAR(45),
-	password VARCHAR(45),
-	salt VARCHAR(45),
-	email VARCHAR(45),
-	PRIMARY KEY (user_id)
-);
-
-DROP TABLE IF EXISTS sample_text;
-CREATE TABLE sample_text(
-	sample_id SERIAL,
-	FOREIGN KEY (font_id) REFERENCES sample_text,
-	text TEXT,
-	PRIMARY KEY (sample_id)
-);
-
-DROP TABLE IF EXISTS font;
-CREATE TABLE font(
-	font_id SERIAL
+DROP TABLE IF EXISTS public.font  CASCADE;
+CREATE TABLE public.font(
+	font_id INT NOT NULL DEFAULT nextval('font_id_seq'),
 	family VARCHAR(45),
 	source_json VARCHAR (45) NOT NULL DEFAULT '/fonts/json/',
-	popularity SERIAL DEFAULT -1,
+	popularity INT DEFAULT -1,
 	kind VARCHAR(15) NOT NULL DEFAULT 'unknown',
 	PRIMARY KEY (font_id)
 );
 
-DROP TABLE IF EXISTS user_font;
-CREATE TABLE user_font (
-	user_font_id SERIAL,
-	FOREIGN KEY (user_user_id) REFERENCES user (user_id),
-	FOREIGN KEY (font_font_id) REFERENCES font (font_id),
+-- -----------------------------------------------------
+-- Comment Table
+-- -----------------------------------------------------
+
+DROP SEQUENCE IF EXISTS comment_id_seq CASCADE;
+CREATE SEQUENCE comment_id_seq START 1;
+
+DROP TABLE IF EXISTS public.comment CASCADE;
+CREATE TABLE public.comment(
+	comment_id INT NOT NULL DEFAULT nextval('comment_id_seq'),
+	user_id INT,
+	font_id INT,
+	comment_text TEXT,
+	rating INT,
+	FOREIGN KEY (user_id) REFERENCES public.user,
+	FOREIGN KEY (font_id) REFERENCES public.font,
+	PRIMARY KEY (comment_id)
+);
+
+-- -----------------------------------------------------
+-- Rating Table
+-- -----------------------------------------------------
+DROP SEQUENCE IF EXISTS rating_id_seq CASCADE;
+CREATE SEQUENCE rating_id_seq START 1;
+
+DROP TABLE IF EXISTS public.rating;
+CREATE TABLE public.rating(
+	rating_id int NOT NULL DEFAULT nextval('rating_id_seq'),
+	user_id INT,
+	font_id INT,
+	comment_id INT,
+	rating SMALLINT,
+	FOREIGN KEY (user_id) REFERENCES public.user,
+	FOREIGN KEY (font_id) REFERENCES public.font,
+	FOREIGN KEY (comment_id) REFERENCES public.comment,
+	PRIMARY KEY (rating_id)
+);
+
+-- -----------------------------------------------------
+-- Sample Text Table
+-- -----------------------------------------------------
+DROP SEQUENCE IF EXISTS sampletxt_id_seq CASCADE;
+CREATE SEQUENCE sampletxt_id_seq START 1;
+
+DROP TABLE IF EXISTS public.sample_text;
+CREATE TABLE public.sample_text(
+	sample_id INT NOT NULL DEFAULT nextval('sampletxt_id_seq'),
+	font_id INT,
+	sample_text TEXT,
+	FOREIGN KEY (font_id) REFERENCES public.font (font_id),
+	PRIMARY KEY (sample_id)
+);
+
+
+-- -----------------------------------------------------
+-- User Font Table
+-- -----------------------------------------------------
+DROP SEQUENCE IF EXISTS user_font_id_seq CASCADE;
+CREATE SEQUENCE user_font_id_seq START 1;
+
+DROP TABLE IF EXISTS public.user_font;
+CREATE TABLE public.user_font (
+	user_font_id INT NOT NULL DEFAULT nextval('user_font_id_seq'),
+	user_user_id INT,
+	font_font_id INT,
 	rank INT,
+	FOREIGN KEY (user_user_id) REFERENCES public.user (user_id),
+	FOREIGN KEY (font_font_id) REFERENCES public.font (font_id),
 	PRIMARY KEY (user_font_id)
 );
+
+
+
