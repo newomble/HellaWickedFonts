@@ -1,5 +1,5 @@
 const pg = require('pg');
-const connectionString ='postgres://localhost:5432/';
+const connectionString ='postgresql://osboxes:student@localhost:5432/';
 
 //returns result of query
 function ex(sqlQuery,params,callback){
@@ -9,7 +9,7 @@ function ex(sqlQuery,params,callback){
 		if(err) {
 		  done();
 		  console.log(err);
-		  //TODO proper db log
+		  //db log
 		  return false;
 		}
 		

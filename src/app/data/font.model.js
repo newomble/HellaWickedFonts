@@ -9,7 +9,7 @@ function getFont(id){
 }
 
 function myTest(){
-	return conn.ex("select * from font");
+	return conn.execute("select * from font;");
 }
 
 module.exports = {
