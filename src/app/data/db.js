@@ -27,5 +27,5 @@ function ex(sqlQuery,params,callback){
 }
 
 module.exports = {
-	execute: ex
+	execute: ex,
 }
