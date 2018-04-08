@@ -17,12 +17,27 @@ a:hover{
 }
 
 
-input, .box {
+input, textarea, .box {
 	border:0.1em solid #C7D7D6;
 	border-radius: 0.1em;
 	padding:0.5em;
 	margin:0.5em;
 }
+
+button {
+	background-color:#497674;
+	color:#fff;
+	border-radius: 0.2em;
+	border: 0.1em solid #497674;
+	padding:0.5em;
+	margin:0.5em;
+	min-width: 8em;
+	font-size:1em;
+}
+button:hover{
+	cursor: pointer;
+}
+
 input{
 	min-width:15em;
 }
@@ -398,6 +413,21 @@ footer {
 .fa-thumbs-down, .down_vote{
 	color:#BD7579;
 }
+.comment_controls{
+	overflow: auto;
+}
+
+.comment_controls textarea{
+	display:block;
+	width: calc(100% - 2.2em);
+	border-color:#D6D6D6;
+	height:5em;
+}
+
+.comment_controls button{
+	float:right;
+}
+
 
 /** ----------------------- MEDIA QUEREIS CSS ---------------------- **/
 

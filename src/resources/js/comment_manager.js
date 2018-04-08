@@ -183,9 +183,11 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
 
+
 /**
 * Updates the icon to be solid since you have reacted to the comment
 * and removes a previous reaction as well as updating the counts
+* TODO: add an ajax call to update the up/down vote of a comment
 */
 CommentManager.prototype.upDownAction = function (ele) {
 	'use strict';
@@ -210,13 +212,13 @@ CommentManager.prototype.upDownAction = function (ele) {
 		this_count.innerHTML = parseInt(this_total_count, 10) + 1;
 		
 		if (new RegExp('fas').test(this.className)) { //are they clicking the same one? (unreact)
-			this_count.innerHTML = parseInt(this_total_count, 10) - 1;
-			this.className = this.className.replace("fas", "far");
+			this_count.innerHTML = parseInt(this_total_count, 10) - 1; //remove 1 count
+			this.className = this.className.replace("fas", "far"); //make outline (not solid)
 		} else {
 			//this is something you've reacted to now
-			this.className = this.className.replace("far", "fas");
+			this.className = this.className.replace("far", "fas"); //make "this" solid
 			//you cant up and down vote, remove the other 
-			opposite_vote.className = opposite_vote.className.replace("fas", "far");	
+			opposite_vote.className = opposite_vote.className.replace("fas", "far"); //make "that" outline
 		}//end if: Are they unreacting or reacting?
 		
 	}); //end addEventListener --> click on up/down votes
@@ -232,17 +234,32 @@ CommentManager.prototype.upDownAction = function (ele) {
 
 CommentManager.prototype.buildCommentControls = function () {
 	'use strict';
-	//var 
+	this.submit_button = document.createElement('button');
+	this.comment_text = document.createElement('textarea');
+	this.comment_header = document.createElement("h3");
+	
+	this.comment_header.innerHTML = "Add A Comment";
+	this.submit_button.innerHTML = "post comment";
+	this.comment_text.setAttribute("placeholder", "write your comment here");
+	this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+	this.COMMENTS_CONTROLS.appendChild(this.comment_text);
+	this.COMMENTS_CONTROLS.appendChild(this.submit_button);
 	
 	
-	
-	
-	
+	this.COMMENTS_CONTROLS.className = "comment_controls";
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_CONTROLS);
 }; //end function: CommentManager --> buildCommentControls
 
 
-
+CommentManager.prototype.addComment = function (comment) {
+	'use strict';
+	
+	//make an ajax call to actually add the comment
+	
+	
+	
+	
+}; //end function: CommentManager --> addComment
 
 
 
