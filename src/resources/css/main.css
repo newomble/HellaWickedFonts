@@ -17,8 +17,39 @@ a:hover{
 }
 
 
+input, .box {
+	border:0.1em solid #C7D7D6;
+	border-radius: 0.1em;
+	padding:0.5em;
+	margin:0.5em;
+}
+
+.flex_box_layout{
+	display: flex;
+}
+
+.box{
+	display: inline-block;
+	border:0.05em solid #C7D7D6;
+	min-width:12em;
+	min-height: 12em;
+	vertical-align: middle;
+}
+
 
 /** ------------------------ FONT SPECIFIC -------------------- **/
+
+.larger_font{
+	font-size:1.3em;
+}
+
+.max_width{
+	width:100%;
+}
+
+.max_input{
+	width: calc(100% - 2em);
+}
 
 .script_font{
 	font-family: 'Marck Script', cursive;
@@ -35,7 +66,10 @@ a:hover{
 	text-align: center;
 }
 
-
+.no_list{
+	list-style: none;
+	padding: 0;
+}
 
 
 
