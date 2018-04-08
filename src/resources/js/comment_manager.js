@@ -34,7 +34,7 @@ CommentManager.prototype.COMMENTS_CONTROLS = document.createElement('div');
 */
 CommentManager.prototype.init = function () {
 	'use strict';
-	
+	this.tmp_comment_id_count = 0;//REMOVE THIS LATER - TESTING ONLY
 	this.buildCommentsList();
 	this.buildCommentControls();
 	
@@ -107,8 +107,7 @@ CommentManager.prototype.loadComments = function (comment_list) {
 	
 	
 	for (i = 0; i < comment_amt; i++) {
-		comment = this.commentBox(comment_list[i]);
-		this.COMMENTS_LIST.appendChild(comment);
+		this.addComment(comment_list[i]);
 	} //end for: go through all comments
 	
 }; //end function: CommentManager --> loadComments
@@ -179,7 +178,7 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	
 	this.upDownAction(up_vote_icon);
 	this.upDownAction(down_vote_icon);
-	
+	this.tmp_comment_id_count = comment_id + 1;
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
 
@@ -231,35 +230,132 @@ CommentManager.prototype.upDownAction = function (ele) {
 /** --------------- BUILD OUT COMMENT CONTROLS ---------------- **/
 /** ----------------------------------------------------------- **/
 
-
+/**
+* Builds out the comment controls
+*/
 CommentManager.prototype.buildCommentControls = function () {
 	'use strict';
+	var app = this;
+	
 	this.submit_button = document.createElement('button');
 	this.comment_text = document.createElement('textarea');
 	this.comment_header = document.createElement("h3");
+	this.comment_error = document.createElement("div");
 	
 	this.comment_header.innerHTML = "Add A Comment";
 	this.submit_button.innerHTML = "post comment";
 	this.comment_text.setAttribute("placeholder", "write your comment here");
 	this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+	this.COMMENTS_CONTROLS.appendChild(this.comment_error);
 	this.COMMENTS_CONTROLS.appendChild(this.comment_text);
 	this.COMMENTS_CONTROLS.appendChild(this.submit_button);
 	
+	this.submit_button.addEventListener("click", function () {
+		if (app.validateComment()) {
+			app.handleAddComment(); //attempt to add the comment
+		}//end if: comment input okay?
+	}); //end add event listener
 	
 	this.COMMENTS_CONTROLS.className = "comment_controls";
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_CONTROLS);
 }; //end function: CommentManager --> buildCommentControls
 
 
-CommentManager.prototype.addComment = function (comment) {
+
+/**
+* Handles adding a new comment to the list of existing comments
+*/
+CommentManager.prototype.handleAddComment = function () {
 	'use strict';
 	
+	var comment = {
+		'comment_id' : this.tmp_comment_id_count++,//UPDATE TO REAL ID LATER
+		'text' : this.comment_text.value,
+		'username' : 'memrie',
+		'user_id' : 1,
+		'up_count' : 40,
+		'down_count' : 1,
+		'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
+	};
+	
+	this.comment_error.innerHTML = ""; //reset any previous errors
 	//make an ajax call to actually add the comment
 	
+	//was there an error?  - below comment handles that
+	//this.setCommentError("some error message here");
 	
 	
+	//add the comment to the UI (based on feedback from the API)
+	this.clearFields(); //no errors? cool, add the comment
+	this.addComment(comment);
 	
+}; //end function: CommentManager --> handleAddComment
+
+
+/**
+* Adds a comment to the Comment List
+* @param comment {object} json object of a comment
+*/
+CommentManager.prototype.addComment = function (comment) {
+	'use strict';
+	var comment_box = this.commentBox(comment);
+	this.COMMENTS_LIST.appendChild(comment_box);
 }; //end function: CommentManager --> addComment
+
+
+
+/** ----------------------------------------------------------- **/
+/** ----------------- COMMENT ERROR HANDLING ------------------ **/
+/** ----------------------------------------------------------- **/
+
+/**
+* Validates the comment field to make sure it is not empty 
+* or contains any invalid characters
+* @return {boolean} whether or not it is valid
+*/
+CommentManager.prototype.validateComment = function () {
+	'use strict';
+	var comment_text = this.comment_text.value,
+		clean_comment = (comment_text) ? comment_text.replace(/[^0-9A-Za-z\.\?\-,'"\s]/g, "") : "";
+	
+	if (comment_text === "") {
+		this.setCommentError("You must first enter a comment.");
+		return false;
+	} //end if: is it empty?
+	
+	if (clean_comment !== comment_text) {
+		this.setCommentError("Invalid Characters. Allowed: Alphanumeric , . ? ' \" - ");
+		return false;
+	} //end if: invalid character?
+	
+	return true;
+}; //end function: CommentManager --> validateComment
+
+/**
+* Sets an error on the comment field
+* @param err {string} the error message to display
+*/
+CommentManager.prototype.setCommentError = function (err) {
+	'use strict';
+	
+	this.comment_error.innerHTML = err;
+	this.comment_error.classList.add('error');
+	this.comment_text.classList.add('error');
+	
+}; //end function: CommentManager --> setCommentError
+
+/**
+* Clears out all fields in the comment controls
+* as well as any errors
+*/
+CommentManager.prototype.clearFields = function () {
+	'use strict';
+	this.comment_error.innerHTML = "";
+	this.comment_text.value = "";
+	this.comment_text.classList.remove('error');
+}; //end function: CommentManager --> clearFields
+
+
 
 
 

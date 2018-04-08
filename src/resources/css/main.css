@@ -34,6 +34,7 @@ button {
 	min-width: 8em;
 	font-size:1em;
 }
+
 button:hover{
 	cursor: pointer;
 }
@@ -41,6 +42,8 @@ button:hover{
 input{
 	min-width:15em;
 }
+
+
 
 .flex_box_layout{
 	display: flex;
@@ -400,6 +403,10 @@ footer {
 	font-size:1.2em;
 	vertical-align: middle;
 	text-align: right;
+	-webkit-user-select: none; /* Chrome all / Safari all */
+  	-moz-user-select: none;   /* Firefox all */
+  	-ms-user-select: none;  /* IE 10+ */
+	user-select: none;  /* Likely future */ 
 }
 
 .up_vote, .down_vote{
@@ -441,5 +448,17 @@ footer {
      
 	
 }
+
+
+/** ------------------------------ ERROR STYLING --------------------------- **/
+
+.error {
+	color:#BD7579;
+}
+
+input.error, textarea.error{
+	border-color:#BD7579;
+}
+
 
 
