@@ -5,40 +5,20 @@
 
 <div class="content center">
 	<h3 id="font_name">{font name}</h3>
+	<div id="font_preview"></div>
 	
 	
-	
-	<h3>Font Trends</h3>
-	
+	<h3>Font Stats</h3>
+	<div id="font_stats"></div>
 	
 	
 	<h3>Comments</h3>
-	<div id="comment_container">
-	
-		<div class="user_comment">
-			<div class="user_avatar">
-				<img src="<?php echo get_gravatar('et5392@rit.edu', 60); ?>" alt="{user_name}">
-			</div>
-			
-			<div class="comment">
-				<h4 class="username">{username here}</h4>
-				<p class="comment_text">I said some things about this font. You better like it!</p>
-				
-				<div class="comment_votes">
-					<span class="up_vote">(0)</span><i class="far fa-thumbs-up"></i>
-					<span class="down_vote">(0)</span><i class="far fa-thumbs-down"></i>
-				</div>
-			</div>
-			
-			
-		</div>
+	<div id="comment_container"></div>
 	
 		
-	</div>
-	
-	<br><br>
-	
 </div>
+<br><br>
+	
 
 
 

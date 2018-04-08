@@ -30,6 +30,8 @@ Font.prototype.FONT_COMMENTS = document.getElementById('font_comments');
 Font.prototype.init= function () {
 	'use strict';
 	
+	//create the comment manager to populate comments
+	//and create commenting controls
 	this.font_comments = new CommentManager(this.font_id);
 	
 	//this.FONT_COMMENTS.appendChild(this.getFontBox(6, true));

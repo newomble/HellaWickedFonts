@@ -1,6 +1,15 @@
 /************************************************************
 * @desc		CommentManager handles comments for fonts
 *
+*			This class (to be used) requires the following div:
+*			<div id="comment_container"></div>
+*
+*			It will then build everything in that
+*			Instantiate this object in the page's object you
+*			want to use it in: 
+*					this.comments_manager = new CommentManager();
+*
+*
 * @author	erika tobias (et5392@rit.edu)
 * @date		4/8/2018
 *************************************************************/
@@ -23,7 +32,7 @@ CommentManager.prototype.COMMENTS_CONTROLS = document.createElement('div');
 /**
 * Initializes the app
 */
-CommentManager.prototype.init= function () {
+CommentManager.prototype.init = function () {
 	'use strict';
 	
 	this.buildCommentsList();
@@ -32,6 +41,14 @@ CommentManager.prototype.init= function () {
 }; //end function: CommentManager --> init
 
 
+/** ----------------------------------------------------------- **/
+/** ------------------- BUILD OUT COMMENTS -------------------- **/
+/** ----------------------------------------------------------- **/
+
+/**
+* Builds out all the comments and creates the div container
+* which will hold the comments
+*/
 CommentManager.prototype.buildCommentsList = function () {
 	'use strict';
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_LIST);
@@ -39,6 +56,7 @@ CommentManager.prototype.buildCommentsList = function () {
 	//Later make res be an ajax call and it will be the data response
 	var res = [
 		{
+			'comment_id' : 2,
 			'text' : 'I said some things about this font. You better like it!',
 			'username' : 'memrie',
 			'up_count' : 40,
@@ -46,6 +64,7 @@ CommentManager.prototype.buildCommentsList = function () {
 			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 		},
 		{
+			'comment_id' : 3,
 			'text' : 'I said some things about this font. You better like it!',
 			'username' : 'memrie',
 			'up_count' : 15,
@@ -53,6 +72,7 @@ CommentManager.prototype.buildCommentsList = function () {
 			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 		},
 		{
+			'comment_id' : 4,
 			'text' : 'I said some things about this font. You better like it!',
 			'username' : 'memrie',
 			'up_count' : 3,
@@ -60,6 +80,9 @@ CommentManager.prototype.buildCommentsList = function () {
 			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 		}
 	]; //end response var
+	
+	//below commented out line allows you to see it if its blank (no comments)
+	//res = [];
 	
 	if (res) {
 		if (res.length > 0) {
@@ -71,11 +94,6 @@ CommentManager.prototype.buildCommentsList = function () {
 	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
 	
 }; //end function: CommentManager --> buildCommentsList
-
-CommentManager.prototype.buildCommentControls = function () {
-	'use strict';
-	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_LIST);
-}; //end function: CommentManager --> buildCommentControls
 
 
 /**
@@ -100,10 +118,12 @@ CommentManager.prototype.loadComments = function (comment_list) {
 /**
 * Gives you back a comment box with the comment, username,
 * user icon and other details
+* @param user_comment {Object} A JSON object of the comment
+* @return comment_wrapper {object} an HTML object for the comment
 */
 CommentManager.prototype.commentBox = function (user_comment) {
 	'use strict';
-	
+	//create all the needed html elements
 	var comment_wrapper = document.createElement('div'),
 		user_avatar  = document.createElement('div'),
 		avatar_img = document.createElement('img'),
@@ -114,9 +134,10 @@ CommentManager.prototype.commentBox = function (user_comment) {
 		up_vote  = document.createElement('span'),
 		up_vote_icon  = document.createElement('i'),
 		down_vote  = document.createElement('span'),
-		down_vote_icon  = document.createElement('i');
+		down_vote_icon  = document.createElement('i'),
+		comment_id = user_comment.comment_id;
 	
-	
+	//add all the needed classnames (nested for how appended)
 	comment_wrapper.className = "user_comment";
 		user_avatar.className = "user_avatar";
 		comment.className = "comment";
@@ -128,7 +149,7 @@ CommentManager.prototype.commentBox = function (user_comment) {
 				down_vote.className = "down_vote";
 				down_vote_icon.className = "far fa-thumbs-down";
 	
-	
+	//append the elements (nested for how appended)
 	comment_wrapper.appendChild(user_avatar);
 		user_avatar.appendChild(avatar_img);
 	comment_wrapper.appendChild(comment);
@@ -147,8 +168,82 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	up_vote.innerHTML = user_comment.up_count;
 	down_vote.innerHTML = user_comment.down_count;
 	
+	up_vote.id = "up_count_" + comment_id;
+	down_vote.id = "down_count_" + comment_id;
+	
+	up_vote_icon.id = "up_" + comment_id;
+	down_vote_icon.id = "down_" + comment_id;
+	
+	up_vote_icon.setAttribute('data-comment_id', comment_id);
+	down_vote_icon.setAttribute('data-comment_id', comment_id);
+	
+	this.upDownAction(up_vote_icon);
+	this.upDownAction(down_vote_icon);
+	
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
+
+/**
+* Updates the icon to be solid since you have reacted to the comment
+* and removes a previous reaction as well as updating the counts
+*/
+CommentManager.prototype.upDownAction = function (ele) {
+	'use strict';
+	
+	ele.addEventListener("click", function () {
+		var comment_id = this.getAttribute('data-comment_id'), // "this's" comment id
+			is_up_vote = (this.id === "up_" + comment_id), //did they click the "up" icon?
+			opposite_vote = (is_up_vote) ? document.getElementById('down_' + comment_id) : document.getElementById('up_' + comment_id), // "that's" icon
+			up_count = document.getElementById('up_count_' + comment_id), // up count ele container
+			down_count = document.getElementById('down_count_' + comment_id), // down count ele container
+			opposite_count = (is_up_vote) ? down_count : up_count, //the element for "that's" count
+			this_count =  (is_up_vote) ? up_count : down_count, //the element for "this's" count
+			other_total_count = opposite_count.innerText || opposite_count.textContent, //current amt for other
+			this_total_count = this_count.innerText || this_count.textContent; //current amt for this
+		
+		if (new RegExp('fas').test(opposite_vote.className)) {
+			//remove a count from the other vote
+			opposite_count.innerHTML = parseInt(other_total_count, 10) - 1;
+		} //end if: did they select the other one before?
+		
+		//add one to this ones vote
+		this_count.innerHTML = parseInt(this_total_count, 10) + 1;
+		
+		if (new RegExp('fas').test(this.className)) { //are they clicking the same one? (unreact)
+			this_count.innerHTML = parseInt(this_total_count, 10) - 1;
+			this.className = this.className.replace("fas", "far");
+		} else {
+			//this is something you've reacted to now
+			this.className = this.className.replace("far", "fas");
+			//you cant up and down vote, remove the other 
+			opposite_vote.className = opposite_vote.className.replace("fas", "far");	
+		}//end if: Are they unreacting or reacting?
+		
+	}); //end addEventListener --> click on up/down votes
+	
+}; //end function: CommentManager --> upDownAction
+
+
+
+/** ----------------------------------------------------------- **/
+/** --------------- BUILD OUT COMMENT CONTROLS ---------------- **/
+/** ----------------------------------------------------------- **/
+
+
+CommentManager.prototype.buildCommentControls = function () {
+	'use strict';
+	//var 
+	
+	
+	
+	
+	
+	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_CONTROLS);
+}; //end function: CommentManager --> buildCommentControls
+
+
+
+
 
 
 

@@ -378,6 +378,9 @@ footer {
 .comment_votes .far, .comment_votes .fas {
 	padding:0.2em;
 }
+.comment_votes .far:hover, .comment_votes .fas:hover{
+	cursor: pointer;
+}
 .comment_votes{
 	font-size:1.2em;
 	vertical-align: middle;
