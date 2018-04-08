@@ -1,0 +1,56 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size:1em;
+	margin:0;
+	padding:0;
+	color:#293030;
+}
+
+
+.script_font{
+	font-family: 'Marck Script', cursive;
+}
+.serif_font {
+	font-family: 'EB Garamond', serif;
+}
+
+#avatar img{
+	border-radius: 50%;
+}
+
+#header {
+	background-color:#75bdb9;
+	height:15em;
+	color:#fff;
+	position:relative;
+}
+
+#header h3 {
+	position:absolute;
+	right:0;
+	top:4.5em;
+	font-size:2em;
+}
+
+
+.right {
+	text-align: right;
+}
+
+.center{
+	text-align: center;
+}
+
+.content {
+	width:60%;
+	max-width:60%;
+	margin:auto;
+}
+
+
+footer {
+	padding:1em 0;
+	background-color: #7A9E9C;
+	color:#fff;
+	text-align: center;
+}
