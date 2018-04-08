@@ -1,4 +1,16 @@
+/************************************************************
+* @desc		Handles the favorites (your collection) update
+*			Will go through the page and add the fav event
+*			then firing the ajax call to go update your collection
+*
+* @author	erika tobias (et5392@rit.edu)
+* @date		4/8/2018
+*************************************************************/
 
+
+/**
+* @constructor
+*/
 function ManageFavorites () {
 	'use strict';
 	this.init();
@@ -6,6 +18,11 @@ function ManageFavorites () {
 
 ManageFavorites.prototype.ALL_ICONS = document.getElementsByClassName('favorite');
 
+
+/**
+* Initializes and sets up the fav icons to fav/unfav
+* fonts from your collection
+*/
 ManageFavorites.prototype.init = function () {
 	'use strict';
 	var i, 
@@ -31,10 +48,13 @@ ManageFavorites.prototype.init = function () {
 		});
 	}//end for: go through all fav icons
 	
-}; //end function: ManageFavorites --> 
+}; //end function: ManageFavorites --> init
 
 
-
+/**
+* Handles the click of a heart icon (favorite/collection)
+* And updates the value
+*/
 ManageFavorites.prototype.handleFavChange = function (id, is_fav) {
 	'use strict';
 	console.log(id);
@@ -44,6 +64,6 @@ ManageFavorites.prototype.handleFavChange = function (id, is_fav) {
 	
 }; //end function: ManageFavorites --> handleFavChange
 
-
+//Initialize (Create the ManageFavorites Object)
 var lm = new ManageFavorites();
 
