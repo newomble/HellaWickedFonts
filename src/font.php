@@ -8,12 +8,12 @@
 	
 	
 	
-	<h3 id="font_name">Font Trends</h3>
+	<h3>Font Trends</h3>
 	
 	
 	
-	<h3 id="font_name">Comments</h3>
-	<div id="font_comments">
+	<h3>Comments</h3>
+	<div id="comment_container">
 	
 		<div class="user_comment">
 			<div class="user_avatar">
@@ -46,6 +46,7 @@
 	require_once(__DIR__.'/resources/php/bottom_layout.php');
 ?>
 
+<script src="/resources/js/comment_manager.js"></script>
 <script src="/resources/js/font.js"></script>
 
 

@@ -9,8 +9,9 @@
 /**
 * @constructor
 */
-function Font() {
+function Font(font_id) {
 	'use strict';
+	this.font_id = font_id;
 	this.init();
 }//end function Font
 
@@ -21,7 +22,7 @@ Font.prototype = Object.create(HellaWickedFonts.prototype);
 Font.prototype.constructor = Font;
 
 Font.prototype.FONT_COMMENTS = document.getElementById('font_comments');
-Font.prototype.MY_FONTS = document.getElementById('my_collection_fonts');
+//Font.prototype.MY_FONTS = document.getElementById('');
 
 /**
 * Initializes the app
@@ -29,8 +30,10 @@ Font.prototype.MY_FONTS = document.getElementById('my_collection_fonts');
 Font.prototype.init= function () {
 	'use strict';
 	
-	this.MY_FONTS.appendChild(this.getFontBox(6, true));
-	this.MY_FONTS.appendChild(this.getFontBox(7, false));
+	this.font_comments = new CommentManager(this.font_id);
+	
+	//this.FONT_COMMENTS.appendChild(this.getFontBox(6, true));
+	//this.FONT_COMMENTS.appendChild(this.getFontBox(7, false));
 	//this.loadFont();
 }; //end function: Font --> init
 
@@ -44,9 +47,12 @@ Font.prototype.loadFont = function () {
 	///make an ajax call to gather the fonts that are this users favorites.
 	
 	///no favorites?
-	this.MY_FONTS.innerHTML = "<p>You have not saved any fonts to your collection. Click the <i class='far fa-heart'></i> icons to add some.</p>";
+	this.FONT_COMMENTS.innerHTML = "<p>No comments have been added.</p>";
 	
 }; //end function: Font --> init
+
+
+
 
 
 
