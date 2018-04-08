@@ -1,0 +1,214 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size:1em;
+	margin:0;
+	padding:0;
+	color:#293030;
+}
+
+
+a{
+	color:#497674;
+	text-decoration: none;
+}
+
+a:hover{
+	color:#5c5d5d;
+}
+
+
+input, .box {
+	border:0.1em solid #C7D7D6;
+	border-radius: 0.1em;
+	padding:0.5em;
+	margin:0.5em;
+}
+
+.flex_box_layout{
+	display: flex;
+}
+
+.box{
+	display: inline-block;
+	border:0.05em solid #C7D7D6;
+	min-width:12em;
+	min-height: 12em;
+	vertical-align: middle;
+}
+
+
+/** ------------------------ FONT SPECIFIC -------------------- **/
+
+.larger_font{
+	font-size:1.3em;
+}
+
+.max_width{
+	width:100%;
+}
+
+.max_input{
+	width: calc(100% - 2em);
+}
+
+.script_font{
+	font-family: 'Marck Script', cursive;
+}
+.serif_font {
+	font-family: 'EB Garamond', serif;
+}
+
+.right {
+	text-align: right;
+}
+
+.center{
+	text-align: center;
+}
+
+.no_list{
+	list-style: none;
+	padding: 0;
+}
+
+
+
+/** ----------------------- NAV CSS ---------------------- **/
+
+#nav{
+	position:relative;
+	display:block;
+	background-color:#fff;
+	height:2em;
+}
+
+#nav a{
+	font-weight: bold;
+}
+
+#nav{
+	color: #497674;
+	height:4em;
+}
+
+#links {
+	display:inline-block;
+	position:relative;
+	
+}
+
+.middle_cell{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#account_controls{
+	position:relative;
+	right:0;
+	display:inline-block;
+	float:right;
+
+}
+#logged_out{
+	margin-top:0.8em;
+}
+
+#links{
+	margin-top:1.2em;
+	margin-left:1em;
+}
+
+#avatar{
+	vertical-align: top;
+	margin:auto;
+	text-align: center;
+}
+
+#avatar img{
+	border-radius: 50%;
+	text-align: center;
+	border:0.2em solid #497674;
+}
+#avatar:hover {
+	cursor: pointer;
+	color:#5c5d5d;
+}
+
+#avatar:hover img{
+	border-color:#5c5d5d;
+}
+
+#avatar_wrapper{
+	display:inline-block;
+	margin:auto;
+}
+
+#account_controls ul{
+	list-style: none;
+	margin:0;
+	padding:0;
+}
+
+#account_controls > ul > li{
+	display:inline-block;
+	vertical-align: top;
+	padding:0.5em;
+	position: relative;
+}
+
+
+#account_links{
+	position: absolute;
+	right: 0;
+	display: none;
+	z-index: 5;
+	width:12em;
+}
+
+#account_controls > ul > li:hover ul{
+	display:block;
+	background-color:#EEF7F6;
+}
+
+#account_controls > ul > li ul li{
+	padding:1em 2em;
+}
+
+#account_links:first-child{
+	padding: 0 2em 1em 2em;
+}
+
+
+
+/** ----------------- HEADER CSS ----------------------- **/
+#header {
+	background-color:#fff;
+	color:#75bdb9;
+	z-index:2;
+	text-align: center;
+	overflow: auto;
+	margin:0px;
+	display: block;
+	font-size: 3em;
+	margin-bottom: 1em;
+}
+
+
+
+/** ----------------- CONTENT CSS ----------------------- **/
+.content {
+	width:60%;
+	max-width:60%;
+	margin:auto;
+	position:relative;
+}
+
+
+/** ----------------- FOOTER CSS ----------------------- **/
+
+footer {
+	padding:1em 0;
+	background-color: #7A9E9C;
+	color:#fff;
+	text-align: center;
+}
