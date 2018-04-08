@@ -34,6 +34,21 @@ input, .box {
 	min-width:12em;
 	min-height: 12em;
 	vertical-align: middle;
+	position:relative;
+}
+
+.box .favorite{
+	position:absolute;
+	bottom:0;
+	right:0;
+	display:block;
+	padding:0.2em;
+	color:#75bdb9;
+	font-size:1.2em;
+}
+
+.box .favorite:hover{
+	cursor: pointer;
 }
 
 
