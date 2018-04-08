@@ -24,27 +24,27 @@
 		<div class="box">
 			Some font here
 			
-			<i data-font-id="2" class="fas fa-heart favorite"></i>
+			<i data-font-id="2" data-is-favorite="true" class="fas fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
 			Some font here
-			<i data-font-id="3" class="far fa-heart favorite"></i>
+			<i data-font-id="3" data-is-favorite="false"  class="far fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
 			Some font here
-			<i data-font-id="4" class="fas fa-heart favorite"></i>
+			<i data-font-id="4" data-is-favorite="true"  class="fas fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
 			Some font 
-			<i data-font-id="1" class="far fa-heart favorite"></i>
+			<i data-font-id="1" data-is-favorite="false"  class="far fa-heart favorite"></i>
 		</div>
 	
 		<div class="box">
 			Some font here
-			<i data-font-id="5" class="fas fa-heart favorite"></i>
+			<i data-font-id="5" data-is-favorite="true"  class="fas fa-heart favorite"></i>
 		</div>
 	
 		<br><br>
@@ -53,7 +53,8 @@
 	
 	
 </div>
-			
+
+
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');

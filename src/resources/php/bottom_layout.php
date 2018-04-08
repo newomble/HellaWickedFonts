@@ -60,5 +60,9 @@
 			//lets init the layout manager
 			layout_manager.init();
 		</script>
+
+
+	<script src="/resources/js/manage_favorites.js"></script>
+
 	</body>
 </html>
