@@ -7,13 +7,6 @@ body {
 }
 
 
-.script_font{
-	font-family: 'Marck Script', cursive;
-}
-.serif_font {
-	font-family: 'EB Garamond', serif;
-}
-
 a{
 	color:#497674;
 	text-decoration: none;
@@ -22,6 +15,28 @@ a{
 a:hover{
 	color:#5c5d5d;
 }
+
+
+
+/** ------------------------ FONT SPECIFIC -------------------- **/
+
+.script_font{
+	font-family: 'Marck Script', cursive;
+}
+.serif_font {
+	font-family: 'EB Garamond', serif;
+}
+
+.right {
+	text-align: right;
+}
+
+.center{
+	text-align: center;
+}
+
+
+
 
 
 /** ----------------------- NAV CSS ---------------------- **/
@@ -146,17 +161,7 @@ a:hover{
 
 
 
-.right {
-	text-align: right;
-}
-
-.center{
-	text-align: center;
-}
-
-
-
-
+/** ----------------- CONTENT CSS ----------------------- **/
 .content {
 	width:60%;
 	max-width:60%;
@@ -164,6 +169,8 @@ a:hover{
 	position:relative;
 }
 
+
+/** ----------------- FOOTER CSS ----------------------- **/
 
 footer {
 	padding:1em 0;
