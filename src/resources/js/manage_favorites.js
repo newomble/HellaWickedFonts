@@ -31,24 +31,37 @@ ManageFavorites.prototype.init = function () {
 	
 	
 	for (i = 0; i < fav_icon_count; i++) {
-		
-		this.ALL_ICONS[i].addEventListener("click", function (){
-			var fid = this.getAttribute('data-font-id'),
-				is_fav = (this.getAttribute('data-is-favorite') == "true") ? false : true;
-			
-			if (is_fav) {
-				this.className = this.className.replace('far', 'fas');
-			} else {
-				this.className = this.className.replace('fas', 'far');
-			} //end else/if: was it set to be a favorite before?
-			
-			app.handleFavChange(fid, is_fav);
-			this.setAttribute('data-is-favorite', String(!!is_fav));
-			
-		});
+		this.addChangeEvent(this.ALL_ICONS[i]);
 	}//end for: go through all fav icons
 	
 }; //end function: ManageFavorites --> init
+
+
+/**
+* Adds the change event for hearts
+* @param ele {object} the html element that needs to be clicked
+*/
+ManageFavorites.prototype.addChangeEvent = function (ele) {
+	'use strict';
+	
+	var app = this;
+	
+	ele.addEventListener("click", function (){
+		var fid = this.getAttribute('data-font-id'),
+			is_fav = (this.getAttribute('data-is-favorite') == "true") ? false : true;
+
+		if (is_fav) {
+			this.className = this.className.replace('far', 'fas');
+		} else {
+			this.className = this.className.replace('fas', 'far');
+		} //end else/if: was it set to be a favorite before?
+
+		app.handleFavChange(fid, is_fav);
+		this.setAttribute('data-is-favorite', String(!!is_fav));
+
+	}); //end addEventListener
+	
+}; //end function: ManageFavorites --> addChangeEvent
 
 
 /**
@@ -65,5 +78,5 @@ ManageFavorites.prototype.handleFavChange = function (id, is_fav) {
 }; //end function: ManageFavorites --> handleFavChange
 
 //Initialize (Create the ManageFavorites Object)
-var lm = new ManageFavorites();
+var manage_favorites = new ManageFavorites();
 

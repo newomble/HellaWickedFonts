@@ -31,7 +31,9 @@ input, .box {
 .box{
 	display: inline-block;
 	border:0.05em solid #C7D7D6;
+	max-width:12em;
 	min-width:12em;
+	max-height: 12em;
 	min-height: 12em;
 	vertical-align: middle;
 	position:relative;
