@@ -33,7 +33,7 @@ Font.prototype.init= function () {
 	//create the comment manager to populate comments
 	//and create commenting controls
 	this.font_comments = new CommentManager(this.font_id);
-	
+	this.updateChart();
 	//this.FONT_COMMENTS.appendChild(this.getFontBox(6, true));
 	//this.FONT_COMMENTS.appendChild(this.getFontBox(7, false));
 	//this.loadFont();
@@ -55,7 +55,24 @@ Font.prototype.loadFont = function () {
 
 
 
+Font.prototype.updateChart = function () {
+	'use strict';
+	var ctx = document.getElementById("popular_month");
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data:{ 
+			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        	datasets: [{
+				label: '# of days popular',
+            	data: [12, 19, 3, 5, 2, 3, 1, 0]
+			}]
+		},
+		options:{
+			responsive: true
+		}
+	});
 
+}; //end function
 
 
 var f = new Font();

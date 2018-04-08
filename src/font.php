@@ -9,7 +9,13 @@
 	
 	
 	<h3>Font Stats</h3>
-	<div id="font_stats"></div>
+	<div id="font_stats">
+		<div class="chart-container">
+			<canvas id="popular_month"></canvas>
+		</div>
+	
+	
+	</div>
 	
 	
 	<h3>Comments</h3>
