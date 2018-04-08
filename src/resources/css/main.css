@@ -351,9 +351,13 @@ footer {
 /** ---------------------------- COMMENTS ---------------------------- **/
 
 .user_comment .comment {
-	border:0.05em solid #C7D7D6;
+	border:0.1em solid #D6D6D6;
 	padding:0.5em;
 	border-radius:0.5em;
+}
+
+.user_comment .user_avatar img{
+	border-color:#5c5d5d;
 }
 
 .user_comment > div.user_avatar, .user_comment > div.comment{

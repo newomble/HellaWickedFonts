@@ -17,7 +17,7 @@
 	
 		<div class="user_comment">
 			<div class="user_avatar">
-				<img src="<?php echo get_gravatar('et5392@rit.edu', 45); ?>" alt="{user_name}">
+				<img src="<?php echo get_gravatar('et5392@rit.edu', 60); ?>" alt="{user_name}">
 			</div>
 			
 			<div class="comment">
