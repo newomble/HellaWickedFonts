@@ -19,26 +19,32 @@
 	<h3>Fonts</h3>
 	<input type="text" id="find_fonts" class="max_input larger_font center" placeholder="find fonts">
 
-	<div class="">
+	<div>
 	
 		<div class="box">
-			Some font here 
+			Some font here
+			
+			<i data-font-id="2" data-is-favorite="true" class="fas fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
-			Some font here 
+			Some font here
+			<i data-font-id="3" data-is-favorite="false"  class="far fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
-			Some font here 
+			Some font here
+			<i data-font-id="4" data-is-favorite="true"  class="fas fa-heart favorite"></i>
 		</div>
 		
 		<div class="box">
-			Some font here 
+			Some font 
+			<i data-font-id="1" data-is-favorite="false"  class="far fa-heart favorite"></i>
 		</div>
 	
 		<div class="box">
-			Some font here 
+			Some font here
+			<i data-font-id="5" data-is-favorite="true"  class="fas fa-heart favorite"></i>
 		</div>
 	
 		<br><br>
@@ -47,7 +53,8 @@
 	
 	
 </div>
-			
+
+
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');

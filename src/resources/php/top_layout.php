@@ -37,7 +37,7 @@
 							
 						</div>
 						<ul id="account_links">
-							<li><a href="/"><i class="fas fa-heart"></i> my collection</a></li>
+							<li><a href="/collection.php"><i class="fas fa-heart"></i> my collection</a></li>
 							<li><a href="/"><i class="fas fa-cog"></i> my account</a></li>
 							<li><a href="/"><i class="fas fa-sign-out-alt"></i> logout</a></li>
 						</ul>
