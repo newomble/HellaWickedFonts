@@ -14,22 +14,123 @@ body {
 	font-family: 'EB Garamond', serif;
 }
 
-#avatar img{
-	border-radius: 50%;
+a{
+	color:#497674;
+	text-decoration: none;
 }
 
+a:hover{
+	color:#5c5d5d;
+}
+
+
+/** ----------------------- NAV CSS ---------------------- **/
+
+#nav{
+	position:relative;
+	display:block;
+	background-color:#fff;
+	height:2em;
+}
+
+#nav a{
+	font-weight: bold;
+}
+
+#nav{
+	color: #497674;
+}
+
+#links {
+	display:inline-block;
+	position:relative;
+	
+}
+
+.middle_cell{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#account_controls{
+	position:relative;
+	right:0;
+	display:inline-block;
+	float:right;
+
+}
+#logged_out{
+	margin-top:0.8em;
+}
+
+#links{
+	margin-top:1.2em;
+	margin-left:1em;
+}
+
+#avatar{
+	vertical-align: top;
+	margin:auto;
+	text-align: center;
+}
+
+#avatar img{
+	border-radius: 50%;
+	text-align: center;
+}
+#avatar:hover {
+	cursor: pointer;
+}
+
+#avatar_wrapper{
+	display:inline-block;
+	margin:auto;
+}
+
+#account_controls ul{
+	list-style: none;
+	margin:0;
+	padding:0;
+}
+
+#account_controls > ul > li{
+	display:inline-block;
+	vertical-align: top;
+	padding:0.5em;
+}
+
+
+#account_links{
+	visibility:hidden;
+	z-index: 5;
+	top:0;
+}
+
+#account_controls > ul > li:hover ul{
+	display:block;
+	visibility:visible;
+	position:relative;
+	background-color:#fff;
+}
+
+#account_controls > ul > li ul li{
+	padding:1em 2em;
+}
+
+
+
+/** ----------------- HEADER CSS ----------------------- **/
 #header {
 	background-color:#75bdb9;
 	height:15em;
 	color:#fff;
 	position:relative;
+	z-index:2;
 }
 
 #header h3 {
-	position:absolute;
-	right:0;
-	top:4.5em;
 	font-size:2em;
+	padding-top:5em;
 }
 
 
@@ -45,6 +146,7 @@ body {
 	width:60%;
 	max-width:60%;
 	margin:auto;
+	position:relative;
 }
 
 
