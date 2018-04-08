@@ -7,7 +7,7 @@ body {
 }
 
 
-a{
+a, #nav a{
 	color:#497674;
 	text-decoration: none;
 }
@@ -22,6 +22,9 @@ input, .box {
 	border-radius: 0.1em;
 	padding:0.5em;
 	margin:0.5em;
+}
+input{
+	min-width:15em;
 }
 
 .flex_box_layout{
@@ -141,7 +144,7 @@ input, .box {
 	text-align: center;
 }
 
-#avatar img{
+#avatar img, .user_avatar img{
 	border-radius: 50%;
 	text-align: center;
 	border:0.2em solid #497674;
@@ -228,7 +231,6 @@ footer {
 	background-color: #7A9E9C;
 	color:#fff;
 	text-align: center;
-	position: fixed;
 	left: 0px;
 	bottom:0px;
 	width: 100%;
@@ -238,21 +240,6 @@ footer {
 
 /** ----------------------- SIGN IN & SIGN UP FORMS CSS ---------------------- **/
 
- h1 {
-     	font-family: 'Barlow', sans-serif;
-     	text-align: center;
-     	margin-top: 100px;
-     	
-}
-
-input[type=text], input[type=password]{
-     		background-color: #E8E8E8;
-    		width: 330px;
-    		height: 40px;
-     		margin: 10px;
-     		font-size: 14px;
-     		color: #A9A9A9;
-}
 
 
 /** ----------------------- SIGN IN CSS ---------------------- **/
@@ -282,10 +269,6 @@ input[type=text], input[type=password]{
      		text-align: center;
 }
 
- a{
-     text-decoration: none;
-     color: #C0C0C0;
-}
 
  .signUpButton {
      background-color: white;
@@ -363,6 +346,51 @@ input[type=text], input[type=password]{
   		width:995px;
 }
 
+
+
+/** ---------------------------- COMMENTS ---------------------------- **/
+
+.user_comment .comment {
+	border:0.05em solid #C7D7D6;
+	padding:0.5em;
+	border-radius:0.5em;
+}
+
+.user_comment > div.user_avatar, .user_comment > div.comment{
+	vertical-align: middle;
+	position: relative;
+	display:inline-block;
+	margin:0.5em;
+}
+
+.user_comment > div.comment {
+	width:calc(100% - 80px - 3em);
+	text-align: left;
+}
+
+.user_comment .username {
+	margin:0;
+}
+.comment_votes .far, .comment_votes .fas {
+	padding:0.2em;
+}
+.comment_votes{
+	font-size:1.2em;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.up_vote, .down_vote{
+	font-size:1em;
+}
+
+.fa-thumbs-up, .up_vote{
+	color:#497674;
+}
+
+.fa-thumbs-down, .down_vote{
+	color:#BD7579;
+}
 
 /** ----------------------- MEDIA QUEREIS CSS ---------------------- **/
 
