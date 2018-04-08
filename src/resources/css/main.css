@@ -39,6 +39,7 @@ a:hover{
 
 #nav{
 	color: #497674;
+	height:4em;
 }
 
 #links {
@@ -77,9 +78,15 @@ a:hover{
 #avatar img{
 	border-radius: 50%;
 	text-align: center;
+	border:0.2em solid #497674;
 }
 #avatar:hover {
 	cursor: pointer;
+	color:#5c5d5d;
+}
+
+#avatar:hover img{
+	border-color:#5c5d5d;
 }
 
 #avatar_wrapper{
@@ -97,41 +104,46 @@ a:hover{
 	display:inline-block;
 	vertical-align: top;
 	padding:0.5em;
+	position: relative;
 }
 
 
 #account_links{
-	visibility:hidden;
+	position: absolute;
+	right: 0;
+	display: none;
 	z-index: 5;
-	top:0;
+	width:12em;
 }
 
 #account_controls > ul > li:hover ul{
 	display:block;
-	visibility:visible;
-	position:relative;
-	background-color:#fff;
+	background-color:#EEF7F6;
 }
 
 #account_controls > ul > li ul li{
 	padding:1em 2em;
 }
 
+#account_links:first-child{
+	padding: 0 2em 1em 2em;
+}
+
 
 
 /** ----------------- HEADER CSS ----------------------- **/
 #header {
-	background-color:#75bdb9;
-	height:15em;
-	color:#fff;
-	position:relative;
+	background-color:#fff;
+	color:#75bdb9;
 	z-index:2;
+	text-align: center;
+	overflow: auto;
+	margin:0px;
+	display: block;
+	font-size: 3em;
+	margin-bottom: 1em;
 }
 
-#header h3 {
-	font-size:2em;
-	padding-top:5em;
-}
 
 
 .right {
@@ -141,6 +153,9 @@ a:hover{
 .center{
 	text-align: center;
 }
+
+
+
 
 .content {
 	width:60%;
