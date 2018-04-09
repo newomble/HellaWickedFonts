@@ -21,9 +21,10 @@
 			<div id="account_controls">
 				<ul>
 					<!-- later just add a check for if they are logged in --> 
-					<li id="logged_out">
-						<a href="/">login <i class="fas fa-sign-in-alt"></i></a>	
-					</li>
+					<li id="logged_out"><a href="/login.php">login <i class="fas fa-sign-in-alt"></i></a></li>
+					<li id="signup"><a href="/signup.php">signup <i class="far fa-edit"></i></a></li>
+					
+					
 					<li id="logged_in"> 
 						<div id="avatar">
 							<div id="avatar_wrapper">

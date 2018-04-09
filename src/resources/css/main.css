@@ -148,7 +148,7 @@ input{
 	float:right;
 
 }
-#logged_out{
+#logged_out, #signup{
 	margin-top:0.8em;
 }
 
