@@ -62,6 +62,7 @@
 		</script>
 
 
+	<script src="/resources/js/Chart.bundle.min.js"></script>
 	<script src="/resources/js/manage_favorites.js"></script>
 	<script src="/resources/js/hella_wicked_fonts.js"></script>
 
