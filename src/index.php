@@ -40,11 +40,7 @@
 
 <div class="content center">
 	<div id="search_container"></div>
-
-	
 	<br><br>
-	
-	
 </div>
 
 

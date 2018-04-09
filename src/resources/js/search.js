@@ -109,9 +109,22 @@ Search.prototype.getSearchResults = function (search_string) {
 	//clear out the old search results
 	this.search_results.innerHTML = "";
 	
+	//TESTING ONLY - REMOVE LATER
+	var user_list = [
+		{
+			'username' : "memrie",
+			'use_id' : 1,
+			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
+		},
+		{
+			'username' : "someone",
+			'use_id' : 2,
+			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
+		}
+	];
 	
 	//make an ajax call
-	
+	//which can then filter into the below functions (matching fonts/users)
 	
 	//load any matching fonts
 	if (this.search_fonts) {
@@ -120,7 +133,7 @@ Search.prototype.getSearchResults = function (search_string) {
 	
 	//load any matching users
 	if (this.search_users) {
-		this.loadMatchingUsers();
+		this.loadMatchingUsers(user_list);
 	} //end if: can they search for fonts?
 }; //end function: Search --> getSearchResults
 
@@ -139,14 +152,50 @@ Search.prototype.loadMatchingFonts = function () {
 	
 }; //end function: Search --> loadMatchingFonts
 
+
+
+
 /**
 * Loads any matching users into the search results
 */
-Search.prototype.loadMatchingUsers = function () {
+Search.prototype.loadMatchingUsers = function (user_list) {
+	'use strict';
+	var i,
+		user_amt = user_list.length;
 	
-	
+	for (i = 0; i < user_amt; i++) {
+		this.addUser(user_list[i]);
+	} //end for: go through all the users in the list
 }; //end function: Search --> loadMatchingUsers
 
 
+
+Search.prototype.addUser = function (user) {
+	'use strict';
+	var user_box = this.getUserBox(user);
+	this.search_results.appendChild(user_box);
+}; //end function: Search --> addUser
+
+
+
+Search.prototype.getUserBox = function (user) {
+	'use strict';
+	var box = document.createElement("div"),
+		username = document.createElement('a'),
+		user_icon = document.createElement('img');
+	
+	box.classList.add('box');
+	
+	username.innerHTML = user.username;
+	username.classList.add("font_name");
+	username.setAttribute("href", "/user.php"); //user profile?
+	
+	user_icon.setAttribute("src", user.icon_url);
+	user_icon.className = "user_avatar";
+	
+	box.appendChild(username);
+	box.appendChild(user_icon);
+	return box;
+}; //end function: Search --> 
 
 
