@@ -43,6 +43,9 @@ input{
 	min-width:15em;
 }
 
+input[type="checkbox"]{
+	min-width:initial;
+}
 
 
 .flex_box_layout{
@@ -163,7 +166,7 @@ input{
 	text-align: center;
 }
 
-#avatar img, .user_avatar img{
+#avatar img, .user_avatar img, #search_container img.user_avatar{
 	border-radius: 50%;
 	text-align: center;
 	border:0.2em solid #497674;
@@ -345,6 +348,14 @@ footer {
   		width:45%;
 }
 
+/** ------------------------------ FONT PAGE ---------------------**/
+
+.font_name{
+	display: block;
+	margin-bottom:1em;
+	font-size:1.2em;
+}
+
 /** ---------------------------- CHART ------------------------------- **/
 
 .chart-container {
@@ -367,7 +378,7 @@ footer {
 	border-radius:0.5em;
 }
 
-.user_comment .user_avatar img{
+.user_comment .user_avatar img, #search_container img.user_avatar{
 	border-color:#5c5d5d;
 }
 
