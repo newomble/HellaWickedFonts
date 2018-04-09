@@ -58,17 +58,29 @@ Search.prototype.buildSearchControls = function () {
 		app.getSearchResults(this.value); //go get the search criteria
 	}); //end addEventListener --> onKeyUp (search input)
 	
-	
+	//append the search input to the page
+	this.SEARCH_CONTAINER.appendChild(this.search_input);
 	
 	if (this.search_fonts && this.search_users) {
+		var search_obj = document.createElement('div');
 		this.font_search_chk = document.createElement("input");
+		this.font_search_lbl = document.createElement("label");
 		this.user_search_chk = document.createElement("input");
+		this.user_search_lbl = document.createElement("label");
 		
 		this.font_search_chk.type = "checkbox";
+		this.font_search_lbl.innerHTML = "fonts";
 		this.user_search_chk.type = "checkbox";
+		this.user_search_lbl.innerHTML = "users";
+		
+		//append the search controls to the page
+		search_obj.appendChild(this.font_search_chk);
+		search_obj.appendChild(this.font_search_lbl);
+		search_obj.appendChild(this.user_search_chk);
+		search_obj.appendChild(this.user_search_lbl);
+		this.SEARCH_CONTAINER.appendChild(search_obj);
 	}//end if: are they allowed to search for both fonts/users here?
 	
-	this.SEARCH_CONTAINER.appendChild(this.search_input);
 }; //end function: Search --> buildSearchControls
 
 
@@ -94,13 +106,17 @@ Search.prototype.buildSearchResults = function () {
 */
 Search.prototype.getSearchResults = function (search_string) {
 	'use strict';
+	//clear out the old search results
+	this.search_results.innerHTML = "";
+	
+	
 	//make an ajax call
+	
+	
 	//load any matching fonts
 	if (this.search_fonts) {
 		this.loadMatchingFonts();
 	} //end if: can they search for fonts?
-	
-	
 	
 	//load any matching users
 	if (this.search_users) {
@@ -115,7 +131,7 @@ Search.prototype.getSearchResults = function (search_string) {
 */
 Search.prototype.loadMatchingFonts = function () {
 	'use strict';
-	this.search_results.innerHTML = "";
+	
 	this.search_results.appendChild(this.getFontBox(6, true));
 	this.search_results.appendChild(this.getFontBox(7, false));
 	this.search_results.appendChild(this.getFontBox(4, false));

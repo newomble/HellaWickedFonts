@@ -43,6 +43,9 @@ input{
 	min-width:15em;
 }
 
+input[type="checkbox"]{
+	min-width:initial;
+}
 
 
 .flex_box_layout{

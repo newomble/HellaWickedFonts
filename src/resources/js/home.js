@@ -35,7 +35,7 @@ Home.prototype.init= function () {
 	
 	//@see Search - yes to fonts always
 	//				yes to users if logged in (update later)
-	this.search = new Search(true, false); //the "find fonts"
+	this.search = new Search(true, true); //the "find fonts"
 }; //end function: Home --> init
 
 Home.prototype.initPopularFonts = function () {
