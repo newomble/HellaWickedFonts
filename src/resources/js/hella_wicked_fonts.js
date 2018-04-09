@@ -26,7 +26,8 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, font, tx
 	'use strict';
 	
 	var box = document.createElement('div'),
-		font_txt = document.createElement('p'),
+		font_name = document.createElement('a'),
+		font_txt = document.createElement('div'),
 		icon = document.createElement('i');
 	
 	box.classList.add('box');
@@ -37,6 +38,7 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, font, tx
 	
 	
 	font_txt.innerHTML = txt || "The sky is clear; the stars are twinkling.";
+	font_txt.contentEditable = true; //let them type in it
 	
 	icon.classList.add('fa-heart');
 	icon.classList.add((is_favorite) ? 'fas' : 'far');
@@ -47,6 +49,10 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, font, tx
 	/// @see /resources/js/manage_favorites.js
 	manage_favorites.addChangeEvent(icon);
 	
+	font_name.innerHTML = "{font name}";
+	font_name.setAttribute("href", "/font.php");
+	
+	box.appendChild(font_name);
 	box.appendChild(font_txt);
 	box.appendChild(icon);
 	return box;

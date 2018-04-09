@@ -7,12 +7,7 @@
 	<h3>My Collection</h3>
 	<input type="text" id="find_fonts" class="max_input larger_font center" placeholder="search my collection">
 
-	<div id="my_collection_fonts">
-	
-		
-	
-		
-	</div>
+	<div id="my_collection_fonts"></div>
 	
 	<br><br>
 	
