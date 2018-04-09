@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://fonts.googleapis.com/css?family=EB+Garamond|Marck+Script|Roboto" rel="stylesheet">
-		<link href="resources/css/main.css" rel="stylesheet">
-		<script src="resources/js/validate.js"></script>
-		
-		<title>Sign Up</title>
-	</head>
+<?php
+	require_once(__DIR__.'/resources/php/utility.php');
+	require_once(__DIR__.'/resources/php/top_layout.php');
+?>
 
-	<body>
 
-		<h1>Hella<span class="heading_font">Wicked</span>Fonts&trade;</h1>
-		<div id="formCenter">
-			<form name="signUpForm" onsubmit="return validateSignUpForm()" method="post">
- 					<input type="text" placeholder="Full Name" name="fullname">
-  					<br>
-  					<input type="text" placeholder="Username" name="username">
-  					<br>
-  					<input type="password" placeholder="Password" name="password">
-  					<br>
-  					<input type="password" placeholder="Re-enter password" name="repassword">
-  					<br>
-  					<button class="signUpButton_signUp">Sign Up</button>
-			</form>
+<div id="formCenter">
+	<form name="signUpForm" onsubmit="return validateSignUpForm();" method="post">
+		<p id="errors"></p>
+		<input type="text" placeholder="Full Name" name="fullname" class="max_input">
+		<br>
+		<input type="text" placeholder="Username" name="username" class="max_input">
+		<br>
+		<input type="password" placeholder="Password" name="password" class="max_input">
+		<br>
+		<input type="password" placeholder="Re-enter password" name="repassword" class="max_input">
+		<br>
+		<button class="max_input">Sign Up</button>
+	</form>
 
-			<h4 class="haveAccount">Have an account?</h4>
-			<p class="signInLink"><a href="login.php">SIGN IN</a></p>
+	<div>
+		<br><br>
+		<span onclick="window.location.href ='/login.php';">Have an account?</span>
+		<span class="signInLink"><a href="/login.php">Login</a></span>
 	</div>
+	
+</div>
+
+		
+<script src="resources/js/validate.js"></script>
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');
