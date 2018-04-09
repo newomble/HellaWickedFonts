@@ -148,7 +148,7 @@ input{
 	float:right;
 
 }
-#logged_out{
+#logged_out, #signup{
 	margin-top:0.8em;
 }
 
@@ -291,17 +291,9 @@ footer {
 
  .signUpButton {
      background-color: white;
-     color: #75bdb9;
-     border: 2px solid #75bdb9;
-     opacity: 0.5;
-     width: 130px;
-     height: 40px;
-     padding-top:10px;
-     font-size: 16px;
-     padding: 10px;
-     position: relative;
-     top: -40px;
-	 margin-left: 150px;
+     color: #7A9E9C;
+     border: 2px solid #7A9E9C;
+     
      text-align: center;
      cursor: pointer;
 }
@@ -345,24 +337,12 @@ footer {
 }
 
 
- .signInLink{
-     		position: relative;
-     		left: 45px;
-     		bottom: 37px;
-     		width: auto;
-}
- .signInLink a{
-     		text-decoration: none;
-     		color: #75bdb9;
-     		opacity: 0.5;
-     		font-family: 'Barlow', sans-serif;
-}
 
 #formCenter {
  		margin:0 auto;
  		padding:0px;
  		text-align:center;
-  		width:995px;
+  		width:45%;
 }
 
 /** ---------------------------- CHART ------------------------------- **/
