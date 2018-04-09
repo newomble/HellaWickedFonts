@@ -345,6 +345,14 @@ footer {
   		width:45%;
 }
 
+/** ------------------------------ FONT PAGE ---------------------**/
+
+.font_name{
+	display: block;
+	margin-bottom:1em;
+	font-size:1.2em;
+}
+
 /** ---------------------------- CHART ------------------------------- **/
 
 .chart-container {

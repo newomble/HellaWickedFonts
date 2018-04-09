@@ -50,6 +50,7 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, font, tx
 	manage_favorites.addChangeEvent(icon);
 	
 	font_name.innerHTML = "{font name}";
+	font_name.classList.add("font_name");
 	font_name.setAttribute("href", "/font.php");
 	
 	box.appendChild(font_name);
