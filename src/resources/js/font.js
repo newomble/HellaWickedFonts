@@ -22,13 +22,20 @@ Font.prototype = Object.create(HellaWickedFonts.prototype);
 Font.prototype.constructor = Font;
 
 Font.prototype.FONT_COMMENTS = document.getElementById('font_comments');
-//Font.prototype.MY_FONTS = document.getElementById('');
+Font.prototype.FONT_TITLE = document.getElementById('font_name');
+Font.prototype.FONT_PREVIEW = document.getElementById('font_preview');
 
 /**
 * Initializes the app
 */
 Font.prototype.init= function () {
 	'use strict';
+	
+	this.FONT_TITLE.innerHTML = "{font name}";
+	var font_pre = this.getFontBox(2, true);
+	font_pre.classList.add('max_width');
+	font_pre.style.minHeight = "initial";
+	this.FONT_PREVIEW.appendChild(font_pre);
 	
 	//create the comment manager to populate comments
 	//and create commenting controls
