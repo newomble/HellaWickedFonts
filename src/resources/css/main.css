@@ -12,7 +12,7 @@ a, #nav a{
 	text-decoration: none;
 }
 
-a:hover{
+a:hover, #nav a:hover{
 	color:#5c5d5d;
 }
 
