@@ -24,7 +24,7 @@ input, textarea, .box {
 	margin:0.5em;
 }
 
-button {
+button, .edit_buttons {
 	background-color:#497674;
 	color:#fff;
 	border-radius: 0.2em;
@@ -448,10 +448,19 @@ footer {
         margin-top: 0;
         width: 100%;
     }
-    
-     
-	
+  
 }
+
+/* made the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .col-25, .col-75 {
+        width: 100%;
+        margin-top: 0;
+        
+    }
+   
+}
+	
 
 
 /** ------------------------------ ERROR STYLING --------------------------- **/
@@ -462,6 +471,35 @@ footer {
 
 input.error, textarea.error{
 	border-color:#BD7579;
+}
+
+
+
+/** -----------------------PREFERENCES PAGE CSS------------------------------- **/
+
+label {
+	min-width: 11em;
+	display:inline-block;
+	text-align: left;
+}
+	
+#user_prefs input[type="password"],
+#user_prefs input[type="text"]{
+	min-width: calc(100% - 16em);
+}
+
+#uname {
+	cursor: not-allowed;
+}
+	 
+hr {
+	border:0.2em solid #C7D7D6;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+.info{
+	font-size:0.8em;
 }
 
 
