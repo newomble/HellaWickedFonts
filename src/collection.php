@@ -7,8 +7,6 @@
 	<h3>My Collection</h3>
 	
 	<div id="search_container"></div>
-<!--	<input type="text" id="find_fonts" class="max_input larger_font center" placeholder="search my collection"> -->
-
 	<div id="collection_container"></div>
 	
 	<br><br>

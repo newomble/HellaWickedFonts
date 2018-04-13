@@ -43,7 +43,7 @@ Collection.prototype.init = function () {
 	
 	//call parent init function
 	Search.prototype.init.call(this);
-};
+}; //end function: Collection --> init
 
 /**
 * @override
@@ -72,17 +72,18 @@ Collection.prototype.getSearchResults = function (search_string) {
 	//make an ajax call
 	//which can then filter into the below functions (matching fonts/users)
 	
-	//load any matching fonts
-	//this.loadMatchingFonts();
+	//load any matching fonts - Search Function
+	this.loadMatchingFonts();
 	
 	//no results?
-	this.noResultsMessage();
+	//this.noResultsMessage();
 	
 }; //end function: Collection --> getSearchResults
 
 
-
-
-
+/**********************************************************************
+* @desc		Updated the collection class to reuse the Search protoype
+* @date		4/12 	erika tobias
+**********************************************************************/
 
 
