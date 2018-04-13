@@ -166,7 +166,7 @@ input[type="checkbox"]{
 	text-align: center;
 }
 
-#avatar img, .user_avatar img, #search_container img.user_avatar{
+#avatar img, .user_avatar img, #search_container img.user_avatar, #user_details_container img.user_avatar{
 	border-radius: 50%;
 	text-align: center;
 	border:0.2em solid #497674;
