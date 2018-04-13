@@ -1,5 +1,8 @@
 /************************************************************
 * @desc		Handles the My Collection page
+*			Requires: 
+*				<div id="search_container"></div>
+*				<div id="collection_container"></div>
 *
 * @author	erika tobias (et5392@rit.edu)
 * @date		4/8/2018
@@ -8,6 +11,7 @@
 
 /**
 * @constructor
+* to do --  will need to pass in a user id (yours or another user's)
 */
 function Collection(is_my_collection) {
 	'use strict';

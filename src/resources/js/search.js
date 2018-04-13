@@ -129,15 +129,20 @@ Search.prototype.getSearchResults = function (search_string) {
 	//make an ajax call
 	//which can then filter into the below functions (matching fonts/users)
 	
-	//load any matching fonts
+	//load any matching fonts - check for if there are any returned
 	if (this.search_fonts) {
 		this.loadMatchingFonts();
 	} //end if: can they search for fonts?
 	
-	//load any matching users
+	//load any matching users - check for if there are any returned
 	if (this.search_users) {
 		this.loadMatchingUsers(user_list);
 	} //end if: can they search for fonts?
+	
+	
+	//nothing returned for either one?
+	//this.noResultsMessage();
+	
 }; //end function: Search --> getSearchResults
 
 
