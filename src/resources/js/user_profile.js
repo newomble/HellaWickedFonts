@@ -47,7 +47,7 @@ UserProfile.prototype.buildUserDetails = function () {
 	
 	//set up the headers
 	this.USERNAME_HEADER.innerHTML = this.user.username;
-	this.COLLECTION_HEADER.innerHTML = this.user.username + "'s collection";
+	this.COLLECTION_HEADER.innerHTML = this.user.username + "'s font collection";
 	
 	//set up this user's avatar
 	var avatar = document.createElement("img");
