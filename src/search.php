@@ -16,7 +16,7 @@
 ?>
 
 
-<script src="/resources/js/search.js"></script>
+<script src="./resources/js/search.js"></script>
 <script>
 	var s = new Search(true, true);	
 </script>

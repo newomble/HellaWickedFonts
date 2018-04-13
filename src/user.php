@@ -20,9 +20,9 @@
 	require_once(__DIR__.'/resources/php/bottom_layout.php');
 ?>
 
-<script src="/resources/js/search.js"></script>
-<script src="/resources/js/collection.js"></script>
-<script src="/resources/js/user_profile.js"></script>
+<script src="./resources/js/search.js"></script>
+<script src="./resources/js/collection.js"></script>
+<script src="./resources/js/user_profile.js"></script>
 
 <script>
 	var up = new UserProfile();	

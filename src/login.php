@@ -15,12 +15,12 @@
 
 	<div>
 		<br><br>
-		<span onclick="window.location.href ='signup.php';">Don't have an account?</span>
+		<span onclick="window.location.href ='./signup.php';">Don't have an account?</span>
 		<button class="signUpButton" onclick="window.location.href ='signup.php';">Sign Up</button>
 	</div>
 </div>
 
-<script src="resources/js/validate.js"></script>
+<script src="./resources/js/validate.js"></script>
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');

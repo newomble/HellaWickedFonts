@@ -32,7 +32,7 @@
 	require_once(__DIR__.'/resources/php/bottom_layout.php');
 ?>
 
-<script src="/resources/js/comment_manager.js"></script>
-<script src="/resources/js/font.js"></script>
+<script src="./resources/js/comment_manager.js"></script>
+<script src="./resources/js/font.js"></script>
 
 

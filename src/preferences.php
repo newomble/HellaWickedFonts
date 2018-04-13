@@ -46,7 +46,7 @@
 
 <br><br>
 		
-<script src="resources/js/user_preferences.js"></script>
+<script src="./resources/js/user_preferences.js"></script>
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');

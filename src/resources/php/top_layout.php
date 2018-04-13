@@ -7,8 +7,8 @@
 		<title>HellaWickedFonts - Welcome</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="https://fonts.googleapis.com/css?family=EB+Garamond|Marck+Script|Roboto" rel="stylesheet">
-		<link href="/resources/css/main.css" rel="stylesheet">
-		<link href="/resources/css/fontawesome-all.min.css" rel="stylesheet">
+		<link href="./resources/css/main.css" rel="stylesheet">
+		<link href="./resources/css/fontawesome-all.min.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -21,8 +21,8 @@
 			<div id="account_controls">
 				<ul>
 					<!-- later just add a check for if they are logged in --> 
-					<li id="logged_out"><a href="/login.php">login <i class="fas fa-sign-in-alt"></i></a></li>
-					<li id="signup"><a href="/signup.php">signup <i class="far fa-edit"></i></a></li>
+					<li id="logged_out"><a href="./login.php">login <i class="fas fa-sign-in-alt"></i></a></li>
+					<li id="signup"><a href="./signup.php">signup <i class="far fa-edit"></i></a></li>
 					
 					
 					<li id="logged_in"> 
@@ -38,7 +38,7 @@
 							
 						</div>
 						<ul id="account_links">
-							<li><a href="/collection.php"><i class="fas fa-heart"></i> my collection</a></li>
+							<li><a href="./collection.php"><i class="fas fa-heart"></i> my collection</a></li>
 							<li><a href="/"><i class="fas fa-cog"></i> my account</a></li>
 							<li><a href="/"><i class="fas fa-sign-out-alt"></i> logout</a></li>
 						</ul>

@@ -50,5 +50,5 @@
 ?>
 
 
-<script src="/resources/js/search.js"></script>
-<script src="/resources/js/home.js"></script>
+<script src="./resources/js/search.js"></script>
+<script src="./resources/js/home.js"></script>

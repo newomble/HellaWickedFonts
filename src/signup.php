@@ -20,14 +20,14 @@
 
 	<div>
 		<br><br>
-		<span onclick="window.location.href ='/login.php';">Have an account?</span>
-		<span class="signInLink"><a href="/login.php">Login</a></span>
+		<span onclick="window.location.href ='./login.php';">Have an account?</span>
+		<span class="signInLink"><a href="./login.php">Login</a></span>
 	</div>
 	
 </div>
 
 		
-<script src="resources/js/validate.js"></script>
+<script src="./resources/js/validate.js"></script>
 
 <?php
 	require_once(__DIR__.'/resources/php/bottom_layout.php');
