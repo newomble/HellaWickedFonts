@@ -11,13 +11,11 @@
 			<td>
 				<h3>Today's Most Popular</h3>
 				<ul class='no_list larger_font'>
-				
-<!--					<li>roboto</li>
+					<li>roboto</li>
 					<li class="serif_font">EB Garamond</li>
 					<li class="serif_font">EB Garamond</li>
 					<li class="script_font">Marck Script</li>
 					<li class="script_font">Marck Script</li>
--->
 				</ul>
 			</td>
 			<td>
