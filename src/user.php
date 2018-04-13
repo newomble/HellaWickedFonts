@@ -4,8 +4,9 @@
 ?>
 
 <div class="content center">
-	<h3>My Collection</h3>
-	
+	<h3 id="username"></h3>
+	<div id="user_details_container"></div>
+	<h3 id="username_collection"></h3>
 	<div id="search_container"></div>
 	<div id="collection_container"></div>
 	
@@ -21,8 +22,8 @@
 
 <script src="/resources/js/search.js"></script>
 <script src="/resources/js/collection.js"></script>
+<script src="/resources/js/user_profile.js"></script>
+
 <script>
-	var c = new Collection(true);
+	var up = new UserProfile();	
 </script>
-
-
