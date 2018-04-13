@@ -448,10 +448,19 @@ footer {
         margin-top: 0;
         width: 100%;
     }
-    
-     
-	
+  
 }
+
+/* made the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .col-25, .col-75 {
+        width: 100%;
+        margin-top: 0;
+        
+    }
+   
+}
+	
 
 
 /** ------------------------------ ERROR STYLING --------------------------- **/
@@ -463,6 +472,95 @@ footer {
 input.error, textarea.error{
 	border-color:#BD7579;
 }
+
+
+
+/** -----------------------PREFERENCES PAGE CSS------------------------------- **/
+
+h4{
+	color: #7A9E9C;
+	position: relative;
+	margin-right: 700px;
+	height: auto;
+	top: auto;
+	text-align: center;
+			
+}		
+	
+h4 span.edit_icon {
+		background-image: url('images/ic_mode_edit_black_24px.svg');
+		display: inline-block;
+		vertical-align: middle;
+		height: 25px;
+		width: 25px;
+		background-repeat: no-repeat;
+}
+		
+
+.text, .pswrd {
+    	width: 100%;
+    	padding: 12px;
+    	border: 1px solid #ccc;
+    	border-radius: 4px;
+    	resize: vertical;
+}
+
+.col-25 label {
+    	padding: 12px 12px 12px 0;
+    	display: inline-block;
+    	font-size: 13px;
+}
+
+.edit_buttons {
+    	background-color: #7A9E9C;
+    	color: white;
+    	padding: 12px 20px;
+    	border: none;
+    	border-radius: 4px;
+    	cursor: pointer;
+    	float: right;
+}
+
+.col-25 {
+    	float: left;
+    	width: 25%;
+    	margin-top: 6px;
+}
+
+.col-75 {
+    	float: left;
+    	width: 75%;
+    	margin-top: 6px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#edit {
+		height: auto;
+		padding: 20px;
+		margin: auto;
+		width: 60%;
+		background-color:  rgb(240, 240, 240);
+		position: relative;
+}	
+		
+* {
+    box-sizing: border-box;
+  }
+	
+#uname {
+	cursor: not-allowed;
+}
+	 
+hr {
+	  margin-top:15px;
+	  margin-bottom:15px;
+}
+	
 
 
 
