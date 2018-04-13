@@ -47,23 +47,27 @@ UserPreferences.prototype.validateFields = function () {
 	if (this.FIRST_NAME.value === "") {
 		this.ERRORS.innerHTML = "You must enter a first name.<br>";
 		this.FIRST_NAME.classList.add("error");
+		no_errors = false;
 	} //end if: do we have a first name?
 	
 	if (this.LAST_NAME.value === "") {
 		this.ERRORS.innerHTML += "You must enter a last name.<br>";
 		this.LAST_NAME.classList.add("error");
+		no_errors = false;
 	} //end if: do we have a first name?
 	
 	
 	if (this.EMAIL.value === "") {
 		this.ERRORS.innerHTML += "You must enter a valid email.<br>";
 		this.EMAIL.classList.add("error");
+		no_errors = false;
 	} //end if: do we have a first name?
 	
 	
 	if (this.CURRENT_PWD.value === "") {
 		this.ERRORS.innerHTML += "You must enter your current password.<br>";
 		this.CURRENT_PWD.classList.add("error");
+		no_errors = false;
 	} //end if: do we have a first name?
 	
 	var a_pwd = this.NEW_AGAIN_PWD.value,
@@ -74,6 +78,7 @@ UserPreferences.prototype.validateFields = function () {
 			this.ERRORS.innerHTML += "Your your passwords do not match.";
 			this.NEW_AGAIN_PWD.classList.add('error');
 			this.NEW_PWD.classList.add('error');
+			no_errors = false;
 		} //end if: are they the same?
 	} //end else/if
 	
