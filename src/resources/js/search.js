@@ -14,10 +14,12 @@
 /**
 * @constructor
 */
-function Search(search_fonts, search_users) {
+function Search(search_fonts, search_users, default_search_placeholder) {
 	'use strict';
 	this.search_fonts = search_fonts;
 	this.search_users = search_users;
+	this.input_placeholder = default_search_placeholder;
+	this.empty_message = "<p>No results</p>";
 	this.init();
 }//end function Home
 
@@ -37,6 +39,7 @@ Search.prototype.init = function () {
 	'use strict';
 	this.buildSearchControls();
 	this.buildSearchResults();
+	this.hello = "hey there";
 }; //end function: Search --> init
 
 
@@ -52,7 +55,7 @@ Search.prototype.buildSearchControls = function () {
 	
 	this.search_input.type = 'text';
 	this.search_input.className = "max_input larger_font center";
-	this.search_input.setAttribute("placeholder", "find fonts");
+	this.search_input.setAttribute("placeholder", this.input_placeholder || "find fonts");
 	
 	this.search_input.addEventListener("keyup", function () {
 		app.getSearchResults(this.value); //go get the search criteria
@@ -137,6 +140,10 @@ Search.prototype.getSearchResults = function (search_string) {
 	} //end if: can they search for fonts?
 }; //end function: Search --> getSearchResults
 
+
+Search.prototype.noResultsMessage = function () {
+	this.search_results.innerHTML = this.empty_message;
+}; //end function: Search --> noResultsMessage
 
 
 /**
