@@ -1,7 +1,9 @@
-var fontModel = require('./data/font.model.js');
+var fontModel = require('./data/font.model.js'),
+	pageBuilder = require('./pageBuilder.js');
+
 
 module.exports = function(app){
     app.get('/', function (req, res) {
-        res.send('Hello World!');
+        res.render(pageBuilder.homePage());
     });
 };
