@@ -1,11 +1,15 @@
 var path = require('path'),
-    resRoot = path.dirname(require.main.filename) + "/app/resources";
+    basePath = path.dirname(require.main.filename),
+    resRoot =  basePath + "/app/resources",
+    apiRouter = require(basePath+'/app/router/api.router.js');
 
 
 module.exports = function(app){
     app.get('/', function (req, res) {
         res.send('Hello World!');
     });
+    
+    app.get('/api',apiRouter);
 
     //Example: /css/main
     app.get('/css/:fileName',function(req,res){
