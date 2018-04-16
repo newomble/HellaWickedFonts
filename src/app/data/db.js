@@ -1,5 +1,5 @@
 const pg = require('pg');
-const connectionString ='postgresql://osboxes:student@localhost:5432/';
+const connectionString ='postgresql://postgres:student@localhost:5432/hellawickedfonts';
 
 //returns result of query
 function ex(sqlQuery,params){
@@ -19,9 +19,9 @@ function ex(sqlQuery,params){
 		  results.push(row);
 		});
 		// After all data is returned, close connection and return results
-		postQuery.on('end', () => {
+		postQuery.on('end', (res) => {
 		  done();
-		  return res.json(results);
+		  return res;//.json(results);
 		});
 	});
 }
