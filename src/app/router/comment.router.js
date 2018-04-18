@@ -1,7 +1,7 @@
 var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
-    controller = basePath + "/app/controlla/user.face.js",
+    controller = basePath + "/app/controlla/general.face.js",
     consts = basePath + "/api/lib/constants.js",
     commentRouter = express.Router();
 

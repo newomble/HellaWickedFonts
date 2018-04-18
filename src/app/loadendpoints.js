@@ -11,7 +11,9 @@ var routPath =  basePath+'/app/router/';
     fontRouter = require(routPath+'font.router.js');
 
 module.exports = function(app){
-    
+    app.get('/', function (req, res) {
+        res.sendfile("index.html",{root:resRoot+"/pages"});
+    });
     app.use(session());
     app.use(session({ secret: 'HewieLiewDiewFewieJooe', cookie: { maxAge: 99999 }}));
     
@@ -26,7 +28,5 @@ module.exports = function(app){
     app.use("/font",fontRouter);
     
 
-    app.get('/', function (req, res) {
-        res.sendfile("index.html",{root:resRoot+"/pages"});
-    });
+
 };
