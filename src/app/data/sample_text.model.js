@@ -5,7 +5,7 @@ const getOneQuery = "select * from sample_text where sample_id = $1",
 	updateQuery = "",
 	deleteQuery = "";
 function getSample(id){
-	return conn.ex(getOneQuery,[id]);
+	return conn.execute(getOneQuery,[id]);
 }
 
 module.exports = {

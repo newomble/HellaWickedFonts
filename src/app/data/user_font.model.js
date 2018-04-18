@@ -5,7 +5,7 @@ const fromuserQuery = "select * from sample_text where user_user_id = $1",
 	updateQuery = "",
 	deleteQuery = "";
 function getFromUser(id){
-	return conn.ex(fromuserQuery,[id]);
+	return conn.execute(fromuserQuery,[id]);
 }
 
 module.exports = {
