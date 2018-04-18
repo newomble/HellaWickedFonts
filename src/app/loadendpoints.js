@@ -48,7 +48,7 @@ module.exports = function(app){
 		renderRequestedPage(data, res);  
 	});
 	
-	app.get("/preferences" || "/prefs", function (req, res, next){
+	app.get("/prefs" || "/preferences", function (req, res, next){
 		list.title = "/preferences";
 		var data = fs.readFileSync(pageRoot+'/preferences.html');
 		renderRequestedPage(data, res); 
