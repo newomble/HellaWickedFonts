@@ -12,7 +12,7 @@ var routPath =  basePath+'/app/router/';
 
 module.exports = function(app){
     app.get('/', function (req, res) {
-        res.sendfile("index.html",{root:resRoot+"/pages"});
+        res.sendFile("index.html",{root:resRoot+"/pages"});
     });
     app.use(session());
     app.use(session({ secret: 'HewieLiewDiewFewieJooe', cookie: { maxAge: 99999 }}));
@@ -21,6 +21,7 @@ module.exports = function(app){
     app.use('/page/', express.static(resRoot+"/pages") );
     app.use('/css/',  express.static(resRoot+"/css") );
     app.use('/js/',express.static(resRoot+"/js" ));
+    app.use('/webfonts/',express.static(resRoot+"/webfonts"));
 
     app.use(bodyParser.json);
     app.use(bodyParser.urlencoded({ extended: true })); 
