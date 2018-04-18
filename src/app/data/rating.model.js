@@ -5,7 +5,7 @@ const getOneQuery = "select * from rating where rating_id = $1",
 	updateQuery = "",
 	deleteQuery = "";
 function getRating(id){
-	return conn.ex(getOneQuery,[id]);
+	return conn.execute(getOneQuery,[id]);
 }
 
 module.exports = {
