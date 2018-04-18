@@ -10,14 +10,14 @@ var path = require('path'),
 module.exports = function(app){
     app.use(session());
     app.use(session({ secret: 'HewieLiewDiewFewieJooe', cookie: { maxAge: 99999 }}));
-
-    app.get('/', function (req, res) {
-        res.sendfile("index.html",{root:resRoot+"/pages"});
-    });
     
     app.use('/api',apiRouter);
     app.use('/user',userRouter);
     app.use('/page/', express.static(resRoot+"/pages") );
     app.use('/css/',  express.static(resRoot+"/css") );
     app.use('/js/',express.static(resRoot+"/js" ));
+
+    app.get('/', function (req, res) {
+        res.sendfile("index.html",{root:resRoot+"/pages"});
+    });
 };
