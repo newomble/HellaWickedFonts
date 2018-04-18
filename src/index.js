@@ -2,6 +2,9 @@ var express = require('express'),
     session = require("express-session"),
     bodyParser = require("body-parser"),
     app = express();
+
+
+
 app.use(express.static("public"));
 app.use(session({ secret: "hella wikced kimbo jambo" }));
 app.use(bodyParser.urlencoded({ extended: false }));
