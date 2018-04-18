@@ -1,13 +1,17 @@
-var express = require('express')
-var apiRouter = express.Router();
+var express = require('express'),
+    apiRouter = express.Router(),
+    bodyParser = require('body-parser'),
+    fontRouter = require('./font.router.js');
+
+apiRouter.use(bodyParser.json);
+apiRouter.use(bodyParser.urlencoded({ extended: true })); 
 
 apiRouter.use(function(req,res,next){
     console.log("incoming to api: " + req.url);
     next();
 });
 
-apiRouter.get('',function(req,res){
+apiRouter.use('/font', fontRouter);
 
-});
 
 module.exports = apiRouter;
