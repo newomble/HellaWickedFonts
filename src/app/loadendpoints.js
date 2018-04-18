@@ -6,7 +6,6 @@ var path = require('path'),
     express = require('express');
 
 var routPath =  basePath+'/app/router/';
-    apiRouter = require(routPath+'api.router.js'),
     userRouter = require(routPath+'user.router.js'),
     commentRouter = require(routPath+'comment.router.js'),
     fontRouter = require(routPath+'font.router.js');
