@@ -12,12 +12,16 @@ function userComments(uName){//all comments from user uName
 function fontComments(fontId){//all comments for font
 
 }
-function newComment(uid,text){//return bool
+function newComment(uid,fid,text){//return bool
 
 }
-function newRating(uid,type,rating){//add rating to type (constant)
+function newRating(uid,type,id,rating){//add rating to type (constant)
 
 }
 module.exports = {
-    login:login
+    login:login,
+    userComments:userComments,
+    fontComments:fontComments,
+    newComment:newComment,
+    newRating:newRating
 }

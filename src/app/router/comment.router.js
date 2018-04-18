@@ -22,7 +22,7 @@ commentRouter.post("/comment",function(req,res){
     if( ! req.session.loggedIn || !req.body.comment ){
         res.send(false);
     }else{
-        controller.newComment(req.session.id,req.body.comment);
+        controller.newComment(req.session.id,req.body.id,req.body.comment);
         res.send(true);
     }
 });
@@ -31,7 +31,7 @@ commentRouter.post("/rate",function(req,res){
     if(!req.session.loggedIn){
         res.send(false);
     } else {
-        controller.newRating(req.session.id,consts.COMMENT,req.body.rating);
+        controller.newRating(req.session.id,consts.COMMENT,req.body.id,req.body.rating);
         res.send(true);
     }
 });
