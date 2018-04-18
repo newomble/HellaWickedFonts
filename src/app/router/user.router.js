@@ -25,4 +25,21 @@ userRouter.route("/logout").post(function(req,res){
     res.send(true);
 });
 
+
+userRouter.get("/collection/:id",function(req,res){
+    res.send(controller.getCollection(res.query.id));
+});
+
+userRouter.route("/collection").post(function(req,res){
+    //todo if logged int
+    res.send(
+        controller.newCollection(req.session.uid,req.body.fonts)
+    );
+}).get(function(req,res){
+    res.send(
+        controller.getCollections(req.session.uid)
+    );
+});
+
+
 module.exports = userRouter;
