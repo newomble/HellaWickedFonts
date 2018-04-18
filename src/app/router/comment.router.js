@@ -7,13 +7,13 @@ var express = require('express'),
 
 
 commentRouter.get("/user/:uname",function(req,res){
-    var uName = req.body.uname;
+    var uName = req.query.uname;
     var comments = controller.userComments(uName);
     res.send(comments);
 });
 
 commentRouter.get("/font/:fontId",function(req,res){
-    var fid = req.body.fontId;
+    var fid = req.query.fontId;
     var comments = controller.fontComments(fid);
     res.send(comments);
 });

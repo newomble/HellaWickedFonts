@@ -14,10 +14,30 @@ function newComment(uid,fid,text){//return bool
 function newRating(uid,type,id,rating){//add rating to type (constant)
 
 }
+function getFontById(fid){//returns 1 font
+
+}
+function getFontByName(fName){//returns x fonts with exact name
+
+}
+function getAllFonts(){//like. all
+
+}
+function getFontHistory(fid){//pop history of font id
+
+}
+function getMostPopular(){//most popular x fonts
+
+}
 
 module.exports = {
     userComments:userComments,
     fontComments:fontComments,
     newComment:newComment,
-    newRating:newRating
+    newRating:newRating,
+    getFontByName:getFontByName,
+    getFontById:getFontById,
+    getAllFonts:getAllFonts,
+    getFontHistory:getFontHistory,
+    getMostPopular:getMostPopular
 }
