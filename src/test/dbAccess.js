@@ -1,14 +1,14 @@
 //Used mocha and chai frameworks for unit testing
 var expect = require("chai").expect;
 // var db = require("./test-db.js");
-var font = require("./test-font.model.js");
-var rating = require("./test-rating.model.js");
-var user = require("./test-user.model.js");
-var sampleText = require("./test-sample_text.model.js");
-var comment = require("./test-comment.model.js");
-var user_font = require("./test-user_font.model.js");
+var font = require("./data/font.model.js");
+var rating = require("./data/rating.model.js");
+var user = require("./data/user.model.js");
+var sampleText = require("./data/sample_text.model.js");
+var comment = require("./data/comment.model.js");
+var user_font = require("./data/user_font.model.js");
 
-describe("get()", function(){
+describe("Test Fake Models", function(){
 	it("should get single font data from database", function(){
 		var fontData = font.get("SELECT * FROM font WHERE id = $1");
 		expect(fontData).to.deep.equal({ family: "Roboto", source:"https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort=popularity", popularity: "23", kind: "sans-serif" });
