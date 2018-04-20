@@ -1,3 +1,3 @@
 
-const FONT = 0;
-const COMMENT = 0;
+const FONT = 2;
+const COMMENT = 3;

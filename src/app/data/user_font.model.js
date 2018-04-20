@@ -14,5 +14,6 @@ function add(uid,fid){
 }
 
 module.exports = {
-	getFromUser: getFromUser
+	getFromUser: getFromUser,
+	add:add
 }
