@@ -6,7 +6,7 @@ var expect = require("chai").expect,
     uf = require("../app/controlla/user.face.js");
 
 
-describe("User Facade Routines",function(){
+describe("User Logic",function(){
 
     it("Logs in User",function(){// TODO add check for hashing method
         expect( uf.login("bryan21","FHDShdjsh12232$$$") ).to.deep.equal(1);
@@ -29,7 +29,7 @@ describe("User Facade Routines",function(){
 
 });
 
-describe("General Facade Routines",function(){
+describe("General Logic",function(){
 
     it("Gets all of a User Comments",function(){
         expect( gf.userComments("bryan21") ).to.deep.equal([{comment_text:"gosdofjbn",rating:"99"}]);
