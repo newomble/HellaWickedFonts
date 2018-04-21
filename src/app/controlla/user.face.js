@@ -1,21 +1,21 @@
-var usrModel = require("../data/user.model.js"),
-    collModel = require("../data/user_font.model.js");
+var usrModel = require(process.env.modelRoot+"user.model.js"),
+    collModel = require(process.env.modelRoot+"user_font.model.js");
 
 
 function login(uName,pword){//return uid
     user = usrModel.getCredentials(uName);
-    if(user[0].password == pword){
+    if(user.password == pword){
         return user.id;
     }
     return false;
 }
 function newCollection(uid,fontIdArr){//return stuff
-    results = {};
+    results = {failed:{},success:{}};
     fontIdArr.forEach(function(fid){
         if( !collModel.add(uid,fid)){
-            results.failed.fontId = fid;
+            results.failed.font_id = fid;
         }else{
-            results.success.fontId = fid;
+            results.success.font_id = fid;
         }
     })
     return results;

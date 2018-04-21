@@ -3,6 +3,6 @@ module.exports = {
 		return {username: "bryan21", password: "FHDShdjsh12232$$$"};
 	},
 	getCredentials: function getCredentials(uName){
-		return {username: "bryan21", password: "FHDShdjsh12232$$$"};
+		return {id:1, username: "bryan21", password: "FHDShdjsh12232$$$"};
 	}
 }

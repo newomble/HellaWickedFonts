@@ -1,9 +1,9 @@
 var path = require('path'),
     basePath = path.dirname(require.main.filename),
-    consts = basePath + "/api/lib/constants.js",
-    comModel = "../data/comment.model.js",
-    fontModel = "../data/font.mode.js",
-    ratingModel = "../data/rating.model.js"; 
+    consts = require("../lib/constants.js"),
+    comModel = require(process.env.modelRoot+"comment.model.js"),
+    fontModel = require(process.env.modelRoot+"font.model.js"),
+    ratingModel = require(process.env.modelRoot+"rating.model.js"); 
 
 function userComments(uName){//all comments from user uName
     return comModel.getFromUserName(uName);
@@ -17,10 +17,11 @@ function newComment(uid,fid,text){//return bool
 function newRating(uid,type,id,rating){//add rating to type (constant)
     //if rate on font
     if(type == consts.FONT ){
-        ratingModel.addFont(uid,id,rating);
+        return ratingModel.addFont(uid,id,rating);
     } else if (type == consts.COMMENT){
-        ratingModel.addComment(uid,id,rating);
+        return ratingModel.addComment(uid,id,rating);
     }
+    return false;
 }
 function getFontById(fid){//returns 1 font
     return fontModel.get(fid);

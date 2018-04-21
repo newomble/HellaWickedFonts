@@ -9,9 +9,10 @@ var comment = require("./data/comment.model.js");
 var user_font = require("./data/user_font.model.js");
 
 describe("Test Fake Models", function(){
+
 	it("should get single font data from database", function(){
 		var fontData = font.get("SELECT * FROM font WHERE id = $1");
-		expect(fontData).to.deep.equal({ family: "Roboto", source:"https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort=popularity", popularity: "23", kind: "sans-serif" });
+		expect(fontData).to.deep.equal({ family: "Roboto", font_id:1, source:"https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort=popularity", popularity: "23", kind: "sans-serif" });
 	});
 	
 	it("should get comment rating data from database", function(){

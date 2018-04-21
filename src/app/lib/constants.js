@@ -1,3 +1,5 @@
 
-const FONT = 2;
-const COMMENT = 3;
+module.exports ={
+    FONT :2,
+    COMMENT :3
+}
