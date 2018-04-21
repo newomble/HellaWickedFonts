@@ -3,6 +3,9 @@ var express = require('express'),
     bodyParser = require("body-parser"),
     config = require("./config/config.js").development,
     app = express();
+
+
+
 app.use(express.static("public"));
 app.use(session({ secret: "hella wikced kimbo jambo" }));
 app.use(bodyParser.urlencoded({ extended: false }));
