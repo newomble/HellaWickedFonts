@@ -41,5 +41,19 @@ userRouter.route("/collection").post(function(req,res){
     );
 });
 
+userRouter.route("/signup").post(function(req,res){
+    var uName = req.body.username;
+    var pWord = req.body.password;
+    var repWord = req.body.repassword;
+
+    if(pWord != repWord){
+        res.send(false);
+    }else{
+        var result = controller.newUser(uName,pWord);
+        if(result){
+            res.send(true);
+        }
+    }
+});
 
 module.exports = userRouter;

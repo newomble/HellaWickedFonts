@@ -26,6 +26,9 @@ function getCollections(uid){//all users collections
 function getCollection(cid){//specific collection
     return false;
 }
+function newUser(uName,pWord){
+    return usrModel.addNewUser(uName,pWord);
+}
 module.exports = {
     login:login,
     newCollection:newCollection,
