@@ -1,12 +1,12 @@
 const conn = require("./db.js");
 
 const getOneQuery = "select * from font where id = $1",
-	getAllQuery = "",
+	getAllQuery = "select * from font",
 	updateQuery = "",
 	insertQuery = "insert into font (family, popularity, kind) values ($1, $2, $3)",
-	deleteQuery = "",
-	getByNameQuery = "",
-	getPopularQuery = "";
+	deleteQuery = "delete from font where font_id = $1",
+	getByNameQuery = "select family from font where family = $1",
+	getPopularQuery = "select * from font order by popularity asc";
 
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);

@@ -2,7 +2,7 @@ const conn = require("./db.js");
 
 const getFromNameQuery = "",
     getFromFontIdQuery ="",
-    insertQuery="";
+    insertQuery="insert into comment (comment_text) values ($1)";
 
 
 function getFromUserName(uName){

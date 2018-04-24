@@ -1,9 +1,9 @@
 const conn = require("./db.js");
 
-const getOneQuery = "select * from sample_text where user_id = $1",
-	getAllQuery = "",
+const getOneQuery = "select * from user where user_id = $1",
+	getAllQuery = "select * from user",
 	updateQuery = "",
-	deleteQuery = "",
+	deleteQuery = "delete from user where user_id = $1",
 	getCredsQuery = "Select username,passwrod from user where username = $1";
 	insertUserQuery = "Insert into user (username, password) values($1, $2)";
 function getUser(id){

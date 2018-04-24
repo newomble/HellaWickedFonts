@@ -1,10 +1,11 @@
 const conn = require("./db.js");
 
 const getOneQuery = "select * from rating where rating_id = $1",
-	getAllQuery = "",
+	getAllQuery = "select * from rating",
 	updateQuery = "",
-	deleteQuery = "",
+	deleteQuery = "delete from rating where rating_id = $1",
 	addFontQuery = "";
+
 function getRating(id){
 	return conn.execute(getOneQuery,[id]);
 }
