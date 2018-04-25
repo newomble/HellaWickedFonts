@@ -109,3 +109,33 @@ function validatePreferencesForm () {
 	
 	return false;
 } 
+
+function validateResetPasswordForm(){
+
+	
+	var username = document.forms["resetPasswordForm"]["username"].value;
+	var npassword = document.forms["resetPasswordForm"]["newpassword"].value;
+	var repassword = document.forms["resetPasswordForm"]["repassword"].value;
+	
+	var errors = document.getElementById('errors');
+	errors.innerHTML = "";
+	
+	if(username == "" || npassword == "" || repassword == ""){
+		errors.innerHTML += "All fields must be filled out";
+		errors.classList.add("error");
+		window.scrollTop = 0;
+	}
+	
+	//does username exist in database?
+	
+	
+	if(npassword != repassword ){
+		errors.innerHTML += "Passwords do not match";
+		errors.classList.add("error");
+		window.scrollTop = 0;
+	} //end if: does new password match the re-entered password?
+	
+	return false;
+	
+
+}
