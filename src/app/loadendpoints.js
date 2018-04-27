@@ -23,12 +23,12 @@ module.exports = function(app){
     app.use('/css/',  express.static(resRoot+"/css") );
     app.use('/js/',express.static(resRoot+"/js" ));
 	app.use('/webfonts/',express.static(resRoot+"/webfonts"));
-    app.use('/',pageRouter);	
 
     app.use(bodyParser.json);
     app.use(bodyParser.urlencoded({ extended: true })); 
     app.use("/comment",commentRouter);
     app.use("/font",fontRouter);
+    app.use('/',pageRouter);	
 	
 	
 	
