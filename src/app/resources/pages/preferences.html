@@ -5,21 +5,23 @@
 
 		<form name="preferencesForm" action="">
 			<p id="errors" class="error"></p>
-
+			<input type="hidden" id="user_id" value="<%user_id%>">
+			
+			
 			<label for="email">Email</label>
-			<input class="text" type="text" id="email" name="email" placeholder="johndoe@gmail.com"><br>
-			<label> </label><i class="info">HellaWickedFonts uses <a href='https://gravatar.com/' target='_blank'>Gravatar</a> for icons. Consider using your <a href='https://gravatar.com/' target='_blank'>gravatar</a> email address.</i><br><br>
+			<input class="text" type="text" id="email" name="email" value="<%email%>" placeholder="johndoe@gmail.com"><br>
+			<label> </label><i class="info">HellaWickedFonts uses <a href='<%gravatar_base_url%>' target='_blank'>Gravatar</a> for icons. Consider using your <a href='<%gravatar_base_url%>' target='_blank'>gravatar</a> email address.</i><br><br>
 
 			<label for="fname">First Name</label>
-			<input class="text" type="text" id="fname" name="firstname" placeholder="First Name"><br>
+			<input class="text" type="text" id="fname" name="firstname" placeholder="First Name" value="<%first_name%>"><br>
 
 			<label for="lname">Last Name</label>
-			<input class="text" type="text" id="lname" name="lastname" placeholder="Last Name"><br>
+			<input class="text" type="text" id="lname" name="lastname" placeholder="Last Name" value="<%last_name%>"><br>
 
 			<hr>
 
 			<label for="uname">Username</label>
-			<input class="text" type="text" id="uname" name="username" placeholder="Username" readonly><br>
+			<input class="text" type="text" id="uname" name="username" placeholder="Username" readonly value="<%username%>"><br>
 
 			<label for="cpassword">Current password</label>
 			<input class="text" type="password" id="cpassword" name="cpassword" placeholder="Current Password"><br>
@@ -45,5 +47,11 @@
 	
 	
 	
-	<script src="/js/user_preferences.js"></script>
+	
 <%include bottom_layout.html%>
+	<script src="/js/hella_wicked_fonts.js"></script>
+	<script src="/js/user_preferences.js"></script>
+	
+	
+	
+	

@@ -3,7 +3,8 @@ var express = require('express'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
     pageRouter = express.Router(),
-	gravatar_base_url = "https://www.gravatar.com/avatar/";
+	gravatar_base_url = "https://www.gravatar.com/",
+	gravatar_avatar_url = gravatar_base_url + "avatar/";
 
 var fs = require('fs'),
     tjs = require("templatesjs");
@@ -27,7 +28,13 @@ pageRouter.get("/font", function (req, res, next){
 });
 
 pageRouter.get("/prefs" || "/preferences", function (req, res, next){
-    list.title = "/preferences";
+    list.title = "Your Preferences";
+	list.username = "memrie";
+	list.email = "et5392@rit.edu";
+	list.first_name = "erika";
+	list.last_name = "tobias";
+	list.gravatar_base_url = gravatar_base_url;
+	list.user_id = 2;
     var data = fs.readFileSync(pageRoot+'/preferences.html');
     renderRequestedPage(data, res); 
 });
@@ -54,7 +61,7 @@ pageRouter.get("/user", function (req, res, next){
     list.title = "View User (memrie)";
 	list.username = "memrie";
 					// the base gravatar url / md5 email / cosmetic (icon size)
-	list.user_icon = gravatar_base_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
+	list.user_icon = gravatar_avatar_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
 	list.user_id = 2;
     var data = fs.readFileSync(pageRoot+'/user.html');
     renderRequestedPage(data, res); 
@@ -65,7 +72,8 @@ module.exports = pageRouter;
 
 var list = {
     title: "Home",
-    icon: "https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=45&d=mm&r=g"
+	// the base gravatar url / md5 email / cosmetic (icon size)
+    icon: gravatar_avatar_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=45&d=mm&r=g"
 } //attributes we want to display
 
 function renderRequestedPage(data, res) {
