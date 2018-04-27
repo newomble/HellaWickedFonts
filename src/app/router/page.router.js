@@ -29,6 +29,10 @@ pageRouter.get("/font", function (req, res, next){
 
 pageRouter.get("/prefs" || "/preferences", function (req, res, next){
     list.title = "Your Preferences";
+    if( !req.session.loggedIn){
+        //TODO: direct to signup
+        return;
+    }
 	list.username = req.session.user.username;
 	list.email = req.session.user.email;
 	list.first_name = req.session.first_name;

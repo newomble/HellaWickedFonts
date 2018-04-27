@@ -9,6 +9,7 @@ function login(uName,pword,res,req){
         if(err){
             dberr(err,res);
         }else{
+            console.log(req.session);
             var user = vals.rows[0];
             if(user && user.password){   
                 bCrypt.compare(pword,user.password,function(err,hashRes){
@@ -16,7 +17,7 @@ function login(uName,pword,res,req){
                         req.session.user = user;
                         req.session.loggedIn = true;
                         req.session.user.icon = makeGravLink(user.email);
-                        res.send(true);   
+                        res.send(true); 
                     } else {
                         res.send("Passwords did not match");
                     }
