@@ -6,23 +6,23 @@ var express = require('express'),
 
 
 fontRouter.get('/id/:id',function(req,res){
-    res.send(controller.getFontById(req.query.id));
+    controller.getFontById(req.query.id,res);
 });
 
 fontRouter.get('/name/:name',function(req,res){
-    res.send(controller.getFontByName(req.query.name));
+    controller.getFontByName(req.query.name,res);
 });
 
 fontRouter.get("/all",function(req,res){
-    res.send(controller.getAllFonts());
+    controller.getAllFonts(res);
 });
 
 fontRouter.get("/history/:id",function(req,res){
-    res.send(controller.getFontHistory(req.query.id));
+    controller.getFontHistory(req.query.id,res);
 });
 
 fontRouter.get("/popular",function(req,res){
-    res.send(controller.getMostPopular());
+    controller.getMostPopular(res);
 });
 
 module.exports=fontRouter;

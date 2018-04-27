@@ -5,38 +5,50 @@ var path = require('path'),
     fontModel = require(process.env.modelRoot+"font.model.js"),
     ratingModel = require(process.env.modelRoot+"rating.model.js"); 
 
-function userComments(uName){//all comments from user uName
-    return comModel.getFromUserName(uName);
+function userComments(uName,res){//all comments from user uName
+    var client = comModel.getFromUserName(uName);
+    sendRows(client,res);
 }
-function fontComments(fontId){//all comments for font
-    return comModel.getFromFontId(fontId);
+function fontComments(fontId,res){//all comments for font
+    var client = comModel.getFromFontId(fontId);
+    sendRows(client,res);
 }
-function newComment(uid,fid,text){//return bool
-    return comModel.insertComment(uid,fid,text);
+function newComment(uid,fid,text,res){//return bool
+    var client = comModel.insertComment(uid,fid,text);
+    insertResponse(client,res);
 }
-function newRating(uid,type,id,rating){//add rating to type (constant)
-    //if rate on font
+function newRating(uid,type,id,rating,res){//add rating to type (constant)
+    var client;
     if(type == consts.FONT ){
-        return ratingModel.addFont(uid,id,rating);
+        client = ratingModel.addFont(uid,id,rating);
     } else if (type == consts.COMMENT){
-        return ratingModel.addComment(uid,id,rating);
+        client = ratingModel.addComment(uid,id,rating);
     }
-    return false;
+    if(client){
+        insertResponse(client,res);
+    } else {
+        res.send(false);
+    }
 }
-function getFontById(fid){//returns 1 font
-    return fontModel.get(fid);
+function getFontById(fid,res){
+    var client =  fontModel.get(fid);
+    sendRows(client,res);
 }
-function getFontByName(fName){//returns x fonts with exact name
-    return fontModel.getByName(fName);
+function getFontByName(fName,res){
+    var client =  fontModel.getByName(fName);
+    sendRows(client,res);    
 }
-function getAllFonts(){//like. all
-    return fontModel.getAll();
+function getAllFonts(res){
+    var client =  fontModel.getAll();
+    sendRows(client,res);
 }
-function getFontHistory(fid){//pop history of font id
-    return fontModel.getHistory(fid);
+function getFontHistory(fid,res){
+    var client =  fontModel.getHistory(fid);
+    sendRows(client,res);
 }
-function getMostPopular(){//most popular x fonts
-    return fontModel.getPopular();
+function getMostPopular(res){
+    var client =  fontModel.getPopular();
+    sendRows(client,res);
 }
 
 module.exports = {
@@ -49,4 +61,25 @@ module.exports = {
     getAllFonts:getAllFonts,
     getFontHistory:getFontHistory,
     getMostPopular:getMostPopular
+}
+
+
+function insertResponse(client,res){
+    client( function(err,vals ){
+        if(err){
+            res.send(false);
+        }else{
+            res.send(true);
+        }
+    });
+}
+
+function sendRows(client,res){
+    client(function(err,vals){
+        if(err){
+            res.send(false);
+        }else{
+            res.send(vals.rows);
+        }
+    });
 }

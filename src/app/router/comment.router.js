@@ -7,23 +7,19 @@ var express = require('express'),
 
 
 commentRouter.get("/user/:uname",function(req,res){
-    var uName = req.query.uname;
-    var comments = controller.userComments(uName);
-    res.send(comments);
+    controller.userComments(uName);
 });
 
 commentRouter.get("/font/:fontId",function(req,res){
     var fid = req.query.fontId;
-    var comments = controller.fontComments(fid);
-    res.send(comments);
+    var comments = controller.fontComments(fid,res);
 });
 
 commentRouter.post("/rate",function(req,res){
     if(!req.session.loggedIn){
         res.send(false);
     } else {
-        controller.newRating(req.session.id,consts.COMMENT,req.body.id,req.body.rating);
-        res.send(true);
+        controller.newRating(req.session.id,consts.COMMENT,req.body.id,req.body.rating,res);
     }
 });
 
@@ -31,8 +27,7 @@ commentRouter.post("/",function(req,res){
     if( ! req.session.loggedIn || !req.body.comment ){
         res.send(false);
     }else{
-        controller.newComment(req.session.id,req.body.id,req.body.comment);
-        res.send(true);
+        controller.newComment(req.session.id,req.body.id,req.body.comment,res);
     }
 });
 

@@ -1,23 +1,24 @@
 const conn = require("./db.js");
 
-const getOneQuery = "select * from user where user_id = $1",
+const getOneQuery = "select * from public.user where user_id = $1;",
 	getAllQuery = "select * from user",
 	updateQuery = "",
 	deleteQuery = "delete from user where user_id = $1",
 	getCredsQuery = "Select username,passwrod from user where username = $1";
-	insertUserQuery = "Insert into user (username, password) values($1, $2)";
-function getUser(id){
-	return conn.execute(getOneQuery,[id]);
+	insertUserQuery = "Insert into public.user (username,first_name,last_name, password) values($1,$2,$3,$4)";
+function getUser(id,res){
+	return conn.execute(getOneQuery,[id]) ;		
 }
 
 function getCredentials(uName){
 	return conn.execute(getCredsQuery,[uName]);
 }
 
-function addNewUser(uName,pWord){
-	return conn.execute(insertUserQuery,[uName, pWord]);
+function addNewUser(uName,pWord,fname,lname){
+	return conn.execute(insertUserQuery,[uName,fname,lname,pWord]);
 }
 
 module.exports = {
-	get: getUser
+	get: getUser,
+	addNewUser:addNewUser
 }
