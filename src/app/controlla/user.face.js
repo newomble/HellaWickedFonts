@@ -1,5 +1,7 @@
 var usrModel = require(process.env.modelRoot+"user.model.js"),
-    collModel = require(process.env.modelRoot+"user_font.model.js");
+    collModel = require(process.env.modelRoot+"user_font.model.js"),
+    md5 = require("md5"),
+    bCrypt = require('bcrypt-nodejs');
 
 
 function login(uName,pword,res,req){
@@ -9,13 +11,15 @@ function login(uName,pword,res,req){
             res.send(false);
         }else{
             var user = vals[0];
-            if(user.password == pword){
-                req.session.loggedIn = true;
-                req.session.uid = user.user_id;
-                res.send(true);   
-            }else{
-                res.send("Passwords did not match");
-            }
+            bCrypt.compare(pword,user.password,function(err,hashRes){
+                if(hashRes){
+                    req.session.loggedIn = true;
+                    req.session.uid = user.user_id;
+                    res.send(true);   
+                } else {
+                    res.send("Passwords did not match");
+                }
+            });
         } 
     })
 }
@@ -40,7 +44,10 @@ function getCollection(cid){//specific collection
     return false;
 }
 function newUser(uName,fName,lName,pWord,res){
-    var client = usrModel.addNewUser(uName,pWord);
+    var salt =  bCrypt.genSaltSync(10);
+    var pass = createHash(pWord,salt);
+
+    var client = usrModel.addNewUser(uName,pass,fName,lName,salt);
     client(function(err,vals){
         if(err){
             console.log(err);
@@ -77,5 +84,9 @@ function stripSensative(res){
     return res;
 }
 function makeGravLink(email){
-    return "not done yet";
+    return "https://www.gravatar.com/avatar/"+md5((email.trim()).toLowerCase() );
 }
+
+function createHash(password,salt){
+    return bCrypt.hashSync(password,salt, null);
+};

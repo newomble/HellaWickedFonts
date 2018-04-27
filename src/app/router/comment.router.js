@@ -23,8 +23,8 @@ commentRouter.post("/rate",function(req,res){
     }
 });
 
-commentRouter.post("/",function(req,res){
-    if( ! req.session.loggedIn || !req.body.comment ){
+commentRouter.post("/new",function(req,res){
+    if( ! req.session.loggedIn || !req.body.comment || !req.body.id ){
         res.send(false);
     }else{
         controller.newComment(req.session.id,req.body.id,req.body.comment,res);

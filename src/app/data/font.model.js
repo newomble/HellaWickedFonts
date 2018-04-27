@@ -1,19 +1,33 @@
 const conn = require("./db.js");
 
-const getOneQuery = "select * from font where id = $1",
-	getAllQuery = "select * from font",
+const ratingJoin = " join public.rating using(font_id) ",
+	getBase = "Select font_id, family,source_json,popularity,kind, AVG(rating) as \"rating\" from public.font ",
+	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $1 GROUP BY public.font.font_id",
+	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
 	updateQuery = "",
 	insertQuery = "insert into font (family, popularity, kind) values ($1, $2, $3)",
-	deleteQuery = "delete from font where font_id = $1",
+	insertWithSourceQuery = "insert into public.font (family, popularity, kind,source_json) values ($1, $2, $3, $4)",
+	deleteQuery = "delete from public.font where font_id = $1",
 	getByNameQuery = "select family from font where family = $1",
-	getPopularQuery = "select * from font order by popularity asc";
+	getPopularQuery = "select * from public.font order by popularity asc",
+	getHistoryQuery = "select rank,time from public.font_history where font_id = $1",
+	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
+	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
+	
+	suggQuery =  "("+getBaser+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
+		"("+getBaser+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
+		"("+getBaser+ratingJoin + " where kind = 'serif' group by font_id limit 1)";
 
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);
 }
 
-function insertFonts(id1, id2, id3){
-	return conn.execute(insertQuery, [id1, id2, id3])
+function insertFonts(family, popularity, kind){
+	return conn.execute(insertQuery, [family, popularity, kind]);
+}
+
+function insertWithSource(family, popularity,kind, sourceUrl){
+	return conn.execute(insertWithSourceQuery, [family, popularity, kind,sourceUrl])	;
 }
 
 function getByName(name){
@@ -25,16 +39,27 @@ function getAll(){
 }
 
 function getHistory(fid){
-	//TODO think we forgot in the db model
-	return false;
+	return conn.execute(getHistoryQuery,[fid]);
 }
 function getMostPopular(){
 	return conn.execute(getPopularQuery,null);
+}
+function updatePopularity(newVal,fid){
+	return conn.execute(updatePopQuery,[newVal,fid]);
+}
+function recordPopValye(oldVal,fid){
+	return conn.execute(recordPopQuery,[fid,oldVal]);
+}
+function getSuggestion(){
+	return conn.execute(suggQuery,null);
 }
 module.exports = {
 	get: getFont,
 	getByName:getByName,
 	getAll:getAll,
 	insert: insertFonts,
-	getHistory:getHistory
+	insertWithSource:insertWithSource,
+	getHistory:getHistory,
+	updatePopularity:updatePopularity,
+	getSuggestion:getSuggestion
 }

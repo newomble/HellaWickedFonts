@@ -25,4 +25,8 @@ fontRouter.get("/popular",function(req,res){
     controller.getMostPopular(res);
 });
 
+fontRouter.get("/suggestion",function(req,res){
+    controller.getSuggestion(res);
+})
+
 module.exports=fontRouter;

@@ -50,6 +50,10 @@ function getMostPopular(res){
     var client =  fontModel.getPopular();
     sendRows(client,res);
 }
+function getSuggestion(res){
+    var client = fontModel.getSuggestion();
+    sendRows(client,res);
+}
 
 module.exports = {
     userComments:userComments,
@@ -60,7 +64,8 @@ module.exports = {
     getFontById:getFontById,
     getAllFonts:getAllFonts,
     getFontHistory:getFontHistory,
-    getMostPopular:getMostPopular
+    getMostPopular:getMostPopular,
+    getSuggestion:getSuggestion
 }
 
 

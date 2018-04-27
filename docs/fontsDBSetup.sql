@@ -98,6 +98,19 @@ CREATE TABLE public.sample_text(
 	PRIMARY KEY (sample_id)
 );
 
+DROP SEQUENCE IF EXISTS history_id_seq CASCADE;
+CREATE SEQUENCE history_id_seq START 1;
+
+DROP TABLE IF EXISTS public.font_history;
+CREATE TABLE public.font_history(
+	history_id INT NOT NULL DEFAULT nextval('history_id_seq'),
+	font_id INT,
+	rank INT,
+	time TIMESTAMP DEFAULT NOW(),
+	FOREIGN KEY (font_id) REFERENCES public.font (font_id),
+	PRIMARY KEY (history_id)
+);
+
 
 -- -----------------------------------------------------
 -- User Font Table
