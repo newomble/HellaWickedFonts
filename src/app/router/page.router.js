@@ -55,10 +55,6 @@ pageRouter.get("/user", function (req, res, next){
     renderRequestedPage(data, res); 
 });
 
-pageRouter.get("/favicon.ico",function(req,res){
-//TODO: MD5 favicon thing
-});
-
 module.exports = pageRouter;
 
 
