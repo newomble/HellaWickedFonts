@@ -17,17 +17,19 @@ function Home() {
 /** ----------------------------------------------------------- **/
 /** --------------------- INHERIT CLASSES --------------------- **/
 /** ----------------------------------------------------------- **/
-//Home.prototype = Object.create(HellaWickedFonts.prototype);
-//Home.prototype.constructor = Home;
+Home.prototype = Object.create(HellaWickedFonts.prototype);
+Home.prototype.constructor = Home;
+
+Home.prototype.POP_FONTS = document.getElementById('popular');
+Home.prototype.TREND_FONTS = document.getElementById('trending');
 
 Home.prototype.MY_FONTS = document.getElementById('font_search_results');
-
 Home.prototype.FIND_FONTS = document.getElementById('find_fonts');
 
 /**
 * Initializes the app
 */
-Home.prototype.init= function () {
+Home.prototype.init = function () {
 	'use strict';
 	
 	this.initPopularFonts();
@@ -38,23 +40,131 @@ Home.prototype.init= function () {
 	this.search = new Search(true, false); //the "find fonts"
 }; //end function: Home --> init
 
+
+/**
+* Grabs the top 5 "popular" fonts
+*/
 Home.prototype.initPopularFonts = function () {
 	'use strict';
 	
+	//TODO: comment the ajax call back in
+	//this.ajaxCall("TODO - URL", "", "handlePopularFonts");
 	
+	//TODO: remove everything below here
+	//dummy_fonts is the expected JSON return
+	var dummy_fonts = [
+		{
+			name :"Roboto",
+			url : ""
+		},
+		{
+			name :"EB Garamond",
+			url : ""
+		},
+		{
+			name :"EB Garamond",
+			url : ""
+		},
+		{
+			name :"Marck Script",
+			url : ""
+		},
+		{
+			name :"Marck Script",
+			url : ""
+		}
+	];
+	this.handlePopularFonts(dummy_fonts, false);
 }; //end function: Home --> initPopularFonts
 
+/**
+* handles the response from attempting to grab the popular fonts
+* @param data {JSON} the response from the back-end
+* @param err {string|boolean} false if no error, string if there is
+*/
+Home.prototype.handlePopularFonts = function (data, err) {
+	'use strict';
+	var i,
+		font_amt = data.length;
+	
+	if (!err) {
+		for (i = 0; i < font_amt; i++) {
+			this.loadTopFont(this.POP_FONTS, data[i]);
+		}//end for: go through all popular fonts
+	} //end if: did we have an error?
+	
+}; //end function: Home --> handlePopularFonts
 
-
+/**
+* Grabs the top 5 "trending" fonts
+*/
 Home.prototype.initTrendingFonts = function () {
 	'use strict';
+	//TODO: comment the ajax call back in
+	//this.ajaxCall("TODO - URL", "", "handleTrendingFonts");
 	
-	
+	//TODO: remove everything below here
+	//dummy_fonts is the expected JSON return
+	var dummy_fonts = [
+		{
+			name :"Roboto",
+			url : ""
+		},
+		{
+			name :"EB Garamond",
+			url : ""
+		},
+		{
+			name :"EB Garamond",
+			url : ""
+		},
+		{
+			name :"Marck Script",
+			url : ""
+		},
+		{
+			name :"Marck Script",
+			url : ""
+		}
+	];
+	this.handleTrendingFonts(dummy_fonts, false);
 }; //end function: Home --> initTrendingFonts
 
 
+/**
+* handles the response from attempting to grab the trending fonts
+* @param data {JSON} the response from the back-end
+* @param err {string|boolean} false if no error, string if there is
+*/
+Home.prototype.handleTrendingFonts = function (data, err) {
+	'use strict';
+	var i,
+		font_amt = data.length;
+	
+	if (!err) {
+		for (i = 0; i < font_amt; i++) {
+			this.loadTopFont(this.TREND_FONTS, data[i]);
+		}//end for: go through all popular fonts
+	} //end if: did we have an error?
+	
+}; //end function: Home --> handlePopularFonts
 
 
+/**
+* Append a font to their respective list
+* @param font_list {UL} the UL html element to append to
+* @param font_name {String} the name of the font (css)
+*/
+Home.prototype.loadTopFont = function (font_list, font_details) {
+	'use strict';
+	var font_li = document.createElement("li");
+	
+	//set the font family to this font, and arial if google is down
+	font_li.style.fontFamily = font_details.name + ", arial";
+	font_li.innerHTML = font_details.name;
+	
+	font_list.appendChild(font_li);
+}; //end function: Home --> loadTopFont
 
 var h = new Home();
 
