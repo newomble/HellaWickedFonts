@@ -21,6 +21,8 @@ DROP TABLE IF EXISTS public.user  CASCADE;
 CREATE TABLE public.user(
 	user_id INT NOT NULL DEFAULT nextval('user_id_seq'),
 	username VARCHAR(45),
+	first_name VARCHAR(45),
+	last_name VARCHAR(45),
 	password VARCHAR(45),
 	salt VARCHAR(45),
 	email VARCHAR(45),
