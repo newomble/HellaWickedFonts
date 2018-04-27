@@ -1,9 +1,11 @@
 <%include top_layout.html%>
-
+	<input type="hidden" id="user_id" value="<%user_id%>">
 	<div class="content center">
-		<h3 id="username"></h3>
-		<div id="user_details_container"></div>
-		<h3 id="username_collection"></h3>
+		<h3 id="username"><%username%></h3>
+		<div id="user_details_container">
+			<img src="<%user_icon%>" alt="<%username%>'s icon" class="user_avatar">	
+		</div>
+		<h3 id="username_collection"><%username%>'s Collection</h3>
 		<div id="search_container"></div>
 		<div id="collection_container"></div>
 		<br><br>
