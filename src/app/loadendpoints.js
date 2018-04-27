@@ -2,6 +2,7 @@ var path = require('path'),
     basePath = path.dirname(require.main.filename),
     resRoot =  basePath + "/app/resources",
     bodyParser = require('body-parser'),
+    urlEncodedParser = bodyParser.urlencoded({extended:false}),
     session = require('express-session'),
     express = require('express');
 
@@ -28,10 +29,9 @@ module.exports = function(app){
 
     app.use("/comment",commentRouter);
     app.use("/font",fontRouter);
+    // app.use("/font",urlencoded,fontRouter);
     
 	app.use('/',pageRouter);	
-	app.use(bodyParser.json);
-	
 	
 };
 
