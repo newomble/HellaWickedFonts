@@ -1,5 +1,6 @@
 var config = require("./config/config.js").development;
 process.env.modelRoot = config.paths.data;
+process.env.apikey = config.apiKey;
 
 var express = require('express'),
     session = require("express-session"),

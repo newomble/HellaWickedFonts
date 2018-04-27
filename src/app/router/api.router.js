@@ -1,16 +1,16 @@
 var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
-    controller = require(basePath + "/app/controlla/user.face.js"),
-    userRouter = express.Router();
+    controller = require(basePath + "/app/controlla/index.face.js"),
+    apiRouter = express.Router();
 
-userRouter.post("/login",function(req,res){
+apiRouter.post("/login",function(req,res){
     var uName = req.body.username;
     var pword = req.body.password;
     controller.login(uName,pword,res,req);
 });
 
-userRouter.route("/logout").post(function(req,res){
+apiRouter.route("/logout").post(function(req,res){
     req.session.destroy();
     res.send(true);
 }).get(function(req,res){
@@ -18,12 +18,7 @@ userRouter.route("/logout").post(function(req,res){
     res.send(true);
 });
 
-
-userRouter.get("/collection/:id",function(req,res){
-    controller.getCollection(res.query.id,res);
-});
-
-userRouter.route("/collection").post(function(req,res){
+apiRouter.route("/collection").post(function(req,res){
     //todo if logged int
     controller.newCollection(req.session.uid,req.body.fonts,res);
     
@@ -31,7 +26,7 @@ userRouter.route("/collection").post(function(req,res){
         controller.getCollections(req.session.uid,res);
 });
 
-userRouter.route("/signup").post(function(req,res){
+apiRouter.route("/signup").post(function(req,res){
     var uName = req.body.username;
     var pWord = req.body.password;
     var repWord = req.body.repassword;
@@ -44,22 +39,24 @@ userRouter.route("/signup").post(function(req,res){
         controller.newUser(uName,fname,lname,pWord,res);
     }
 });
-userRouter.get("/user/:id",function(req,res){
-    if(isLoggedIn(req) && req.query.id){
-        controller.getUserData(req.query.id,res);
-    } else {
+
+apiRouter.post("/rate",function(req,res){
+    if(!req.session.loggedIn){
         res.send(false);
+    } else {
+        controller.newRating(req.session.id,consts.COMMENT,req.body.id,req.body.rating,res);
     }
 });
-userRouter.get("/getUser",function(req,res){
-    if(isLoggedIn(req)){
-        controller.getUserData(req.session.uid,res);
-    }else{
-        res.send(false);
-    }
-})
 
-module.exports = userRouter;
+apiRouter.post("/comment",function(req,res){
+    if( ! req.session.loggedIn || !req.body.comment || !req.body.id ){
+        res.send(false);
+    }else{
+        controller.newComment(req.session.id,req.body.id,req.body.comment,res);
+    }
+});
+
+module.exports = apiRouter;
 
 function isLoggedIn(req){
     req.session.uid =2;

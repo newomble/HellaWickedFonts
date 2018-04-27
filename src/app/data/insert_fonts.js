@@ -4,10 +4,11 @@
 * @author	Bryan Pickering
 * @date		4/17/2018
 *************************************************************/
+var config = require("../../config/config.js").development;
 
 const request = require('request');
 const font = require("./font.model.js");
-const apiURL = "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort=popularity";
+const apiURL = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apikey+"=popularity";
 
 //Request API data from API URL
 //TODO: add the source location - and save history

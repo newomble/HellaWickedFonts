@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "validate-install": "",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dg": "node ./app/data/insert_fonts.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "express": "^4.15.2",
     "express-session": "^1.15.6",
     "md5": "^2.2.1",
+    "merge-json": "0.1.0-b.3",
     "mysql": "^2.15.0",
     "pg": "^6.1.0",
     "request": "^2.85.0",

@@ -14,9 +14,9 @@ const ratingJoin = " join public.rating using(font_id) ",
 	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
 	
-	suggQuery =  "("+getBaser+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
-		"("+getBaser+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
-		"("+getBaser+ratingJoin + " where kind = 'serif' group by font_id limit 1)";
+	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
+		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
+		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)";
 
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);
