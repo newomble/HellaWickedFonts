@@ -44,7 +44,13 @@ userRouter.route("/signup").post(function(req,res){
         controller.newUser(uName,fname,lname,pWord,res);
     }
 });
-
+userRouter.get("/user/:id",function(req,res){
+    if(isLoggedIn(req) && req.query.id){
+        controller.getUserData(req.query.id,res);
+    } else {
+        res.send(false);
+    }
+});
 userRouter.get("/getUser",function(req,res){
     if(isLoggedIn(req)){
         controller.getUserData(req.session.uid,res);
