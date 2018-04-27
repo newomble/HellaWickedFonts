@@ -6,6 +6,8 @@ var express = require('express'),
 
 var fs = require('fs'),
     tjs = require("templatesjs");
+
+//set the default directory
 tjs.dir = basePath+"/app/resources/templates/";
 
 pageRouter.get("/", function (req, res, next){
@@ -71,9 +73,19 @@ module.exports = pageRouter;
 
 var list = {
     title: "Home",
+	
+    //if the user is logged in, show "logged in" nav template
+	nav: fs.readFileSync( basePath+"/app/resources/templates/logged_in.html"),
+	//if the user is logged out, show "logged in" nav template
+    //nav: fs.readFileSync( basePath+"/app/resources/templates/logged_out.html"),
+	
 	// the base gravatar url / md5 email / cosmetic (icon size)
     icon: process.env.icon_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=45&d=mm&r=g"
 } //attributes we want to display
+
+
+
+
 
 function renderRequestedPage(data, res) {
     tjs.setSync(data);   
@@ -81,3 +93,4 @@ function renderRequestedPage(data, res) {
     res.write(output);  
     res.end(); 
 } //end function: renderRequestedPage
+
