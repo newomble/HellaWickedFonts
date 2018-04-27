@@ -1,6 +1,7 @@
 var path = require('path'),
-    rootPath = path.normalize(__dirname + '/..');;
-
+    rootPath = path.normalize(__dirname + '/..');
+//Change Api Key here
+const apiKey = "";
 var config = {
     development:{
         root:rootPath,
@@ -10,7 +11,8 @@ var config = {
         app:{
             name: 'hellawickedfonts'
         },
-        port:3000
+        port:3000,
+        apiKey:apiKey
     },
     test:{
         root:rootPath,
@@ -20,6 +22,7 @@ var config = {
         app:{
             name: 'hellawickedfonts'
         },
+        apiKey:apiKey,
         port:3000
     }
 }

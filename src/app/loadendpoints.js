@@ -14,13 +14,12 @@ var routPath =  basePath+'/app/router/',
 
 
 module.exports = function(app){
-	app.use(bodyParser.json);
-    app.use(bodyParser.urlencoded({ extended: true })); 
     
     app.use(session());
 	app.use(session({ secret: 'HewieLiewDiewFewieJooe', cookie: { maxAge: 99999 }}));
     
-    app.use('/',pageRouter);	
+    
+    
     app.use('/users',userRouter);
     app.use('/page/', express.static(resRoot+"/pages") );
     app.use('/css/',  express.static(resRoot+"/css") );
@@ -30,7 +29,8 @@ module.exports = function(app){
     app.use("/comment",commentRouter);
     app.use("/font",fontRouter);
     
-	
+	app.use('/',pageRouter);	
+	app.use(bodyParser.json);
 	
 	
 };
