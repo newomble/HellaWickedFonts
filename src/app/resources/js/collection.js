@@ -59,30 +59,20 @@ Collection.prototype.getSearchResults = function (search_string) {
 	//clear out the old search results
 	this.search_results.innerHTML = "";
 	
-	//TESTING ONLY - REMOVE LATER
-	var user_list = [
-		{
-			'username' : "memrie",
-			'use_id' : 1,
-			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-		},
-		{
-			'username' : "someone",
-			'use_id' : 2,
-			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-		}
-	];
 	
-	//make an ajax call
-	//which can then filter into the below functions (matching fonts/users)
+	//make an ajax call -- URL, method (get/post), Params, callback function name
+	this.ajaxCall("TODO", "GET", {uid:"TODO", search_text: "some search text"}, "loadMatchingFonts");
 	
 	//load any matching fonts - Search Function
-	this.loadMatchingFonts();
+	//this.loadMatchingFonts();
 	
 	//no results?
 	//this.noResultsMessage();
 	
 }; //end function: Collection --> getSearchResults
+
+
+
 
 
 /**********************************************************************
