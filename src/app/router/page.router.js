@@ -2,9 +2,7 @@ var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
-    pageRouter = express.Router(),
-	gravatar_base_url = "https://www.gravatar.com/",
-	gravatar_avatar_url = gravatar_base_url + "avatar/";
+    pageRouter = express.Router();
 
 var fs = require('fs'),
     tjs = require("templatesjs");
@@ -29,12 +27,13 @@ pageRouter.get("/font", function (req, res, next){
 
 pageRouter.get("/prefs" || "/preferences", function (req, res, next){
     list.title = "Your Preferences";
-	list.username = "memrie";
-	list.email = "et5392@rit.edu";
-	list.first_name = "erika";
-	list.last_name = "tobias";
-	list.gravatar_base_url = gravatar_base_url;
-	list.user_id = 2;
+	list.username = req.session.user.username;
+	list.email = req.session.user.email;
+	list.first_name = req.session.first_name;
+	list.last_name = req.session.last_name;
+	list.gravatar_base_url = process.env.icon_url;
+    list.user_id = req.session.user.user_id;
+    
     var data = fs.readFileSync(pageRoot+'/preferences.html');
     renderRequestedPage(data, res); 
 });
@@ -61,7 +60,7 @@ pageRouter.get("/user", function (req, res, next){
     list.title = "View User (memrie)";
 	list.username = "memrie";
 					// the base gravatar url / md5 email / cosmetic (icon size)
-	list.user_icon = gravatar_avatar_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
+	list.user_icon = process.env.icon_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
 	list.user_id = 2;
     var data = fs.readFileSync(pageRoot+'/user.html');
     renderRequestedPage(data, res); 
@@ -73,7 +72,7 @@ module.exports = pageRouter;
 var list = {
     title: "Home",
 	// the base gravatar url / md5 email / cosmetic (icon size)
-    icon: gravatar_avatar_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=45&d=mm&r=g"
+    icon: process.env.icon_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=45&d=mm&r=g"
 } //attributes we want to display
 
 function renderRequestedPage(data, res) {

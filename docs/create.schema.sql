@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `hellawickedfonts`.`user` ;
 CREATE TABLE IF NOT EXISTS `hellawickedfonts`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NULL,
+  `password` VARCHAR(555) NULL,
   `salt` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`))

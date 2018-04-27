@@ -1,0 +1,1 @@
+Insert into public.user (username,password,email) VALUES ('new','$2a$10$sZPNamlJkm9KRi2fqr9ftuz7etM3ASsY1QqLXl9J/ix5No65/YCkS','me@you.com');

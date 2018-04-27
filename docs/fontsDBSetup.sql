@@ -23,7 +23,7 @@ CREATE TABLE public.user(
 	username VARCHAR(45),
 	first_name VARCHAR(45),
 	last_name VARCHAR(45),
-	password VARCHAR(45),
+	password VARCHAR(555),
 	salt VARCHAR(45),
 	email VARCHAR(45),
 	PRIMARY KEY (user_id)

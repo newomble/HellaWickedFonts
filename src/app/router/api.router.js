@@ -1,12 +1,15 @@
 var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
+    bodyParser = require("body-parser"),
     controller = require(basePath + "/app/controlla/index.face.js"),
     apiRouter = express.Router();
-
+apiRouter.use(bodyParser.urlencoded({extended:true}));
+apiRouter.use(bodyParser.json());
 apiRouter.post("/login",function(req,res){
     var uName = req.body.username;
     var pword = req.body.password;
+
     controller.login(uName,pword,res,req);
 });
 

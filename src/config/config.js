@@ -12,6 +12,7 @@ var config = {
             name: 'hellawickedfonts'
         },
         port:3000,
+        icon_url:"https://www.gravatar.com/",
         apiKey:apiKey
     },
     test:{
@@ -22,6 +23,7 @@ var config = {
         app:{
             name: 'hellawickedfonts'
         },
+        icon_url:"https://www.gravatar.com/",
         apiKey:apiKey,
         port:3000
     }

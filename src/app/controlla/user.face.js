@@ -3,23 +3,27 @@ var usrModel = require(process.env.modelRoot+"user.model.js"),
     md5 = require("md5"),
     bCrypt = require('bcrypt-nodejs');
 
-
 function login(uName,pword,res,req){
     var client = usrModel.getCredentials(uName);
     client(function(err,vals){
-        if(error){
-            res.send(false);
+        if(err){
+            dberr(err,res);
         }else{
-            var user = vals[0];
-            bCrypt.compare(pword,user.password,function(err,hashRes){
-                if(hashRes){
-                    req.session.loggedIn = true;
-                    req.session.uid = user.user_id;
-                    res.send(true);   
-                } else {
-                    res.send("Passwords did not match");
-                }
-            });
+            var user = vals.rows[0];
+            if(user && user.password){   
+                bCrypt.compare(pword,user.password,function(err,hashRes){
+                    if(hashRes){
+                        req.session.user = user;
+                        req.session.loggedIn = true;
+                        req.session.user.icon = makeGravLink(user.email);
+                        res.send(true);   
+                    } else {
+                        res.send("Passwords did not match");
+                    }
+                });
+            } else{
+                res.send("Username not found");
+            }
         } 
     })
 }
@@ -34,7 +38,7 @@ function getCollections(uid,res){//all users collections
     var client = collModel.getFromUser(uid);
     client(function(err,vals){
         if(err){
-            res.send(false);
+            dberr(err,res);
         } else {
             res.send(vals.rows);
         }
@@ -50,8 +54,7 @@ function newUser(uName,fName,lName,pWord,res){
     var client = usrModel.addNewUser(uName,pass,fName,lName,salt);
     client(function(err,vals){
         if(err){
-            console.log(err);
-            res.send(false);
+            dberr(err,res);
         } else {
             res.send(true);
         }
@@ -84,9 +87,14 @@ function stripSensative(res){
     return res;
 }
 function makeGravLink(email){
-    return "https://www.gravatar.com/avatar/"+md5((email.trim()).toLowerCase() );
+    return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }
 
 function createHash(password,salt){
     return bCrypt.hashSync(password,salt, null);
 };
+
+function dberr(err,res){
+    console.log(err);
+    res.send("DB Error.");
+}
