@@ -34,11 +34,11 @@ UserProfile.prototype.DETAIL_CONTAINER = document.getElementById('user_details_c
 UserProfile.prototype.init = function () {
 	'use strict';
 	//go grab this user's details
-	this.ajaxCall("TODO", "GET", {uid: "TODO-User id"}, "loadUser");
+	//this.ajaxCall("TODO", "GET", {uid: "TODO-User id"}, "loadUser");
 	//this.user = this.loadUser();
 	
 	//build out the view for this user
-	this.buildUserDetails();
+	//this.buildUserDetails();
 	
 	//we are viewing a collection for another user - go get it
 	this.collection = new Collection(false);
@@ -47,7 +47,7 @@ UserProfile.prototype.init = function () {
 
 /**
 * Initialize the app
-*/
+
 UserProfile.prototype.buildUserDetails = function () {
 	'use strict';
 	
@@ -65,44 +65,8 @@ UserProfile.prototype.buildUserDetails = function () {
 	
 }; //end function: UserProfile --> init
 
-
-/**
-* Make an ajax call to grab the user to load them for view.
-* @return {object} json representation of the user
 */
-UserProfile.prototype.loadUser = function () {
-	'use strict';
-	return {
-		'username' : "memrie",
-		'use_id' : 1,
-		'first_name' : "enbn",
-		'last_name' : 'tnpw',
-		'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=150&d=mm&r=g'
-	};
-}; //end function: UserProfile --> loadUser
 
-
-
-UserProfile.prototype.saveUser = function () {
-	'use strict';
-	this.ajaxCall("TODO", "POST", {user: this.getUserParams()}, "loadUser");
-	
-}; // end function: UserProfile --> saveUser
-
-
-
-UserProfile.prototype.getUserParams = function () {
-	'use strict';
-	//TODO - update these fields to be actual values
-	return {
-		'username' : "memrie",
-		'use_id' : 1,
-		'first_name' : "enbn",
-		'last_name' : 'tnpw',
-		'email' : "email_address_here"
-	};
-	
-}; // end function: UserProfile --> getUserParams
 
 
 

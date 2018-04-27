@@ -2,7 +2,8 @@ var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
-    pageRouter = express.Router();
+    pageRouter = express.Router(),
+	gravatar_base_url = "https://www.gravatar.com/avatar/";
 
 var fs = require('fs'),
     tjs = require("templatesjs");
@@ -44,13 +45,17 @@ pageRouter.get("/signup", function (req, res, next){
 });
 
 pageRouter.get("/search", function (req, res, next){
-    list.title = "Signup";
+    list.title = "Search";
     var data = fs.readFileSync(pageRoot+'/search.html');
     renderRequestedPage(data, res); 
 });
 
 pageRouter.get("/user", function (req, res, next){
-    list.title = "Signup";
+    list.title = "View User (memrie)";
+	list.username = "memrie";
+					// the base gravatar url / md5 email / cosmetic (icon size)
+	list.user_icon = gravatar_base_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
+	list.user_id = 2;
     var data = fs.readFileSync(pageRoot+'/user.html');
     renderRequestedPage(data, res); 
 });
