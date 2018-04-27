@@ -61,4 +61,51 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, font, tx
 
 
 
+/**
+* Allows you to make a ajax call via post with given params and
+*		on completion will fire off the callback provided
+*
+*	--- if no app_obj param passed in ---
+*		Operates under the assumption you have inherited this object
+*			somewhere in your prototype chain
+* @param method_name {string} api method to call
+* @param params {JSON} {item: "", ...}
+* @param callback {string} the function name to call when finished
+* @param app_obj {Object} [optional] the object the callback belongs to
+*/
+HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, app_obj) {
+	'use strict';
+	var app = app_obj || this;
+	$.ajax({
+		type: method,
+		async: true,
+		cache: false,
+		url: url,
+		data: params,
+		dataType: "json"
+	}).done(function (json_data) {
+		if (json_data) {
+			var code = parseInt(json_data.code, 10),
+				res,
+				err;
+			if (code === -1) {
+				window.location = "/logout/";
+			} else {
+				res = (code === 0) ? false : json_data.result;
+				err = json_data.desc || "An unknown error has occured.";
+				app[callback](res, err);
+			}//end else/if: did we get anything back?
+		} //end if: did we get a response?
+	}); //end done
+}; //end function: HellaWickedFonts --> ajaxPOST
+
+
+
+
+
+
+
+
+
+
 

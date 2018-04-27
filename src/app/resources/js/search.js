@@ -113,7 +113,7 @@ Search.prototype.getSearchResults = function (search_string) {
 	this.search_results.innerHTML = "";
 	
 	//TESTING ONLY - REMOVE LATER
-	var user_list = [
+/*	var user_list = [
 		{
 			'username' : "memrie",
 			'use_id' : 1,
@@ -125,18 +125,22 @@ Search.prototype.getSearchResults = function (search_string) {
 			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 		}
 	];
-	
+*/
 	//make an ajax call
 	//which can then filter into the below functions (matching fonts/users)
 	
 	//load any matching fonts - check for if there are any returned
 	if (this.search_fonts) {
-		this.loadMatchingFonts();
+		//make an ajax call -- URL, method (get/post), Params, callback function name
+		this.ajaxCall("TODO", "GET", {search_text: search_string}, "loadMatchingFonts");
+		//this.loadMatchingFonts();
 	} //end if: can they search for fonts?
 	
 	//load any matching users - check for if there are any returned
 	if (this.search_users) {
-		this.loadMatchingUsers(user_list);
+		//make an ajax call -- URL, method (get/post), Params, callback function name
+		this.ajaxCall("TODO", "GET", {search_text: search_string}, "loadMatchingUsers");
+		//this.loadMatchingUsers(user_list);
 	} //end if: can they search for fonts?
 	
 	
@@ -154,7 +158,7 @@ Search.prototype.noResultsMessage = function () {
 /**
 * Loads any matching fonts into the search results
 */
-Search.prototype.loadMatchingFonts = function () {
+Search.prototype.loadMatchingFonts = function (font_list, err) {
 	'use strict';
 	
 	this.search_results.appendChild(this.getFontBox(6, true));
@@ -170,7 +174,7 @@ Search.prototype.loadMatchingFonts = function () {
 /**
 * Loads any matching users into the search results
 */
-Search.prototype.loadMatchingUsers = function (user_list) {
+Search.prototype.loadMatchingUsers = function (user_list, err) {
 	'use strict';
 	var i,
 		user_amt = user_list.length;

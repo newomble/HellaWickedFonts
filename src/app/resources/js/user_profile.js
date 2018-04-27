@@ -18,6 +18,11 @@ function UserProfile() {
 	this.init();
 };//end function: UserProfile
 
+/** ----------------------------------------------------------- **/
+/** --------------------- INHERIT CLASSES --------------------- **/
+/** ----------------------------------------------------------- **/
+UserProfile.prototype = Object.create(HellaWickedFonts.prototype);
+UserProfile.prototype.constructor = UserProfile;
 
 UserProfile.prototype.USERNAME_HEADER = document.getElementById('username');
 UserProfile.prototype.COLLECTION_HEADER = document.getElementById('username_collection');
@@ -29,7 +34,8 @@ UserProfile.prototype.DETAIL_CONTAINER = document.getElementById('user_details_c
 UserProfile.prototype.init = function () {
 	'use strict';
 	//go grab this user's details
-	this.user = this.loadUser();
+	this.ajaxCall("TODO", "GET", {uid: "TODO-User id"}, "loadUser");
+	//this.user = this.loadUser();
 	
 	//build out the view for this user
 	this.buildUserDetails();
@@ -75,6 +81,28 @@ UserProfile.prototype.loadUser = function () {
 	};
 }; //end function: UserProfile --> loadUser
 
+
+
+UserProfile.prototype.saveUser = function () {
+	'use strict';
+	this.ajaxCall("TODO", "POST", {user: this.getUserParams()}, "loadUser");
+	
+}; // end function: UserProfile --> saveUser
+
+
+
+UserProfile.prototype.getUserParams = function () {
+	'use strict';
+	//TODO - update these fields to be actual values
+	return {
+		'username' : "memrie",
+		'use_id' : 1,
+		'first_name' : "enbn",
+		'last_name' : 'tnpw',
+		'email' : "email_address_here"
+	};
+	
+}; // end function: UserProfile --> getUserParams
 
 
 

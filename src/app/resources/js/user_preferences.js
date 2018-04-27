@@ -1,8 +1,9 @@
 /************************************************************
 * @desc		Handles a the user preferences page
 *
-* @author	erika tobias (et5392@rit.edu)
-*			Niharika Nakka (nn6889@rit.edu)
+* @author	Niharika Nakka (nn6889@rit.edu)
+*			erika tobias (et5392@rit.edu)
+*			
 * @date		4/12/2018
 *************************************************************/
 
