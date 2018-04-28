@@ -126,6 +126,13 @@ apiRouter.post("/get/comments",function(req,res){
         controller.fontComments(req.body.font_id,res);
     }
 });
+apiRouter.post("/font/history",function(req,res){
+    if(!req.body.font_id){
+        res.send("Font id is required");
+    }else{
+        controller.getFontHistory(req.body.font_id,res);
+    }
+})
 module.exports = apiRouter;
 
 function isLoggedIn(req){
