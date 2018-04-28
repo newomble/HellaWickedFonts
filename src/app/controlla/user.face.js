@@ -73,13 +73,26 @@ function getUserData(userId,res){
         }
 	});
 }
+
+function searchUser(txt,res){
+    var client = usrModel.search(uid,txt);
+    client(function(err,vals){
+        if(err){
+            res.send("Something went wrong");
+        }else{
+            res.send(vals.rows);
+        }
+    })
+}
+
 module.exports = {
     login:login,
     newCollection:newCollection,
     getCollection:getCollection,
     getCollections:getCollections,
     getUserData:getUserData,
-    newUser:newUser
+    newUser:newUser,
+    searchUser:searchUser
 }
 
 function stripSensative(res){

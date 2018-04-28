@@ -13,6 +13,10 @@ function add(uid,fid){
 	return conn.execute(addQuery,[fid]);
 }
 
+function search(uid,txt){
+	// return conn.execute(searchQuery,[uid,txt]);
+}
+
 module.exports = {
 	getFromUser: getFromUser,
 	add:add

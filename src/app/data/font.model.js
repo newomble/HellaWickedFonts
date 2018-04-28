@@ -16,7 +16,12 @@ const ratingJoin = " join public.rating using(font_id) ",
 	
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
-		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)";
+		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
+	searchQuery = getBase+ratingJoin+" where $1 like concat('%',$2,'%')",
+	searchInCollQuery = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
+		" where user_font.user_user_id = $1 AND "+
+		" $2 like concat('%',$3,'%')"+
+		" group by font.font_id";
 
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);
@@ -53,6 +58,12 @@ function recordPopValye(oldVal,fid){
 function getSuggestion(){
 	return conn.execute(suggQuery,null);
 }
+function search(type,txt){
+	return conn.execute(searchQuery,[type,txt]);
+}
+function searchInColl(uid,type,txt){
+	return conn.execute(searchInCollQuery,[uid,type,txt]);
+}
 module.exports = {
 	get: getFont,
 	getByName:getByName,
@@ -61,5 +72,6 @@ module.exports = {
 	insertWithSource:insertWithSource,
 	getHistory:getHistory,
 	updatePopularity:updatePopularity,
-	getSuggestion:getSuggestion
+	getSuggestion:getSuggestion,
+	searchInColl:searchInColl
 }

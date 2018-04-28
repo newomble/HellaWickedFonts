@@ -61,11 +61,28 @@ apiRouter.post("/comment",function(req,res){
 });
 
 apiRouter.get("/search/fonts",function(req,res){
+    var txt = req.body.search_string;
+    var uid = req.body.user_id;
+    var type = req.body.type;
+    if(!txt){
+        res.send("Missing Search Text");
+    }else if(!type){
+        res.send("Missing Type Field");
+    }else if(uid){
+        controller.searchUserCollection(uid, txt, type, res);
+    } else {
+        controller.searchFonts(uid, txt, type, res);
+    }
 
 });
 
 apiRouter.get("/search/users",function(req,res){
-
+    var txt = req.body.search_string;
+    if(!txt){
+        res.send("Missing Search Text");
+    } else {
+        controller.searchUser(txt,res);
+    }
 });
 
 module.exports = apiRouter;

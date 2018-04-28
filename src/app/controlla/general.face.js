@@ -54,6 +54,14 @@ function getSuggestion(res){
     var client = fontModel.getSuggestion();
     sendRows(client,res);
 }
+function searchFonts(txt, type,res){
+    var client = fontModel.search(type,txt);
+    sendRows(client,res);
+}
+function searchUserCollection(uid, txt, type,res){
+    var client = fontModel.searchInColl(type,txt);
+    sendRows(client,res);
+}
 
 module.exports = {
     userComments:userComments,
@@ -65,7 +73,9 @@ module.exports = {
     getAllFonts:getAllFonts,
     getFontHistory:getFontHistory,
     getMostPopular:getMostPopular,
-    getSuggestion:getSuggestion
+    getSuggestion:getSuggestion,
+    searchFonts:searchFonts,
+    searchUserCollection:searchUserCollection
 }
 
 

@@ -44,7 +44,8 @@ function userPage(uid,req,res){
     var client = usrModel.get(uid);
     client(function(err,vals){
         if(err){
-            onDBError(err);
+            onDBError(err,res);
+            return;
         }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
@@ -79,7 +80,8 @@ function fontPage(fid,req,res){
     var client = fontModel.get(fid);
     client(function(err,vals){
         if(err){
-            onDBError(err);
+            onDBError(err,res);
+            return;
         }else if(vals.rows[0]){
             var aFont = vals.rows[0];
             //TODO: add fonts in format template can read
@@ -94,7 +96,8 @@ function collectionPage(cid,req,res){
     var client = collModel.getFromUser(cid);
     client(function(err,vals){
         if(err){
-            onDBError(err);
+            onDBError(err,res);
+            return;
         }else if(vals.rows[0]){
             var theColl = vals.rows[0];
             //TODO: collection in template format
@@ -140,6 +143,8 @@ function renderRequestedPage(data, res) {
     res.end(); 
 } //end function: renderRequestedPage
 
-function onDBError(err){
+function onDBError(err,res){
     console.log(err);
+    var data = fs.readFileSync(pageRoot+'/404.html');
+    renderRequestedPage(data,res);
 }
