@@ -71,7 +71,7 @@ apiRouter.post("/search/fonts",function(req,res){
     }else if(uid){
         controller.searchUserCollection(uid, txt, type, res);
     } else {
-        controller.searchFonts(uid, txt, type, res);
+        controller.searchFonts(txt, type, res);
     }
 
 });

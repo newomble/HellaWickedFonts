@@ -1,6 +1,6 @@
 const conn = require("./db.js");
 
-const ratingJoin = " join public.rating using(font_id) ",
+const ratingJoin = " left join public.rating using(font_id) ",
 	getBase = "Select font_id, family,source_json,popularity,kind, AVG(rating) as \"rating\" from public.font ",
 	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $1 GROUP BY public.font.font_id",
 	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
@@ -17,10 +17,15 @@ const ratingJoin = " join public.rating using(font_id) ",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQuery = getBase+ratingJoin+" where $1 like concat('%',$2::varchar,'%')",
-	searchInCollQuery = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
+	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$1::varchar,'%')  group by font_id",
+	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$1::varchar,'%')  group by font_id",
+	searchInCollQueryFamily = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $1 AND "+
-		" $2 like concat('%',$3::varchar,'%')"+
+		" family like concat('%',$2::varchar,'%')"+
+		" group by font.font_id",
+	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
+		" where user_font.user_user_id = $1 AND "+
+		" kind like concat('%',$2::varchar,'%')"+
 		" group by font.font_id";
 
 function getFont(id){
@@ -59,10 +64,18 @@ function getSuggestion(){
 	return conn.execute(suggQuery,null);
 }
 function search(type,txt){
-	return conn.execute(searchQuery,[type,txt]);
+	var qq = searchQueryFamily;
+	if(type == "kind"){
+		qq=searchQueryKind;
+	}
+	return conn.execute(qq,[txt]);
 }
 function searchInColl(uid,type,txt){
-	return conn.execute(searchInCollQuery,[uid,type,txt]);
+	var qq = searchInCollQueryFamily;
+	if(type == "kind"){
+		qq=searchInCollQueryKind;
+	}
+	return conn.execute(qq,[uid,txt]);
 }
 module.exports = {
 	get: getFont,
@@ -73,5 +86,6 @@ module.exports = {
 	getHistory:getHistory,
 	updatePopularity:updatePopularity,
 	getSuggestion:getSuggestion,
+	search:search,
 	searchInColl:searchInColl
 }

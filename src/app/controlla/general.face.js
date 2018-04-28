@@ -59,7 +59,7 @@ function searchFonts(txt, type,res){
     sendRows(client,res);
 }
 function searchUserCollection(uid, txt, type,res){
-    var client = fontModel.searchInColl(type,txt);
+    var client = fontModel.searchInColl(uid,type,txt);
     sendRows(client,res);
 }
 
@@ -92,6 +92,7 @@ function insertResponse(client,res){
 function sendRows(client,res){
     client(function(err,vals){
         if(err){
+            console.log(err);
             res.send(false);
         }else{
             res.send(vals.rows);
