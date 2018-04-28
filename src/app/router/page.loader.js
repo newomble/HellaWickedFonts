@@ -1,6 +1,9 @@
 var path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
+    controller = require(basePath+"/app/controlla/index.face.js"),
+    usrModel = require(process.env.modelRoot+"user.model.js"),
+    md5 = require("md5"),
     fs = require('fs'),
     tjs = require("templatesjs");
 
@@ -34,13 +37,24 @@ function prefPage(req,res){
 }
 
 function userPage(uid,req,res){ //TODO - db search on userid
-    list.title = "View User (memrie)";
-	list.username = "memrie";
-					// the base gravatar url / md5 email / cosmetic (icon size)
-	list.user_icon = process.env.icon_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=150&d=mm&r=g";
-	list.user_id = 2;
-    var data = fs.readFileSync(pageRoot+'/user.html');
-    renderRequestedPage(data, res); 
+    list.title = "View User";
+    var client = usrModel.get(uid);
+    client(function(err,vals){
+        if(err){
+            //todo
+            console.log(err);
+            return;
+        }
+        if(vals.rows[0]){
+            aUser = vals.rows[0];
+            list.username = aUser.username;
+            list.user_icon = makeGravLink(aUser.email);
+            list.user_id = aUser.user_id;
+        }
+        var data = fs.readFileSync(pageRoot+'/user.html');
+        renderRequestedPage(data, res); 
+    });
+
 }
 
 function signup(req,res){
@@ -71,9 +85,9 @@ module.exports = {
 
 
 
-
-
-
+function makeGravLink(email){
+    return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
+}
 
 function renderRequestedPage(data, res) {
     tjs.setSync(data);   

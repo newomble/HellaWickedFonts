@@ -3,7 +3,7 @@ var usrModel = require(process.env.modelRoot+"user.model.js"),
     md5 = require("md5"),
     bCrypt = require('bcrypt-nodejs');
 
-function login(uName,pword,res,req){
+function login(uName,pword,res,req){ //used inapi
     var client = usrModel.getCredentials(uName);
     client(function(err,vals){
         if(err){
@@ -62,7 +62,7 @@ function newUser(uName,fName,lName,pWord,res){
     })
 }
 function getUserData(userId,res){
-    var client = usrModel.get(userId,res);
+    var client = usrModel.get(userId);
     client(function(err,vals){
         var fullRes = stripSensative(vals.rows[0]);
         if(fullRes){

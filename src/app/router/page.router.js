@@ -2,7 +2,7 @@ var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
-    controller = require(basePath + "/app/controlla/page.face.js"),
+    pageLoader = require("./page.loader.js"),
     pageRouter = express.Router();
 
 var     fs = require('fs'),
@@ -12,7 +12,7 @@ tjs = require("templatesjs");
 tjs.dir = basePath+"/app/resources/templates/";
 
 pageRouter.get("/", function (req, res, next){
-    controller.homePage(req,res);
+    pageLoader.homePage(req,res);
 });
 
 pageRouter.get("/collection", function (req, res, next){
@@ -29,18 +29,18 @@ pageRouter.get("/font", function (req, res, next){
 
 pageRouter.get("/prefs" || "/preferences", function (req, res){
     if( req.session.loggedIn){
-        controller.prefPage(req,res); 
+        pageLoader.prefPage(req,res); 
     } else {
-        controller.signup(req,res);
+        pageLoader.signup(req,res);
     }
 });
 
 pageRouter.get("/login", function (req, res, next){
-    controller.loginPage(req,res);
+    pageLoader.loginPage(req,res);
 });
 
 pageRouter.get("/signup", function (req, res, next){
-    controller.signup(req,res);
+    pageLoader.signup(req,res);
 });
 
 pageRouter.get("/search", function (req, res, next){
@@ -52,19 +52,19 @@ pageRouter.get("/search", function (req, res, next){
 
 pageRouter.get("/user/", function (req, res, next){
     if(req.session.user && req.session.user.user_id){
-        controller.userPage(req.session.user.user_id,req,res);
+        pageLoader.userPage(req.session.user.user_id,req,res);
     }else{
-        controller.signup(req,res);
+        pageLoader.signup(req,res);
     }
 });
 
 pageRouter.get("/user/:id", function (req, res, next){
     if(req.params.id){
-        controller.userPage(req.params.id,req,res);
+        pageLoader.userPage(req.params.id,req,res);
     }else if(req.session.user && req.session.user.user_id){
-        controller.userPage(req.session.user.user_id,req,res);
+        pageLoader.userPage(req.session.user.user_id,req,res);
     }else{
-        controller.homePage(req,res);
+        pageLoader.homePage(req,res);
     }
 });
 
