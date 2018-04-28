@@ -43,6 +43,12 @@ RETURNS json array/string (error)
 METHOD: POST
 RETURNS json array/string (error)
 **********************************
+/api/font/history
+{
+ font_id:val
+}
+METHOD: POST
+RETURNS json array/string (error)
 ------COMMENT------------------
 /api/comment
 {
