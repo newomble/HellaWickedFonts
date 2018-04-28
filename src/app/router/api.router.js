@@ -119,7 +119,13 @@ apiRouter.post("/popular/fonts",function(req,res){
 apiRouter.post("/suggested/fonts",function(req,res){
     controller.getSuggestion(res);
 });
-
+apiRouter.post("/get/comments",function(req,res){
+    if(!req.body.font_id){
+        res.send("Font id is required");
+    }else{
+        controller.fontComments(req.body.font_id,res);
+    }
+});
 module.exports = apiRouter;
 
 function isLoggedIn(req){
