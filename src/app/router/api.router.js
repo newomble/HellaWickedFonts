@@ -3,6 +3,7 @@ var express = require('express'),
     basePath = path.dirname(require.main.filename),
     bodyParser = require("body-parser"),
     controller = require(basePath + "/app/controlla/index.face.js"),
+    consts = require(basePath+"/app/lib/constants.js"),
     apiRouter = express.Router();
 apiRouter.use(bodyParser.urlencoded({extended:true}));
 apiRouter.use(bodyParser.json());
@@ -45,10 +46,25 @@ apiRouter.route("/signup").post(function(req,res){
 });
 
 apiRouter.post("/rate",function(req,res){
-    if(!req.session.loggedIn){
-        res.send(false);
-    } else {
-        controller.newRating(req.session.id,consts.COMMENT,req.body.id,req.body.rating,res);
+    if(!isLoggedIn(req)){
+        res.send("Must be logged in.");
+    } else if( !req.body.rating){
+        res.send("Rating required");
+    }else{
+        var id = 0;
+        var type = null;
+        if(req.body.font_id){
+            id = req.body.font_id;
+            type = consts.FONT;
+        } else if(req.body.comment_id){
+            id = req.body.comment_id;
+            type = consts.COMMENT;
+        }
+        if(type == null){
+            res.send("Couldn't determine if comment or font rating");
+        }else{
+            controller.newRating(req.session.user.user_id,type,id,req.body.rating,res);
+        }
     }
 });
 
@@ -97,8 +113,7 @@ module.exports = apiRouter;
 
 function isLoggedIn(req){
     req.session.user = {};
-    req.session.user.user_id =2;
-    console.log(req.session);
+    req.session.user.user_id =1;
     return true;
     // return (req.session.loggedIn == true);
 }
