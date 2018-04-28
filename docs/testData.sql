@@ -5,3 +5,4 @@ Insert into public.rating (user_id,comment_id,rating) VALUES (1,1,1);
 Insert into user_font (user_user_id, font_font_id,rank) VALUES (1,1,1);
 Insert into font (family,source_json,popularity,kind) VALUES ('Test Font','/fake/path',-1,'serif');
 Insert into public.comment (user_id,font_id,comment_text) VALUES (1,1,'Cool stuff');
+Insert into font_history (font_id,rank) VALUES (1,-2);
