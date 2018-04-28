@@ -17,10 +17,10 @@ const ratingJoin = " join public.rating using(font_id) ",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQuery = getBase+ratingJoin+" where $1 like concat('%',$2,'%')",
+	searchQuery = getBase+ratingJoin+" where $1 like concat('%',$2::varchar,'%')",
 	searchInCollQuery = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $1 AND "+
-		" $2 like concat('%',$3,'%')"+
+		" $2 like concat('%',$3::varchar,'%')"+
 		" group by font.font_id";
 
 function getFont(id){

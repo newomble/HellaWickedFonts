@@ -60,7 +60,7 @@ apiRouter.post("/comment",function(req,res){
     }
 });
 
-apiRouter.get("/search/fonts",function(req,res){
+apiRouter.post("/search/fonts",function(req,res){
     var txt = req.body.search_string;
     var uid = req.body.user_id;
     var type = req.body.type;
@@ -76,7 +76,7 @@ apiRouter.get("/search/fonts",function(req,res){
 
 });
 
-apiRouter.get("/search/users",function(req,res){
+apiRouter.post("/search/users",function(req,res){
     var txt = req.body.search_string;
     if(!txt){
         res.send("Missing Search Text");

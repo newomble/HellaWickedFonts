@@ -75,9 +75,10 @@ function getUserData(userId,res){
 }
 
 function searchUser(txt,res){
-    var client = usrModel.search(uid,txt);
+    var client = usrModel.search(txt);
     client(function(err,vals){
         if(err){
+            console.log(err);
             res.send("Something went wrong");
         }else{
             res.send(vals.rows);

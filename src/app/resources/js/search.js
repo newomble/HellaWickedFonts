@@ -138,6 +138,7 @@ Search.prototype.getSearchResults = function (search_string) {
 	
 	//load any matching users - check for if there are any returned
 	if (this.search_users) {
+		
 		//make an ajax call -- URL, method (get/post), Params, callback function name
 		this.ajaxCall("/api/search/users", "GET", {search_text: search_string}, "loadMatchingUsers");
 		//this.loadMatchingUsers(user_list);
