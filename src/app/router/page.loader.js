@@ -74,12 +74,33 @@ function loginPage(req,res){
     renderRequestedPage(data, res); 
 }
 
+function fontPage(fid,req,res){
+    list.title = "Font";
+    var data = fs.readFileSync(pageRoot+'/font.html');
+    renderRequestedPage(data, res);  
+}
+
+function collectionPage(cid,req,res){
+    list.title = "My Collection";
+    var data = fs.readFileSync(pageRoot+'/collection.html');
+    renderRequestedPage(data, res); 
+}
+
+function searchPage(req,res){
+    list.title = "Search";
+    var data = fs.readFileSync(pageRoot+'/search.html');
+    renderRequestedPage(data, res); 
+}
+
 module.exports = {
     prefPage:prefPage,
     userPage:userPage,
     signup:signup,
     homePage:homePage,
-    loginPage:loginPage
+    loginPage:loginPage,
+    fontPage:fontPage,
+    collectionPage:collectionPage,
+    searchPage:searchPage
 }
 
 
