@@ -6,6 +6,7 @@ var express = require('express'),
     apiRouter = express.Router();
 apiRouter.use(bodyParser.urlencoded({extended:true}));
 apiRouter.use(bodyParser.json());
+
 apiRouter.post("/login",function(req,res){
     var uName = req.body.username;
     var pword = req.body.password;
@@ -57,6 +58,14 @@ apiRouter.post("/comment",function(req,res){
     }else{
         controller.newComment(req.session.id,req.body.id,req.body.comment,res);
     }
+});
+
+apiRouter.get("/search/fonts",function(req,res){
+
+});
+
+apiRouter.get("/search/users",function(req,res){
+
 });
 
 module.exports = apiRouter;
