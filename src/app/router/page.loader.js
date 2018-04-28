@@ -77,18 +77,8 @@ function loginPage(req,res){
 
 function fontPage(fid,req,res){
     initList(req, "Font");
-    var client = fontModel.get(fid);
-    client(function(err,vals){
-        if(err){
-            onDBError(err,res);
-            return;
-        }else if(vals.rows[0]){
-            var aFont = vals.rows[0];
-            //TODO: add fonts in format template can read
-        }
-        var data = fs.readFileSync(pageRoot+'/font.html');
-        renderRequestedPage(data, res); 
-    });
+    var data = fs.readFileSync(pageRoot+'/font.html');
+    renderRequestedPage(data, res); 
 }
 
 function collectionPage(cid,req,res){

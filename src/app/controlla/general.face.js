@@ -82,6 +82,7 @@ module.exports = {
 function insertResponse(client,res){
     client( function(err,vals ){
         if(err){
+            console.log(err);
             res.send(false);
         }else{
             res.send(true);

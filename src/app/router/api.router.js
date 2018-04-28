@@ -53,10 +53,10 @@ apiRouter.post("/rate",function(req,res){
 });
 
 apiRouter.post("/comment",function(req,res){
-    if( ! req.session.loggedIn || !req.body.comment || !req.body.id ){
-        res.send(false);
+    if( ! isLoggedIn(req) || !req.body.comment || !req.body.font_id ){
+        res.send("Must be logged in and have a font and comment");
     }else{
-        controller.newComment(req.session.id,req.body.id,req.body.comment,res);
+        controller.newComment(req.session.user.user_id,req.body.font_id,req.body.comment,res);
     }
 });
 
@@ -76,6 +76,14 @@ apiRouter.post("/search/fonts",function(req,res){
 
 });
 
+apiRouter.post("/font",function(req,res){
+    if(req.body.id){
+        controller.getFontById(req.body.id,res);
+    }else{
+        res.send("No id given");
+    }
+})
+
 apiRouter.post("/search/users",function(req,res){
     var txt = req.body.search_string;
     if(!txt){
@@ -88,7 +96,9 @@ apiRouter.post("/search/users",function(req,res){
 module.exports = apiRouter;
 
 function isLoggedIn(req){
-    req.session.uid =2;
+    req.session.user = {};
+    req.session.user.user_id =2;
+    console.log(req.session);
     return true;
     // return (req.session.loggedIn == true);
 }
