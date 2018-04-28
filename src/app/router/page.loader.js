@@ -2,10 +2,13 @@ var path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
     controller = require(basePath+"/app/controlla/index.face.js"),
-    usrModel = require(process.env.modelRoot+"user.model.js"),
     md5 = require("md5"),
     fs = require('fs'),
     tjs = require("templatesjs");
+
+var usrModel = require(process.env.modelRoot+"user.model.js"),
+    collModel = require(process.env.modelRoot+"user_font.model.js"),
+    fontModel = require(process.env.modelRoot+"font.model.js");
 
 tjs.dir = basePath+"/app/resources/templates/";
 
@@ -18,13 +21,13 @@ var list = {
     //nav: fs.readFileSync( basePath+"/app/resources/templates/logged_out.html"),
 	
 	// the base gravatar url / md5 email / cosmetic (icon size)
-    icon: process.env.icon_url + "fd675280dec9225f301bd5c90dc2bf1b" + "?s=45&d=mm&r=g"
+    icon: null
 } //attributes we want to display
 
 
 
 function prefPage(req,res){
-    list.title = "Your Preferences";
+    initList(req, "Your Preferences" );
 	list.username = req.session.user.username;
 	list.email = req.session.user.email;
 	list.first_name = req.session.first_name;
@@ -36,12 +39,12 @@ function prefPage(req,res){
     renderRequestedPage(data, res); 
 }
 
-function userPage(uid,req,res){ //TODO - db search on userid
-    list.title = "View User";
+function userPage(uid,req,res){
+    initList(req, "View User" );
     var client = usrModel.get(uid);
     client(function(err,vals){
         if(err){
-            //todo
+            //TODO
             console.log(err);
             return;
         }
@@ -58,7 +61,7 @@ function userPage(uid,req,res){ //TODO - db search on userid
 }
 
 function signup(req,res){
-    list.title = "Signup";
+    initList(req, "Signup");
     var data = fs.readFileSync(pageRoot+'/signup.html');
     renderRequestedPage(data, res); 
 }
@@ -69,25 +72,45 @@ function homePage(req,res){
 }
 
 function loginPage(req,res){
-    list.title = "Login";
+    initList(req, "Login");
     var data = fs.readFileSync(pageRoot+'/login.html');
     renderRequestedPage(data, res); 
 }
 
 function fontPage(fid,req,res){
-    list.title = "Font";
-    var data = fs.readFileSync(pageRoot+'/font.html');
-    renderRequestedPage(data, res);  
+    initList(req, "Font");
+    var client = fontModel.get(fid);
+    client(function(err,vals){
+        if(err){
+            //TODO
+            console.log(err);
+            return;
+        }else if(vals.rows[0]){
+            var aFont = vals.rows[0];
+            //TODO: add fonts in format template can read
+        }
+        var data = fs.readFileSync(pageRoot+'/font.html');
+        renderRequestedPage(data, res); 
+    });
 }
 
 function collectionPage(cid,req,res){
-    list.title = "My Collection";
-    var data = fs.readFileSync(pageRoot+'/collection.html');
-    renderRequestedPage(data, res); 
+    initList(req, "My Collection");
+    var client = collModel.getFromUser(cid);
+    client(function(err,vals){
+        if(err){
+
+        }else if(vals.rows[0]){
+            var theColl = vals.rows[0];
+            //TODO: collection in template format
+        }
+        var data = fs.readFileSync(pageRoot+'/collection.html');
+        renderRequestedPage(data, res); 
+    })   
 }
 
 function searchPage(req,res){
-    list.title = "Search";
+    initList(req,"Search");
     var data = fs.readFileSync(pageRoot+'/search.html');
     renderRequestedPage(data, res); 
 }
@@ -105,7 +128,12 @@ module.exports = {
 
 
 
-
+function initList(req,title){
+    list.title= title;
+    if(req.session.loggedIn){
+        list.icon = req.session.user.icon;
+    }
+}
 function makeGravLink(email){
     return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }
