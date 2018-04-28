@@ -44,11 +44,8 @@ function userPage(uid,req,res){
     var client = usrModel.get(uid);
     client(function(err,vals){
         if(err){
-            //TODO
-            console.log(err);
-            return;
-        }
-        if(vals.rows[0]){
+            onDBError(err);
+        }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
             list.user_icon = makeGravLink(aUser.email);
@@ -82,9 +79,7 @@ function fontPage(fid,req,res){
     var client = fontModel.get(fid);
     client(function(err,vals){
         if(err){
-            //TODO
-            console.log(err);
-            return;
+            onDBError(err);
         }else if(vals.rows[0]){
             var aFont = vals.rows[0];
             //TODO: add fonts in format template can read
@@ -99,7 +94,7 @@ function collectionPage(cid,req,res){
     var client = collModel.getFromUser(cid);
     client(function(err,vals){
         if(err){
-
+            onDBError(err);
         }else if(vals.rows[0]){
             var theColl = vals.rows[0];
             //TODO: collection in template format
@@ -144,3 +139,7 @@ function renderRequestedPage(data, res) {
     res.write(output);  
     res.end(); 
 } //end function: renderRequestedPage
+
+function onDBError(err){
+    console.log(err);
+}
