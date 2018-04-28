@@ -9,7 +9,7 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	insertWithSourceQuery = "insert into public.font (family, popularity, kind,source_json) values ($1, $2, $3, $4)",
 	deleteQuery = "delete from public.font where font_id = $1",
 	getByNameQuery = "select family from font where family = $1",
-	getPopularQuery = "select * from public.font order by popularity asc",
+	getPopularQuery = "select * from public.font order by popularity asc limit 5",
 	getHistoryQuery = "select rank,time from public.font_history where font_id = $1",
 	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
@@ -87,5 +87,6 @@ module.exports = {
 	updatePopularity:updatePopularity,
 	getSuggestion:getSuggestion,
 	search:search,
-	searchInColl:searchInColl
+	searchInColl:searchInColl,
+	getMostPopular:getMostPopular
 }

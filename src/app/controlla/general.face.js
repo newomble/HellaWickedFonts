@@ -47,7 +47,7 @@ function getFontHistory(fid,res){
     sendRows(client,res);
 }
 function getMostPopular(res){
-    var client =  fontModel.getPopular();
+    var client =  fontModel.getMostPopular();
     sendRows(client,res);
 }
 function getSuggestion(res){

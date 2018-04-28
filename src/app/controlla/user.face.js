@@ -48,11 +48,11 @@ function getCollections(uid,res){//all users collections
 function getCollection(cid){//specific collection
     return false;
 }
-function newUser(uName,fName,lName,pWord,res){
+function newUser(uName,fName,lName,pWord,email,res){
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(pWord,salt);
 
-    var client = usrModel.addNewUser(uName,pass,fName,lName,salt);
+    var client = usrModel.addNewUser(uName,pass,fName,lName,salt,email);
     client(function(err,vals){
         if(err){
             dberr(err,res);

@@ -37,11 +37,14 @@ apiRouter.route("/signup").post(function(req,res){
     var repWord = req.body.repassword;
     var fname = req.body.first_name;
     var lname = req.body.last_name;
-    console.log( req.body );
-    if( !pWord || pWord != repWord){
+    var email = req.body.email;
+
+    if(!uName || !pWord || !repWord || !fname || !lname || !email){
+        res.send("Missing Field");
+    }else if( !pWord || pWord != repWord){
         res.send("Passwords do not match");
     }else{
-        controller.newUser(uName,fname,lname,pWord,res);
+        controller.newUser(uName,fname,lname,pWord,email,res);
     }
 });
 
@@ -107,6 +110,14 @@ apiRouter.post("/search/users",function(req,res){
     } else {
         controller.searchUser(txt,res);
     }
+});
+
+apiRouter.post("/popular/fonts",function(req,res){
+    controller.getMostPopular(res);
+});
+
+apiRouter.post("/suggested/fonts",function(req,res){
+    controller.getSuggestion(res);
 });
 
 module.exports = apiRouter;
