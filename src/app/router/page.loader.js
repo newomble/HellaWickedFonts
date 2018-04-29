@@ -122,7 +122,7 @@ function initList(req,title){
         list.icon = req.session.user.icon;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
     } else{
-        lsit.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
+        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
 function makeGravLink(email){
