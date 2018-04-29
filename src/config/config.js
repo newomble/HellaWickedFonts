@@ -2,6 +2,11 @@ var path = require('path'),
     rootPath = path.normalize(__dirname + '/..');
 //Change Api Key here
 const apiKey = "AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort";
+db = {
+    loc: "localhost:5433/hellawickedfonts",
+    user: "postgres",
+    pass: "postgres"
+}
 var config = {
     development:{
         root:rootPath,
@@ -13,7 +18,8 @@ var config = {
         },
         port:3000,
         icon_url:"https://www.gravatar.com/",
-        apiKey:apiKey
+        apiKey:apiKey,
+        dbInfo:db
     },
     test:{
         root:rootPath,
@@ -25,7 +31,8 @@ var config = {
         },
         icon_url:"https://www.gravatar.com/",
         apiKey:apiKey,
-        port:3000
+        port:3000,
+        dbInfo:db
     }
 }
 

@@ -29,12 +29,19 @@ function login(uName,pword,res,req){ //used inapi
     })
 }
 
-function newCollection(uid,fontIdArr,res){
-    fontIdArr.forEach(function(fid){
-        var client = collModel.add(uid,fid);
+function newCollection(uid,fid,res){
+    var client = collModel.add(uid,fid);
+    client(function(err,vals){
+        if(err){console.log(err);res.send("Something went wrong"); return;}
         res.send(true);
     })
-    return results;
+}
+function removeCollection(uid,fid,res){
+    var client = collModel.remove(uid,fid);
+    client(function(err,vals){
+        if(err){console.log(err);res.send("Something went wrong"); return;}
+        res.send(true);
+    })
 }
 function getCollections(uid,res){//all users collections
     var client = collModel.getFromUser(uid);
@@ -107,7 +114,8 @@ module.exports = {
     getUserData:getUserData,
     newUser:newUser,
     resetPass: resetPass,
-    searchUser:searchUser
+    searchUser:searchUser,
+    removeCollection:removeCollection
 }
 
 function stripSensative(res){

@@ -122,7 +122,18 @@ RETURNS true;
 
 
 
+--------------COLLECITON------------
+/api/user/add/collection
+{
+    font_id:val,
+    is_fav: true/false
+}
 
+if is_fav is true adds the font to logged in users collection
+if false removes it
+
+METHOD post
+RETURNS true/ string(error)
 
 
 

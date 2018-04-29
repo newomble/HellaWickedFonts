@@ -1,5 +1,5 @@
 const pg = require('pg');
-const connectionString ='postgresql://postgres:postgres@localhost:5433/hellawickedfonts';
+var connectionString ='postgresql://'+process.env.DBuser+':'+process.env.DBpass+'@'+process.env.DBloc;
 var _ = require('underscore');
 var connectWithConnectionString =  _.bind(_.partial(pg.connect, connectionString), pg);
 

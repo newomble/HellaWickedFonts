@@ -11,7 +11,6 @@ apiRouter.use(bodyParser.json());
 apiRouter.post("/login",function(req,res){
     var uName = req.body.username;
     var pword = req.body.password;
-
     controller.login(uName,pword,res,req);
 });
 
@@ -149,6 +148,25 @@ apiRouter.post("/font/history",function(req,res){
 apiRouter.post("/trending/fonts",function(req,res){
     controller.getTrending(res);
 });
+
+apiRouter.post("/user/add/collection",function(req,res){
+    if( !isLoggedIn(req) ){
+        res.send("Must be logged in");
+    } else if(!req.body.font_id){
+        res.send("No font selected");
+    }else if (req.body.is_fav != null){
+        console.log(req.body.is_fav);
+        if(req.body.is_fav == "true" || req.body.is_fav === true){
+            controller.newCollection(req.session.user.user_id,req.body.font_id,res);
+        } else if (req.body.is_fav == "false" || req.body.is_fav === false){
+            controller.removeCollection(req.session.user.user_id,req.body.font_id,res);
+        }else{
+            res.send("Bad favorite value");
+        }
+    } else{
+        res.send("Could not determine of adding or removing");
+    }
+})
 module.exports = apiRouter;
 
 function isLoggedIn(req){
