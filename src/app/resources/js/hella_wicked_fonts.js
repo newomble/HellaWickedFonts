@@ -96,7 +96,6 @@ HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, a
 		data: params,
 		dataType: "json"
 	}).done(function (json_data) {
-		if (json_data) {
 			var res, err;
 			if ((typeof(json_data) == "string")) {
 				res = false;
