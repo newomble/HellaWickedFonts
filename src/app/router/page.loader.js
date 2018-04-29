@@ -65,6 +65,7 @@ function signup(req,res){
 }
 
 function homePage(req,res){
+    initList(req, "Signup");
     var data = fs.readFileSync(pageRoot+'/index.html');
     renderRequestedPage(data, res);
 }
@@ -117,12 +118,13 @@ module.exports = {
 
 
 function initList(req,title){
+    console.log("init list");
     list.title= title;
     if(req.session.loggedIn){
         list.icon = req.session.user.icon;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
     } else{
-        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
+       list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
 function makeGravLink(email){
