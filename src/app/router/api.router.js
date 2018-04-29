@@ -23,7 +23,7 @@ apiRouter.route("/logout").post(function(req,res){
     res.send(true);
 });
 
-apiRouter.route("/").post(function(req,res){//Not sure where reset password input is from
+apiRouter.route("/reset/password").post(function(req,res){//Not sure where reset password input is from
     var uName = req.body.username;
     var newPwod = req.body.newpassword;
     var confirmdNewPw = req.body.repassword;

@@ -121,7 +121,7 @@ function initList(req,title){
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
     } else{
         list.isLoggedIn = false;
-       list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
+        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
 function makeGravLink(email){
