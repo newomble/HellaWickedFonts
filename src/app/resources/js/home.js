@@ -47,34 +47,8 @@ Home.prototype.init = function () {
 Home.prototype.initPopularFonts = function () {
 	'use strict';
 	
-	//TODO: comment the ajax call back in
-	//this.ajaxCall("TODO - URL", "", "handlePopularFonts");
-	
-	//TODO: remove everything below here
-	//dummy_fonts is the expected JSON return
-	var dummy_fonts = [
-		{
-			name :"Roboto",
-			url : ""
-		},
-		{
-			name :"EB Garamond",
-			url : ""
-		},
-		{
-			name :"EB Garamond",
-			url : ""
-		},
-		{
-			name :"Marck Script",
-			url : ""
-		},
-		{
-			name :"Marck Script",
-			url : ""
-		}
-	];
-	this.handlePopularFonts(dummy_fonts, false);
+	//Load up all the popular fonts
+	this.ajaxCall("/api/popular/fonts", "POST", "", "handlePopularFonts");
 }; //end function: Home --> initPopularFonts
 
 /**
@@ -101,29 +75,29 @@ Home.prototype.handlePopularFonts = function (data, err) {
 Home.prototype.initTrendingFonts = function () {
 	'use strict';
 	//TODO: comment the ajax call back in
-	//this.ajaxCall("TODO - URL", "", "handleTrendingFonts");
+	this.ajaxCall("/api/trending/fonts", "POST", "", "handleTrendingFonts");
 	
 	//TODO: remove everything below here
 	//dummy_fonts is the expected JSON return
 	var dummy_fonts = [
 		{
-			name :"Roboto",
+			family :"Roboto",
 			url : ""
 		},
 		{
-			name :"EB Garamond",
+			family :"EB Garamond",
 			url : ""
 		},
 		{
-			name :"EB Garamond",
+			family :"EB Garamond",
 			url : ""
 		},
 		{
-			name :"Marck Script",
+			family :"Marck Script",
 			url : ""
 		},
 		{
-			name :"Marck Script",
+			family :"Marck Script",
 			url : ""
 		}
 	];
@@ -157,13 +131,18 @@ Home.prototype.handleTrendingFonts = function (data, err) {
 */
 Home.prototype.loadTopFont = function (font_list, font_details) {
 	'use strict';
-	var font_li = document.createElement("li");
+	var font_li = document.createElement("li"),
+		font_name = font_details.family;
+	
+	//@see HellaWickedFonts: include the font file to display it
+	this.includeFontFamily(font_name);
 	
 	//set the font family to this font, and arial if google is down
-	font_li.style.fontFamily = font_details.name + ", arial";
-	font_li.innerHTML = font_details.name;
+	font_li.style.fontFamily = font_name + ", arial";
+	font_li.innerHTML = "<a href='/font/"+font_details.font_id+"'>" + font_name + "</a>";
 	
 	font_list.appendChild(font_li);
+	
 }; //end function: Home --> loadTopFont
 
 var h = new Home();
