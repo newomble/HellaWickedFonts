@@ -105,7 +105,7 @@ HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, a
 				err = false;
 			} //end if: did we get something back that isn't JSON?
 			app[callback](res, err);
-	}); //end done
+	}}); //end done
 }; //end function: HellaWickedFonts --> ajaxPOST
 
 

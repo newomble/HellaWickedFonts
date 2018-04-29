@@ -16,7 +16,7 @@ var list = {
     title: "Home",
 	
     //if the user is logged in, show "logged in" nav template
-	nav: fs.readFileSync( basePath+"/app/resources/templates/logged_in.html"),
+	
 	//if the user is logged out, show "logged in" nav template
     //nav: fs.readFileSync( basePath+"/app/resources/templates/logged_out.html"),
 	
@@ -120,6 +120,9 @@ function initList(req,title){
     list.title= title;
     if(req.session.loggedIn){
         list.icon = req.session.user.icon;
+        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
+    } else{
+        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
 function makeGravLink(email){
