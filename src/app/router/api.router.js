@@ -23,6 +23,19 @@ apiRouter.route("/logout").post(function(req,res){
     res.send(true);
 });
 
+apiRouter.route("/").post(function(req,res){//Not sure where reset password input is from
+    var uName = req.body.username;
+    var newPwod = req.body.newpassword;
+    var confirmdNewPw = req.body.repassword;
+
+    if(newPwod == confirmdNewPw){
+        controller.resetPass(confirmdNewPw, uName);
+    }else{
+        res.send("Please reconfirm new password");
+    }
+});
+
+
 apiRouter.route("/collection").post(function(req,res){
     //todo if logged int
     controller.newCollection(req.session.uid,req.body.fonts,res);
