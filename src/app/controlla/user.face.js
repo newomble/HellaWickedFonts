@@ -28,6 +28,7 @@ function login(uName,pword,res,req){ //used inapi
         } 
     })
 }
+
 function newCollection(uid,fontIdArr,res){
     fontIdArr.forEach(function(fid){
         var client = collModel.add(uid,fid);
@@ -59,7 +60,7 @@ function newUser(uName,fName,lName,pWord,email,res){
         } else {
             res.send(true);
         }
-    })
+    });
 }
 function getUserData(userId,res){
     var client = usrModel.get(userId);
@@ -83,7 +84,19 @@ function searchUser(txt,res){
         }else{
             res.send(vals.rows);
         }
-    })
+    });
+}
+
+function resetPass(newPwd, uName){
+    var client = usrModel.resetPass(newPwd, uName);
+    client(function(err,vals){
+        if(err){
+            console.log(err);
+            res.send("Something went wrong");
+        }else{
+            res.send(true);
+        }
+    });
 }
 
 module.exports = {
@@ -93,6 +106,7 @@ module.exports = {
     getCollections:getCollections,
     getUserData:getUserData,
     newUser:newUser,
+    resetPass: resetPass,
     searchUser:searchUser
 }
 

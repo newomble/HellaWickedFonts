@@ -6,7 +6,9 @@ const getOneQuery = "select * from public.user where user_id = $1;",
 	deleteQuery = "delete from public.user where user_id = $1",
 	getCredsQuery = "Select * from public.user where username = $1";
 	insertUserQuery = "Insert into public.user (username,first_name,last_name, password, salt,email) values($1,$2,$3,$4,$5,$6)",
-	searchQuery = "Select username,first_name,last_name,email,user_id from public.user where username like concat('%',$1::varchar,'%') OR email like concat('%',$2::varchar,'%')";
+	searchQuery = "Select username,first_name,last_name,email,user_id from public.user where username like concat('%',$1::varchar,'%') OR email like concat('%',$2::varchar,'%')",
+	updatePass = "update user set password = $1 where username = $2";
+
 
 function getUser(id,res){
 	return conn.execute(getOneQuery,[id]) ;		
@@ -20,6 +22,10 @@ function addNewUser(uName,pWord,fname,lname,salt,email){
 	return conn.execute(insertUserQuery,[uName,fname,lname,pWord,salt,email]);
 }
 
+function resetPass(newPword, uName){
+	return conn.execute(updatePass, [newPword, uName]);
+}
+
 function search(txt){
 	return conn.execute(searchQuery,[txt,txt]);
 }
@@ -27,5 +33,6 @@ module.exports = {
 	get: getUser,
 	addNewUser:addNewUser,
 	getCredentials:getCredentials,
+	resetPass: resetPass,
 	search:search
 }
