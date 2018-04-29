@@ -12,8 +12,10 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	getPopularQuery = "select * from public.font order by popularity asc limit 5",
 	getHistoryQuery = "select trending_rank,rank,time from public.font_history where font_id = $1",
 	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
+	updateTrendQuery = "UPDATE font set trending_rank = $1 where font_id = $2;",
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
-	
+	saveTrendingQuery = "insert into font_history (font_id,trending_rank) VALUES ($1,$2)",
+
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
@@ -31,7 +33,6 @@ const ratingJoin = " left join public.rating using(font_id) ",
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);
 }
-
 function insertFonts(family, popularity, kind){
 	return conn.execute(insertQuery, [family, popularity, kind]);
 }
@@ -56,6 +57,15 @@ function getMostPopular(){
 }
 function updatePopularity(newVal,fid){
 	return conn.execute(updatePopQuery,[newVal,fid]);
+}
+function updateTrending(newVal,fontJson){
+	var client = conn.execute(saveTrendingQuery, [fontJson.font_id,fontJson.trending_rank]);
+	client(function(err,res){
+		if(err){ console.log(err);}else{
+			console.log("Added history");
+		}
+	});
+	return conn.execute(updateTrendQuery,[newVal,fontJson.font_id]);
 }
 function recordPopValye(oldVal,fid){
 	return conn.execute(recordPopQuery,[fid,oldVal]);
@@ -88,5 +98,6 @@ module.exports = {
 	getSuggestion:getSuggestion,
 	search:search,
 	searchInColl:searchInColl,
-	getMostPopular:getMostPopular
+	getMostPopular:getMostPopular,
+	updateTrending:updateTrending
 }

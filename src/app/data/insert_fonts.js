@@ -9,7 +9,6 @@ var config = require("../../config/config.js").development;
 const request = require('request');
 const font = require("./font.model.js");
 const popularityUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apiKey+"=popularity";
-const trendingUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apiKey+"=trending";
 //Request API data from API URL
 //TODO: add the source location - and save history
 request(popularityUrl, { json: true }, (err, res, body) => {

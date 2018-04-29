@@ -7,7 +7,7 @@
     "test": "mocha",
     "validate-install": "",
     "start": "node index.js",
-    "dg": "node ./app/data/insert_fonts.js"
+    "dg": "node ./app/data/insert_fonts.js && node ./app/data/insert_font_trending.js"
   },
   "author": "",
   "license": "ISC",
