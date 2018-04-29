@@ -146,6 +146,9 @@ apiRouter.post("/font/history",function(req,res){
         controller.getFontHistory(req.body.font_id,res);
     }
 })
+apiRouter.post("/trending/fonts",function(req,res){
+    controller.getTrending(res);
+});
 module.exports = apiRouter;
 
 function isLoggedIn(req){
