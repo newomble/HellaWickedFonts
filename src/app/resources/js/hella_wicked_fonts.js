@@ -13,6 +13,9 @@ function HellaWickedFonts() {
 	'use strict';	
 }
 
+HellaWickedFonts.prototype.FONT_LOADER = document.getElementsByTagName("link")[0];
+
+
 /**
 * Returns the font box with some text and a heart icon
 * with the appropriate event
@@ -53,20 +56,20 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, is_rated
 	manage_favorites.addChangeEvent(icon);
 	font_name.innerHTML = "{font name}";
 	font_name.classList.add("font_name");
-	font_name.setAttribute("href", "/font.php");
+	font_name.setAttribute("href", "/font/" + font_id);
 	
 	box.appendChild(font_name);
 	box.appendChild(font_txt);
 	box.appendChild(icon);
 	
-	for(i=0; i <5; i++){
-	ratingIcon = document.createElement('i');
-	ratingIcon.classList.add('fa-star');
-	ratingIcon.classList.add((is_rated)? 'fas' : 'far');
-	ratingIcon.classList.add('rated');
-	ratingIcon.setAttribute('data-is-rated', String(is_rated));
-	 manage_ratings.addChangeEvent(ratingIcon);
-	box.appendChild(ratingIcon);
+	for(i = 0; i < 5; i++){
+		ratingIcon = document.createElement('i');
+		ratingIcon.classList.add('fa-star');
+		ratingIcon.classList.add((is_rated)? 'fas' : 'far');
+		ratingIcon.classList.add('rated');
+		ratingIcon.setAttribute('data-is-rated', String(is_rated));
+		manage_ratings.addChangeEvent(ratingIcon);
+		box.appendChild(ratingIcon);
 	}
 	return box;
 }; //end function: HellaWickedFonts --> getFontBox
@@ -109,8 +112,20 @@ HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, a
 }; //end function: HellaWickedFonts --> ajaxPOST
 
 
-
-
+/**
+* Includes a font family file to display it on the page
+* @param font_family {string} the font family
+*/
+HellaWickedFonts.prototype.includeFontFamily = function (font_family) {
+	'use strict';
+	var existing_fonts = this.FONT_LOADER.getAttribute('href'),
+		font_url_name = font_family.replace(" ", "+");
+	
+	if (existing_fonts.indexOf(font_url_name) === -1) {
+		this.FONT_LOADER.setAttribute("href", existing_fonts + "|" + font_url_name);
+	}//end if: is the font already included?
+	
+}; //end function: HellaWickedFonts --> includeFontFamily
 
 
 
