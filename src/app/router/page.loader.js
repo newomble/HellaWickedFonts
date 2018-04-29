@@ -78,6 +78,7 @@ function loginPage(req,res){
 
 function fontPage(fid,req,res){
     initList(req, "Font");
+    list.font_id = fid;
     var data = fs.readFileSync(pageRoot+'/font.html');
     renderRequestedPage(data, res); 
 }
