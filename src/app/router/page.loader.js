@@ -65,7 +65,7 @@ function signup(req,res){
 }
 
 function homePage(req,res){
-    initList(req, "Signup");
+    initList(req, "Home");
     var data = fs.readFileSync(pageRoot+'/index.html');
     renderRequestedPage(data, res);
 }
@@ -118,7 +118,6 @@ module.exports = {
 
 
 function initList(req,title){
-    console.log("init list");
     list.title= title;
     if(req.session.loggedIn){
         list.icon = req.session.user.icon;
