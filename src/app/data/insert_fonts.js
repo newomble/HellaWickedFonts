@@ -8,11 +8,11 @@ var config = require("../../config/config.js").development;
 
 const request = require('request');
 const font = require("./font.model.js");
-const apiURL = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apiKey+"=popularity";
-
+const popularityUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apiKey+"=popularity";
+const trendingUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key="+config.apiKey+"=trending";
 //Request API data from API URL
 //TODO: add the source location - and save history
-request(apiURL, { json: true }, (err, res, body) => {
+request(popularityUrl, { json: true }, (err, res, body) => {
 	  if (err) {  console.log(err);return; }
 	  		  //Gets all the fonts from the DB
 	  		  var client = font.getAll();

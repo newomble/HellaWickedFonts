@@ -41,6 +41,7 @@ CREATE TABLE public.font(
 	family VARCHAR(45),
 	source_json VARCHAR (45) NOT NULL DEFAULT '/fonts/json/',
 	popularity INT DEFAULT -1,
+	trending_rank INT,
 	kind VARCHAR(15) NOT NULL DEFAULT 'unknown',
 	PRIMARY KEY (font_id)
 );
@@ -106,6 +107,7 @@ CREATE TABLE public.font_history(
 	history_id INT NOT NULL DEFAULT nextval('history_id_seq'),
 	font_id INT,
 	rank INT,
+	trending_rank INT,
 	time TIMESTAMP DEFAULT NOW(),
 	FOREIGN KEY (font_id) REFERENCES public.font (font_id),
 	PRIMARY KEY (history_id)
