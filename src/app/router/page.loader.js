@@ -15,11 +15,6 @@ tjs.dir = basePath+"/app/resources/templates/";
 var list = {
     title: "Home",
 	
-    //if the user is logged in, show "logged in" nav template
-	
-	//if the user is logged out, show "logged in" nav template
-    //nav: fs.readFileSync( basePath+"/app/resources/templates/logged_out.html"),
-	
 	// the base gravatar url / md5 email / cosmetic (icon size)
     icon: null
 } //attributes we want to display
@@ -121,9 +116,11 @@ module.exports = {
 function initList(req,title){
     list.title= title;
     if(req.session.loggedIn){
+        list.isLoggedIn = req.session.loggedIn;
         list.icon = req.session.user.icon;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
     } else{
+        list.isLoggedIn = false;
        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }

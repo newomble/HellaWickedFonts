@@ -68,7 +68,9 @@ METHOD: post
 RETURNS jsonArray /string (error)
 
 **********************************
-
+/api/trending/fonts
+METHOD: POST
+RETURNS jsonArray 
 ------RATING---------------------
 /api/rate
 {
