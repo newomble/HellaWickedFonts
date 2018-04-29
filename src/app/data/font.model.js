@@ -1,7 +1,7 @@
 const conn = require("./db.js");
 
 const ratingJoin = " left join public.rating using(font_id) ",
-	getBase = "Select font_id, family,source_json,popularity,kind, AVG(rating) as \"rating\" from public.font ",
+	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\" from public.font ",
 	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $1 GROUP BY public.font.font_id",
 	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
 	updateQuery = "",
@@ -10,7 +10,7 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	deleteQuery = "delete from public.font where font_id = $1",
 	getByNameQuery = "select family from font where family = $1",
 	getPopularQuery = "select * from public.font order by popularity asc limit 5",
-	getHistoryQuery = "select rank,time from public.font_history where font_id = $1",
+	getHistoryQuery = "select trending_rank,rank,time from public.font_history where font_id = $1",
 	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
 	
