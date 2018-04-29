@@ -120,7 +120,18 @@ METHOD: post/get
 RETURNS true;
 *********************************
 
+------RESET---------------------
+/api/reset/password
+{
+ username:val,
+ newpassword:val,
+ repassword:val
+}
+If newpassword equals repassword, pass respassword and username
+If newpassword doesn't equals repassword, return error string
 
+METHOD: post
+RETURNS true/string (error)
 
 --------------COLLECITON------------
 /api/user/add/collection
