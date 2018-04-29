@@ -5,6 +5,12 @@
 * @date		4/17/2018
 *************************************************************/
 var config = require("../../config/config.js").development;
+process.env.modelRoot = config.paths.data;
+process.env.apikey = config.apiKey;
+process.env.icon_url = config.icon_url;
+process.env.DBuser = config.dbInfo.user;
+process.env.DBpass= config.dbInfo.pass;
+process.env.DBloc = config.dbInfo.loc;
 
 const request = require('request');
 const font = require("./font.model.js");
