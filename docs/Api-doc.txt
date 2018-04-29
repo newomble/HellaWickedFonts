@@ -30,7 +30,7 @@ RETURNS json array/string (error)
 **********************************
 
 
-/api/popular/font
+/api/popular/fonts
 
 jsut the top 5
 
