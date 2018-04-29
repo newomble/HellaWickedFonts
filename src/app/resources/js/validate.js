@@ -19,7 +19,9 @@ function validateLoginForm(){
 		errors.innerHTML = "All fields must be filled out";
 		errors.classList.add("error");
 		window.scrollTop = 0; //make sure they see that there are errors
-	} //end if: did they fill out all the fields?
+	} else {
+		loginUser();
+	}
 	
 	return false;
 } //end function: validateLoginForm
@@ -109,3 +111,70 @@ function validatePreferencesForm () {
 	
 	return false;
 } 
+
+
+
+
+/**
+* handles the response from attempting to login
+* @param data {JSON} the response from the back-end
+* @param err {string|boolean} false if no error, string if there is
+*/
+function handleLogin (data, err) {
+    'use strict';
+    removeErrors();
+    if  (!err)  {
+        //there is no error, data holds your JSON response
+       window.location = '/collection';
+    } else {
+    	var errors = document.getElementById('errors');
+    	errors.innerHTML = "Invalid username or password. Please try again."; //there was an error, data will hold the error message
+    }//end if: did we have an error?
+};//end function: Home --> handlePopularFonts
+
+function removeErrors () {
+	'use strict';
+	 var errors = document.getElementById('errors');
+	errors.innerHTML = "";
+	
+}
+
+function loginUser () {
+	'use strict';
+	var hwf = new HellaWickedFonts();
+	//make an ajax call to login user
+	hwf.ajaxCall("/api/login", "POST", getLoginParams(), "handleLogin", "window");
+	
+/*	//expected JSON
+	var user = [
+		{
+			username: "";
+			password: "";
+		}
+	]; 
+	handleLogin(user, false); */
+} //end function: loginUser
+
+
+function getLoginParams() () {
+	'use strict';
+	
+	var username = document.forms["loginForm"]["username"].value;
+	var password = document.forms["loginForm"]["password"].value;
+	
+	var u = document.getElementById("username").value;
+	var p = document.getElementById("password").value;
+	
+	//expected JSON
+	var user = 
+		{
+			username: u,
+			password: p
+		}; 
+	
+	return user;
+}
+
+
+
+

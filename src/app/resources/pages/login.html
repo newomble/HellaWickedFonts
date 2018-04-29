@@ -3,9 +3,9 @@
 	<div id="formCenter">
 		 <form name="loginForm" onsubmit="return validateLoginForm()" method="post">
 				<p id="errors"></p>
-				<input type="text" placeholder="Username" name="username" class="max_input">
+				<input type="text" placeholder="Username" name="username" class="max_input" value="<%username%>">
 				<br>
-				<input type="password" placeholder="Password" name="password" class="max_input">
+				<input type="password" placeholder="Password" name="password" class="max_input" value="<%password%>">
 				<br>
 				<button class="max_input">login</button>
 		 </form>
