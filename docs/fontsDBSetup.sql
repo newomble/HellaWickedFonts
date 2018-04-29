@@ -108,7 +108,7 @@ CREATE TABLE public.font_history(
 	font_id INT,
 	rank INT,
 	trending_rank INT,
-	time TIMESTAMP DEFAULT NOW(),
+	time TIMESTAMP DEFAULT CURRENT_DATE,
 	FOREIGN KEY (font_id) REFERENCES public.font (font_id),
 	PRIMARY KEY (history_id)
 );

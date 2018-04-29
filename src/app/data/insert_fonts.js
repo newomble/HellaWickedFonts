@@ -38,7 +38,7 @@ request(popularityUrl, { json: true }, (err, res, body) => {
 					  	 	for(var k = 0; k < ne.rows.length; k++){
 					  	 		//Compare an API font with a font from the DB
 					  	 		if(body.items[i].family == ne.rows[k].family){
-					  	 			var client = font.updatePopularity((i+1),ne.rows[k].popularity);
+					  	 			var client = font.updatePopularity((i+1),ne.rows[k]);
 					  	 			client(function(er,ne){
 										  if(er){
 											  console.log(er);return;
