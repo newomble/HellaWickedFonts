@@ -62,7 +62,10 @@ function searchUserCollection(uid, txt, type,res){
     var client = fontModel.searchInColl(uid,type,txt);
     sendRows(client,res);
 }
-
+function getTrending(res){
+    var client = fontModel.getTrending();
+    sendRows(client,res);
+}
 module.exports = {
     userComments:userComments,
     fontComments:fontComments,
@@ -75,7 +78,8 @@ module.exports = {
     getMostPopular:getMostPopular,
     getSuggestion:getSuggestion,
     searchFonts:searchFonts,
-    searchUserCollection:searchUserCollection
+    searchUserCollection:searchUserCollection,
+    getTrending:getTrending
 }
 
 

@@ -15,7 +15,7 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	updateTrendQuery = "UPDATE font set trending_rank = $1 where font_id = $2;",
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
 	saveTrendingQuery = "insert into font_history (font_id,trending_rank) VALUES ($1,$2)",
-
+	getTrendingQuery = getBase+ratingJoin+" group by font_id order by trending_rank asc limit 5",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
@@ -67,6 +67,9 @@ function updateTrending(newVal,fontJson){
 	});
 	return conn.execute(updateTrendQuery,[newVal,fontJson.font_id]);
 }
+function getTrending(){
+	return conn.execute(getTrendingQuery,null);
+}
 function recordPopValye(oldVal,fid){
 	return conn.execute(recordPopQuery,[fid,oldVal]);
 }
@@ -99,5 +102,6 @@ module.exports = {
 	search:search,
 	searchInColl:searchInColl,
 	getMostPopular:getMostPopular,
-	updateTrending:updateTrending
+	updateTrending:updateTrending,
+	getTrending:getTrending
 }

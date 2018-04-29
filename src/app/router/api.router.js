@@ -134,7 +134,7 @@ apiRouter.post("/font/history",function(req,res){
     }
 })
 apiRouter.post("/trending/fonts",function(req,res){
-//TODO
+    controller.getTrending(res);
 });
 module.exports = apiRouter;
 
