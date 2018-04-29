@@ -149,7 +149,7 @@ apiRouter.post("/trending/fonts",function(req,res){
     controller.getTrending(res);
 });
 
-apiRouter.post("/user/add/collection",function(req,res){
+apiRouter.post("/user/edit/collection",function(req,res){
     if( !isLoggedIn(req) ){
         res.send("Must be logged in");
     } else if(!req.body.font_id){

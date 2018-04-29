@@ -134,7 +134,7 @@ METHOD: post
 RETURNS true/string (error)
 
 --------------COLLECITON------------
-/api/user/add/collection
+/api/user/edit/collection
 {
     font_id:val,
     is_fav: true/false
