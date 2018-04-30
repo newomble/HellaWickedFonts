@@ -44,8 +44,8 @@ function userPage(uid,req,res){
         }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
-            list.user_icon = makeGravLink(aUser.email);
-            list.user_id = aUser.user_id;
+            list.user_prof_icon = makeGravLink(aUser.email);
+            list.user_prof_id = aUser.user_id;
         }
         var data = fs.readFileSync(pageRoot+'/user.html');
         renderRequestedPage(data, res); 
@@ -99,6 +99,9 @@ function searchPage(req,res){
     var data = fs.readFileSync(pageRoot+'/search.html');
     renderRequestedPage(data, res); 
 }
+function test(req,res){
+    renderRequestedPage(fs.readFileSync(basePath+"/app/resources/templates/logged_in.html"),res);
+}
 
 module.exports = {
     prefPage:prefPage,
@@ -108,22 +111,29 @@ module.exports = {
     loginPage:loginPage,
     fontPage:fontPage,
     collectionPage:collectionPage,
-    searchPage:searchPage
+    searchPage:searchPage,
+    test:test
 }
 
 
 
 function initList(req,title){
     list.title= title;
+    list.user_id = "";
     if(req.session.loggedIn){
+        list.user_id = req.session.user.user_id;
         list.isLoggedIn = req.session.loggedIn;
         list.icon = req.session.user.icon;
-        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
+		
+		tjs.setSync(fs.readFileSync( basePath+"/app/resources/templates/logged_in.html"));   
+    	var output = tjs.renderAllSync(list);
+        list.nav = output;
     } else{
         list.isLoggedIn = false;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
+
 function makeGravLink(email){
     return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }

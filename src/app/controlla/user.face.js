@@ -16,7 +16,6 @@ function login(uName,pword,res,req){
                         req.session.user = user;
                         req.session.loggedIn = true;
                         req.session.user.icon = makeGravLink(user.email);
-                        console.log(req.session.user.icon);
                         res.send(true); 
                     } else {
                         res.send("Passwords did not match");
@@ -66,6 +65,7 @@ function newUser(uName,fName,lName,pWord,email,res){
         if(err){
             dberr(err,res);
         } else {
+            console.log("sending true");
             res.send(true);
         }
     });
@@ -90,17 +90,29 @@ function searchUser(txt,res){
             console.log(err);
             res.send("Something went wrong");
         }else{
+            vals.rows.forEach(item => {
+                item.user_icon = makeGravLink(item.email);
+            });
+
             res.send(vals.rows);
         }
     });
 }
 
-function resetPass(newPwd, uName){
+function resetPass(newPwd, uName,res){
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(newPwd,salt);
     
     var client = usrModel.resetPass(pass, uName);
-    noResponse(client);
+    if(!res){
+        noResponse(client);
+    }else{
+        cleint(function(err,vals){
+            if(err){console.log(err);res.send("Something went wrong");}else{
+                res.send(true);
+            }
+        })
+    }
 }
 
 function updateUsername(newUsername,uid){

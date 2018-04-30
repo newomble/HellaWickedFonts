@@ -14,22 +14,13 @@
 /**
 * @constructor
 */
-function UserProfile() {
+function UserProfile(user_id) {
 	this.init();
+	this.viewer_id = user_id;
 };//end function: UserProfile
 
-/** ----------------------------------------------------------- **/
-/** --------------------- INHERIT CLASSES --------------------- **/
-/** ----------------------------------------------------------- **/
-//UserProfile.prototype = Object.create(HellaWickedFonts.prototype);
-//UserProfile.prototype.constructor = UserProfile;
 
 UserProfile.prototype.USER_ID = document.getElementById('user_id').value;
-
-
-///UserProfile.prototype.USERNAME_HEADER = document.getElementById('username');
-//UserProfile.prototype.COLLECTION_HEADER = document.getElementById('username_collection');
-//UserProfile.prototype.DETAIL_CONTAINER = document.getElementById('user_details_container');
 
 /**
 * Initialize the app
@@ -43,9 +34,16 @@ UserProfile.prototype.init = function () {
 	//build out the view for this user
 	//this.buildUserDetails();
 	
-	//we are viewing a collection for another user - go get it
-	this.collection = new Collection(false);
-	console.log(this.USER_ID);
+	if(parseInt(this.USER_ID, 10) === parseInt(this.viewer_id), 10) {
+		this.collection = new Collection(true, this.USER_ID);
+		document.getElementById("username").innerHTML += " {You}";
+		document.getElementById("username_collection").innerHTML = "Your Collection";
+	} else {
+		//we are viewing a collection for another user - go get it
+		this.collection = new Collection(false, this.USER_ID);
+	}
+	
+	
 	
 }; //end function: UserProfile --> init
 

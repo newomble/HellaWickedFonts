@@ -56,6 +56,7 @@ apiRouter.route("/signup").post(function(req,res){
     var lname = req.body.last_name;
     var email = req.body.email;
     console.log("signup hit");
+    console.log(req.body);
     if(utils.isString(uName) == false || utils.isString(pWord) == false || utils.isString(repWord) == false || utils.isString(fname) == false || 
         utils.isString(lname) == false || utils.isString(email) == false){
         console.log("missing")

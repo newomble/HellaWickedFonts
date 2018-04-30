@@ -30,40 +30,40 @@ function newRating(uid,type,id,rating,res){//add rating to type (constant)
         res.send(false);
     }
 }
-function getFontById(fid,res){
-    var client =  fontModel.get(fid);
+function getFontById(fid,res,uid){
+    var client =  fontModel.get(fid,uid);
     sendRows(client,res);
 }
 function getFontByName(fName,res){
     var client =  fontModel.getByName(fName);
     sendRows(client,res);    
 }
-function getAllFonts(res){
-    var client =  fontModel.getAll();
+function getAllFonts(res,uid){
+    var client =  fontModel.getAll(uid);
     sendRows(client,res);
 }
 function getFontHistory(fid,res){
     var client =  fontModel.getHistory(fid);
     sendRows(client,res);
 }
-function getMostPopular(res){
-    var client =  fontModel.getMostPopular();
+function getMostPopular(res,uid){
+    var client =  fontModel.getMostPopular(uid);
     sendRows(client,res);
 }
 function getSuggestion(res){
     var client = fontModel.getSuggestion();
     sendRows(client,res);
 }
-function searchFonts(txt, type,res){
-    var client = fontModel.search(type,txt);
+function searchFonts(txt, type,start,end,res,uid){
+    var client = fontModel.search(type,txt,start,end,uid);
     sendRows(client,res);
 }
-function searchUserCollection(uid, txt, type,res){
-    var client = fontModel.searchInColl(uid,type,txt);
+function searchUserCollection(uid, txt, type,start,end,res,uid){
+    var client = fontModel.searchInColl(uid,type,txt,start,end,uid);
     sendRows(client,res);
 }
-function getTrending(res){
-    var client = fontModel.getTrending();
+function getTrending(res,uid){
+    var client = fontModel.getTrending(uid);
     sendRows(client,res);
 }
 module.exports = {

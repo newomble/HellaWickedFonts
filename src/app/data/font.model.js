@@ -1,8 +1,8 @@
 const conn = require("./db.js");
-
+var USER_ID = null;
 const ratingJoin = " left join public.rating using(font_id) ",
-	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\" from public.font ",
-	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $1 GROUP BY public.font.font_id",
+	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\", coalesce((select user_font.user_font_id  from user_font where font_font_id = font.font_id and user_user_id = $1 limit 1),0) as \"favorite\" from public.font ",
+	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $2 GROUP BY public.font.font_id",
 	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
 	updateQuery = "",
 	insertQuery = "insert into font (family, popularity, kind) values ($1, $2, $3)",
@@ -21,19 +21,20 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$1::varchar,'%')  group by font_id",
-	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$1::varchar,'%')  group by font_id",
+	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
+	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
 	searchInCollQueryFamily = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
-		" where user_font.user_user_id = $1 AND "+
-		" family like concat('%',$2::varchar,'%')"+
-		" group by font.font_id",
+		" where user_font.user_user_id = $2 AND "+
+		" family like concat('%',$3::varchar,'%')"+
+		" group by font.font_id limit $4 OFFSET $5",
 	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
-		" where user_font.user_user_id = $1 AND "+
-		" kind like concat('%',$2::varchar,'%')"+
-		" group by font.font_id";
+		" where user_font.user_user_id = $2 AND "+
+		" kind like concat('%',$3::varchar,'%')"+
+		" group by font.font_id limit $4 OFFSET $5";
 
-function getFont(id){
-	return conn.execute(getOneQuery,[id]);
+var SearchBase = "   "
+function getFont(id,uid){
+	return conn.execute(getOneQuery,[uid,id]);
 }
 function insertFonts(family, popularity, kind){
 	return conn.execute(insertQuery, [family, popularity, kind]);
@@ -47,14 +48,14 @@ function getByName(name){
 	return conn.execute(getByNameQuery,[name]);
 }
 
-function getAll(){
-	return conn.execute(getAllQuery,null);
+function getAll(uid){
+	return conn.execute(getAllQuery,[uid]);
 }
 
 function getHistory(fid){
 	return conn.execute(getHistoryQuery,[fid]);
 }
-function getMostPopular(){
+function getMostPopular(uid){
 	return conn.execute(getPopularQuery,null);
 }
 function updatePopularity(newVal,fontJson){
@@ -73,8 +74,8 @@ function updateTrending(newVal,fontJson){
 	});
 	return conn.execute(updateTrendQuery,[newVal,fontJson.font_id]);
 }
-function getTrending(){
-	return conn.execute(getTrendingQuery,null);
+function getTrending(uid){
+	return conn.execute(getTrendingQuery,[uid]);
 }
 function recordPopValye(oldVal,fid){
 	return conn.execute(recordPopQuery,[fid,oldVal]);
@@ -82,19 +83,19 @@ function recordPopValye(oldVal,fid){
 function getSuggestion(){
 	return conn.execute(suggQuery,null);
 }
-function search(type,txt){
+function search(type,txt,end,start,uid){
 	var qq = searchQueryFamily;
 	if(type == "kind"){
 		qq=searchQueryKind;
 	}
-	return conn.execute(qq,[txt]);
+	return conn.execute(qq,[uid,txt,end,start]);
 }
-function searchInColl(uid,type,txt){
+function searchInColl(uid,type,txt,end,start,currUid){
 	var qq = searchInCollQueryFamily;
 	if(type == "kind"){
 		qq=searchInCollQueryKind;
 	}
-	return conn.execute(qq,[uid,txt]);
+	return conn.execute(qq,[currUid,uid,txt,end,start]);
 }
 module.exports = {
 	get: getFont,

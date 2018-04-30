@@ -1,9 +1,9 @@
 <%include top_layout.html%>
-	<input type="hidden" id="user_id" value="<%user_id%>">
+	<input type="hidden" id="user_id" value="<%user_prof_id%>">
 	<div class="content center">
 		<h3 id="username"><%username%></h3>
 		<div id="user_details_container">
-			<img src="<%user_icon%>" alt="<%username%>'s icon" class="user_avatar">	
+			<img src="<%user_prof_icon%>" alt="<%username%>'s icon" class="user_avatar">	
 		</div>
 		<h3 id="username_collection"><%username%>'s Collection</h3>
 		<div id="search_container"></div>
@@ -17,7 +17,7 @@
 <script src="/js/collection.js"></script>
 <script src="/js/user_profile.js"></script>
 
-<script>var up = new UserProfile();</script>
+<script>var up = new UserProfile(<%user_id%>);</script>
 	
 	
 	
