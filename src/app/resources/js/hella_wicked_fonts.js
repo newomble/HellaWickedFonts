@@ -92,7 +92,7 @@ HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, 
 			ratingIcon.classList.add((is_rated)? 'fas' : 'far');
 			ratingIcon.classList.add('rated');
 			ratingIcon.setAttribute('data-is-rated', String(is_rated));
-			manage_ratings.addChangeEvent(ratingIcon);
+			//manage_ratings.addChangeEvent(ratingIcon);
 			box.appendChild(ratingIcon);
 		}
 	}
@@ -115,11 +115,8 @@ HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, 
 * @param app_obj {Object} [optional] the object the callback belongs to
 */
 HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, app_obj) {
-	'use strict';
-	console.log("hey");
-	
+	'use strict';	
 	var app = app_obj || this;
-	console.log(app);
 	$.ajax({
 		type: method,
 		async: true,
