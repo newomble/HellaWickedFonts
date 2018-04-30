@@ -73,7 +73,10 @@ Font.prototype.handleFontLoad = function (data, err) {
 			this.font_details = data[0];
 			var font_family = this.font_details.family ;
 			this.FONT_TITLE.innerHTML = "<span style='font-family:\""+font_family+"\", arial;'>" + font_family + "</span>";
-			var font_pre = this.getFontBox(this.FONT_ID, false, true, font_family, false, false);
+			var is_fav = (parseInt(this.font_details.favorite, 10) === 1) ? true : false;
+			var font_pre = this.getFontBox(this.font_details, false, false);
+			
+			
 			font_pre.classList.add('max_width');
 			font_pre.style.minHeight = "initial";
 			this.FONT_PREVIEW.appendChild(font_pre);

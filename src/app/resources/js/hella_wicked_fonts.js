@@ -32,13 +32,17 @@ HellaWickedFonts.prototype.cssFontName = function (font_family) {
 * @param show_font_link {boolean} true will show the font name with a link to it's page
 * @return box {object} the html object with all needed elements for a font box
 */
-HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, rating, font_family, show_font_link, show_rating) {
+HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, show_rating) {
 	'use strict';
 	
 	var box = document.createElement('div'),
 		font_name = document.createElement('a'),
 		font_txt = document.createElement('div'),
-		icon = document.createElement('i');
+		icon = document.createElement('i'),
+		font_id = font_details.font_id || font_details.id || "",
+		is_favorite = (font_details.favorite) ? (font_details.favorite == "1") ? true : false : false, 
+		rating = font_details.rating || 0, 
+		font_family = font_details.family;
 		
 	
 	box.classList.add('box');
@@ -74,7 +78,7 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, rating, 
 		icon.classList.add((is_favorite) ? 'fas' : 'far');
 		icon.classList.add('favorite');
 		icon.setAttribute('data-font-id', font_id);
-		icon.setAttribute('data-is-favorite', String(is_favorite));
+		icon.setAttribute('data-is-favorite', is_favorite);
 		box.appendChild(icon);
 	} //end if: is the user logged in?
 	
