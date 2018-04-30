@@ -43,7 +43,7 @@ input{
 	min-width:15em;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"], input[type="radio"]{
 	min-width:initial;
 }
 

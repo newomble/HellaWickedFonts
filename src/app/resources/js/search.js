@@ -39,7 +39,6 @@ Search.prototype.init = function () {
 	'use strict';
 	this.buildSearchControls();
 	this.buildSearchResults();
-	this.hello = "hey there";
 }; //end function: Search --> init
 
 
@@ -64,16 +63,50 @@ Search.prototype.buildSearchControls = function () {
 	//append the search input to the page
 	this.SEARCH_CONTAINER.appendChild(this.search_input);
 	
+	var search_obj = document.createElement('div');
+	if (this.search_fonts) {
+		this.font_search_opt = document.createElement('div');
+		this.font_search_opt.id = "font_search_options";
+		
+		this.search_options = document.createElement("span");
+		this.font_search_fam_chk = document.createElement("input");
+		this.font_search_fam_lbl = document.createElement("span");
+		this.user_search_kind_chk = document.createElement("input");
+		this.user_search_kind_lbl = document.createElement("span");
+		
+		this.search_options.innerHTML = "Search Fonts by:";
+		
+		this.font_search_fam_chk.type = "radio";
+		this.font_search_fam_chk.checked = true;
+		this.font_search_fam_chk.setAttribute("name", "type");
+		this.font_search_fam_lbl.innerHTML = "family (font name)";
+		
+		this.user_search_kind_lbl.innerHTML = "kind";
+		this.user_search_kind_chk.type = "radio";
+		this.user_search_kind_chk.setAttribute("name", "type");
+		
+		
+		
+		this.font_search_opt.appendChild(this.search_options);
+		this.font_search_opt.appendChild(this.font_search_fam_chk);
+		this.font_search_opt.appendChild(this.font_search_fam_lbl);
+		this.font_search_opt.appendChild(this.user_search_kind_chk);
+		this.font_search_opt.appendChild(this.user_search_kind_lbl);
+		search_obj.appendChild(this.font_search_opt);
+		
+	} //end if: are they able to search fonts?
+	
+	
 	if (this.search_fonts && this.search_users) {
-		var search_obj = document.createElement('div');
+		
 		this.font_search_chk = document.createElement("input");
 		this.font_search_lbl = document.createElement("label");
 		this.user_search_chk = document.createElement("input");
 		this.user_search_lbl = document.createElement("label");
 		
-		this.font_search_chk.type = "checkbox";
+		this.font_search_chk.type = "radio";
 		this.font_search_lbl.innerHTML = "fonts";
-		this.user_search_chk.type = "checkbox";
+		this.user_search_chk.type = "radio";
 		this.user_search_lbl.innerHTML = "users";
 		
 		//append the search controls to the page
@@ -81,9 +114,10 @@ Search.prototype.buildSearchControls = function () {
 		search_obj.appendChild(this.font_search_lbl);
 		search_obj.appendChild(this.user_search_chk);
 		search_obj.appendChild(this.user_search_lbl);
-		this.SEARCH_CONTAINER.appendChild(search_obj);
+		
 	}//end if: are they allowed to search for both fonts/users here?
 	
+	this.SEARCH_CONTAINER.appendChild(search_obj);
 }; //end function: Search --> buildSearchControls
 
 
@@ -94,11 +128,10 @@ Search.prototype.buildSearchControls = function () {
 */
 Search.prototype.buildSearchResults = function () {
 	'use strict';
+	var app = this;
 	this.search_results = document.createElement("div");
 	this.SEARCH_CONTAINER.appendChild(this.search_results);
 	
-	//obtain just anything 
-	this.getSearchResults("");
 	
 }; //end function: Search --> buildSearchResults
 
@@ -131,23 +164,19 @@ Search.prototype.getSearchResults = function (search_string) {
 	
 	//load any matching fonts - check for if there are any returned
 	if (this.search_fonts) {
+		var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
 		//make an ajax call -- URL, method (get/post), Params, callback function name
-		this.ajaxCall("/api/search/fonts", "GET", {search_text: search_string}, "loadMatchingFonts");
-		//this.loadMatchingFonts();
+		this.ajaxCall("/api/search/fonts", "POST", {search_string: search_string, type: font_type}, "loadMatchingFonts");
 	} //end if: can they search for fonts?
 	
 	//load any matching users - check for if there are any returned
 	if (this.search_users) {
 		
 		//make an ajax call -- URL, method (get/post), Params, callback function name
-		this.ajaxCall("/api/search/users", "GET", {search_text: search_string}, "loadMatchingUsers");
+		this.ajaxCall("/api/search/users", "POST", {search_string: search_string}, "loadMatchingUsers");
 		//this.loadMatchingUsers(user_list);
 	} //end if: can they search for fonts?
-	
-	
-	//nothing returned for either one?
-	//this.noResultsMessage();
-	
+
 }; //end function: Search --> getSearchResults
 
 
@@ -162,11 +191,30 @@ Search.prototype.noResultsMessage = function () {
 Search.prototype.loadMatchingFonts = function (font_list, err) {
 	'use strict';
 	
-	this.search_results.appendChild(this.getFontBox(6, true));
-	this.search_results.appendChild(this.getFontBox(7, false));
-	this.search_results.appendChild(this.getFontBox(4, false));
-	this.search_results.appendChild(this.getFontBox(8, true));
+	//clear any previous matches
+	this.search_results.innerHTML = "";
 	
+	if (!err) {
+		var font_amt = font_list.length;
+		if(font_amt > 0) {
+			var i, font_detail;
+			
+			for (i = 0; i < font_amt; i++) {
+				font_detail = font_list[i];
+				this.search_results.appendChild(this.getFontBox(
+					font_detail.font_id, 
+					true,
+					true,
+					font_detail.family,
+					true,
+					true
+				)); //end append font box
+			} //end for: go through all matching fonts
+			return true;
+		} //end if: did we get any results?
+	} //end if: was there an error?
+	
+	this.noResultsMessage();
 }; //end function: Search --> loadMatchingFonts
 
 
@@ -177,12 +225,24 @@ Search.prototype.loadMatchingFonts = function (font_list, err) {
 */
 Search.prototype.loadMatchingUsers = function (user_list, err) {
 	'use strict';
-	var i,
-		user_amt = user_list.length;
 	
-	for (i = 0; i < user_amt; i++) {
-		this.addUser(user_list[i]);
-	} //end for: go through all the users in the list
+	//clear any previous matches
+	this.search_results.innerHTML = "";
+	
+	if (!err) {
+		var i,
+		user_amt = user_list.length;
+		
+		if (user_amt > 0) {
+			for (i = 0; i < user_amt; i++) {
+				this.addUser(user_list[i]);
+			} //end for: go through all the users in the list
+			return true;
+		} //end if: do we have results?
+		
+	} //end if: do we have an error?
+	
+	this.noResultsMessage();
 }; //end function: Search --> loadMatchingUsers
 
 
