@@ -168,6 +168,7 @@ apiRouter.post("/user/edit/collection",function(req,res){
     }
 })
 
+
 apiRouter.post("/user/update/email",function(req,res){
     if(!req.body.email){
         res.send("Requires email.")
@@ -203,6 +204,32 @@ apiRouter.post("/user/update/password",function(req,res){
     }else{
         res.send("Are you logged in?");
     }
+})
+apiRouter.post("/user/update/all",function(req,res){
+    var resString = "Fields Updated:";
+    var error = false;
+
+    if(!isLoggedIn(req)){
+        res.send("Must be logged in");
+        return;
+    }
+    if(req.body.password){
+        controller.resetPass(req.body.password,req.session.user.username);
+        resString+=" Password updated."     
+    }
+    if(req.body.username){
+        controller.updateUsername(req.body.username,req.session.user.user_id);        
+        resString+=" Username updated."     
+    }
+    if(req.body.email){
+        controller.updateEmail(req.body.email,req.session.user.user_id);           
+        resString+=" Email updated."     
+    }
+    if(req.body.first_name && req.body.last_name){
+        controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
+        resString+=" First and Last name updated."     
+    }
+    res.send(resString);
 })
 
 module.exports = apiRouter;

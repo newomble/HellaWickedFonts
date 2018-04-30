@@ -94,32 +94,25 @@ function searchUser(txt,res){
     });
 }
 
-function resetPass(newPwd, uName,res){
+function resetPass(newPwd, uName){
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(newPwd,salt);
     
     var client = usrModel.resetPass(pass, uName);
-    client(function(err,vals){
-        if(err){
-            console.log(err);
-            res.send("Something went wrong");
-        }else{
-            res.send(true);
-        }
-    });
+    noResponse(client);
 }
 
-function updateUsername(newUsername,uid,res){
-    var client = usrModel.updateUsername(newUsername,uid,res);
-    sendSuccess(client,res)
+function updateUsername(newUsername,uid){
+    var client = usrModel.updateUsername(newUsername,uid);
+    noResponse(client)
 }
-function updateName(first_name,last_name,uid,res){
-    var client = usrModel.updateName(first_name,last_name,uid,res);
-    sendSuccess(client,res)
+function updateName(first_name,last_name,uid){
+    var client = usrModel.updateName(first_name,last_name,uid);
+    noResponse(client)
 }
-function updateEmail(email,uid,res){
-    var client = usrModel.updateEmail(email,uid,res);
-    sendSuccess(client,res)
+function updateEmail(email,uid){
+    var client = usrModel.updateEmail(email,uid);
+    noResponse(client)
 }
 
 module.exports = {
@@ -137,13 +130,10 @@ module.exports = {
     updateEmail:updateEmail
 }
 
-function sendSuccess(client,res){
+function noResponse(client){
     client(function(err,vals){
         if(err){
             console.log(err);
-            res.send("Something went wrong");
-        }else{
-            res.send(true);
         }
     });
 }
