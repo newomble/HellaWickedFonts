@@ -107,7 +107,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 
 
 /**
-* Adds the change event for hearts
+* Adds the change event for stars
 * @param ele {object} the html element that needs to be clicked
 */
 ManageRatings.prototype.addChangeEvent = function (ele, container) {
@@ -153,7 +153,7 @@ ManageRatings.prototype.addChangeEvent = function (ele, container) {
 
 
 /**
-* Adds the change event for hearts
+* Adds the mouse out event to reset it to original rating
 * @param ele {object} the html element that needs to be clicked
 */
 ManageRatings.prototype.addMouseoutEvent = function (ele) {
@@ -187,6 +187,8 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 	this.error_update = true;
 	//this.fireEvent(this.last_clicked);
 }; //end function: ManageRatings --> handleFavChange
+
+
 
 //Initialize (Create the ManageRatings Object)
 var manage_ratings = new ManageRatings();

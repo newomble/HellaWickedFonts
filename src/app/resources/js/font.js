@@ -55,10 +55,21 @@ Font.prototype.loadFont = function () {
 	
 	///make an ajax call to gather the fonts that are this users favorites.
 	this.ajaxCall("/api/font", "POST", {id:this.FONT_ID}, "handleFontLoad");
+	
+	this.ajaxCall("/api/font/history", "POST", {font_id:this.FONT_ID}, "handleFontHistory");
 	///no favorites?
 	//this.FONT_COMMENTS.innerHTML = "<p>No comments have been added.</p>";
 	
 }; //end function: Font --> init
+
+/**
+* handles the response from attempting to login
+* @param data {JSON} the response from the back-end
+* @param err {string|boolean} false if no error, string if there is
+*/
+Font.prototype.handleFontHistory = function (data, err) {
+	
+};
 
 
 /**

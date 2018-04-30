@@ -167,7 +167,7 @@ UserPreferences.prototype.loadUser =  function () {
 	'use strict';
 	console.log("Loading USer")
 	console.log(this.user);
-	this.USERNAME.value = this.user.username;
+	//this.USERNAME.value = this.user.username;
 	this.FIRST_NAME.value = this.user.first_name;
 	this.LAST_NAME.value = this.user.last_name;
 	this.EMAIL.value = this.user.email;
