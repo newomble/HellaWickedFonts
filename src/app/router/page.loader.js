@@ -25,8 +25,8 @@ function prefPage(req,res){
     initList(req, "Your Preferences" );
 	list.username = req.session.user.username;
 	list.email = req.session.user.email;
-	list.first_name = req.session.first_name;
-	list.last_name = req.session.last_name;
+	list.first_name = req.session.user.first_name;
+	list.last_name = req.session.user.last_name;
 	list.gravatar_base_url = process.env.icon_url;
     list.user_id = req.session.user.user_id;
     

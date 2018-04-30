@@ -188,7 +188,7 @@ apiRouter.post("/user/edit/collection",function(req,res){
     } else if(!utils.isNumeric(req.body.font_id)){
         res.send("No font selected");
     }else if (req.body.is_fav != null){
-        console.log(req.body.is_fav);
+
         if(req.body.is_fav == "true" || req.body.is_fav === true){
             controller.newCollection(req.session.user.user_id,req.body.font_id,res);
         } else if (req.body.is_fav == "false" || req.body.is_fav === false){
@@ -256,18 +256,19 @@ apiRouter.post("/user/update/all",function(req,res){
     }
     if(utils.isString(req.body.username)){
         controller.updateUsername(req.body.username,req.session.user.user_id);        
-        resString.username = true;    
+        resString.username = req.body.username;    
     }
     if(utils.isString(req.body.email)){
         if(utils.isEmail(req.body.email)){
             controller.updateEmail(req.body.email,req.session.user.user_id);           
-            resString.email = true; 
+            resString.email = req.body.email; 
         } 
     }
     if(utils.isString(req.body.first_name) && utils.isString(req.body.last_name)){
         if(utils.isStringUnder45(req.body.first_name) && utils.isStringUnder45(req.body.last_name)){
             controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
-            resString.name = true;
+            resString.first_name = req.body.first_name;
+            resString.last_name = req.body.last_name;
         }
     }
     res.send(resString);

@@ -151,6 +151,7 @@ UserPreferences.prototype.handleUpdateUser = function (data, err) {
 		this.user = data;
 		this.loadUser(); //load up the new data
 	} else {
+		console.log(err);
 		this.ERRORS.innerHTML = err;
 	} //end else/if: did we get an error?
 	
@@ -164,6 +165,7 @@ UserPreferences.prototype.handleUpdateUser = function (data, err) {
 */
 UserPreferences.prototype.loadUser =  function () {
 	'use strict';
+	console.log("Loading USer")
 	console.log(this.user);
 	this.USERNAME.value = this.user.username;
 	this.FIRST_NAME.value = this.user.first_name;
