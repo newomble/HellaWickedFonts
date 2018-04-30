@@ -46,7 +46,7 @@ CommentManager.prototype.init = function () {
 	this.tmp_comment_id_count = 0;//REMOVE THIS LATER - TESTING ONLY
 	this.buildCommentsList();
 	this.buildCommentControls();
-	
+	this.failed_vote = false;
 }; //end function: CommentManager --> init
 
 
@@ -63,47 +63,8 @@ CommentManager.prototype.buildCommentsList = function () {
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_LIST);
 	//make an ajax call to set it
 	this.ajaxCall("/api/get/comments", "POST", {font_id: this.font_id}, "handleLoadComments");
-	//Later make res be an ajax call and it will be the data response
-	var res = [
-		{
-			'comment_id' : 2,
-			'text' : 'I said some things about this font. You better like it!',
-			'username' : 'memrie',
-			'up_count' : 40,
-			'down_count' : 1,
-			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-		},
-		{
-			'comment_id' : 3,
-			'text' : 'I said some things about this font. You better like it!',
-			'username' : 'memrie',
-			'up_count' : 15,
-			'down_count' : 7,
-			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-		},
-		{
-			'comment_id' : 4,
-			'text' : 'I said some things about this font. You better like it!',
-			'username' : 'memrie',
-			'up_count' : 3,
-			'down_count' : 0,
-			'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-		}
-	]; //end response var
-	
-	//below commented out line allows you to see it if its blank (no comments)
-	//res = [];
-	/*
-	if (res) {
-		if (res.length > 0) {
-			this.loadComments(res);
-			return true;
-		} //end if: do we have any comments?
-	} //end if: did we get back a response?
-	
-	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
-	*/
 }; //end function: CommentManager --> buildCommentsList
+
 
 CommentManager.prototype.handleLoadComments = function (data, err) {
 	'use strict';
@@ -177,8 +138,8 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	username.innerHTML = '<a href="/user/' + user_comment.user_id+ '">'+user_comment.username +'</a>';
 	comment_text.innerHTML = user_comment.comment_text;
 	
-	var up_count = user_comment.rating || 0;
-	var down_count = parseInt(up_count) - parseInt(user_comment.rating || 0);
+	var up_count = parseInt((user_comment.rating) ? parseFloat(user_comment.rating) * parseInt(user_comment['total votes']) : 0);
+	var down_count = parseInt(user_comment['total votes'] || 0) - up_count;
 	
 	up_vote.innerHTML = up_count;
 	down_vote.innerHTML = down_count;
@@ -213,7 +174,7 @@ CommentManager.prototype.commentBox = function (user_comment) {
 */
 CommentManager.prototype.upDownAction = function (ele) {
 	'use strict';
-	
+	var app = this;
 	ele.addEventListener("click", function () {
 		var comment_id = this.getAttribute('data-comment_id'), // "this's" comment id
 			is_up_vote = (this.id === "up_" + comment_id), //did they click the "up" icon?
@@ -224,6 +185,9 @@ CommentManager.prototype.upDownAction = function (ele) {
 			this_count =  (is_up_vote) ? up_count : down_count, //the element for "this's" count
 			other_total_count = opposite_count.innerText || opposite_count.textContent, //current amt for other
 			this_total_count = this_count.innerText || this_count.textContent; //current amt for this
+		
+		
+		app.last_clicked_ele = this;
 		
 		if (new RegExp('fas').test(opposite_vote.className)) {
 			//remove a count from the other vote
@@ -243,10 +207,28 @@ CommentManager.prototype.upDownAction = function (ele) {
 			opposite_vote.className = opposite_vote.className.replace("fas", "far"); //make "that" outline
 		}//end if: Are they unreacting or reacting?
 		
+		
+		if (!app.failed_vote) {
+			app.ajaxCall("/api/rate", "POST", {comment_id: comment_id, rating:(is_up_vote) ? 1 : 0}, "handleVote");
+		} //end if: was there a failed attempt to vote?
+		
+		app.failed_vote = false;
+		
 	}); //end addEventListener --> click on up/down votes
 	
 }; //end function: CommentManager --> upDownAction
 
+
+CommentManager.prototype.handleVote = function (data, err) {
+	'use strict';
+	
+	if (!err) {
+		return true;
+	} //end if: was there an error?
+	
+	this.failed_vote = true;
+	this.fireEvent(this.last_clicked_ele, "click");
+};
 
 
 /** ----------------------------------------------------------- **/
@@ -278,7 +260,6 @@ CommentManager.prototype.buildCommentControls = function () {
 		this.submit_button.addEventListener("click", function () {
 			if (app.validateComment()) {
 				app.ajaxCall("/api/comment", "POST", {font_id:app.font_id, comment: app.comment_text.value}, "handleAddComment");
-				//app.handleAddComment(); //attempt to add the comment
 			}//end if: comment input okay?
 		}); //end add event listener
 		
@@ -306,28 +287,13 @@ CommentManager.prototype.handleAddComment = function (data, err) {
 			this.comment_error.innerHTML = ""; //reset any previous errors
 			//add the comment to the UI (based on feedback from the API)
 			this.clearFields(); //no errors? cool, add the comment
-			this.addComment(comment);
+			this.addComment(data[0]);
 			return true;
 		}
 		this.setCommentError("Unable to post comment. Please try again.");
 		return true;
-	}
+	} //end if: was there an error?  - below comment handles that
 	
-	/*
-	var comment = {
-		'text' : this.comment_text.value,
-		'username' : 'memrie',
-		'user_id' : 1,
-		'up_count' : 40,
-		'down_count' : 1
-		//'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
-	};
-	*/
-	
-	
-	//make an ajax call to actually add the comment
-	
-	//was there an error?  - below comment handles that
 	this.setCommentError(err);
 }; //end function: CommentManager --> handleAddComment
 
