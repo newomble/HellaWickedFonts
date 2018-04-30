@@ -206,7 +206,7 @@ apiRouter.post("/user/update/password",function(req,res){
     }
 })
 apiRouter.post("/user/update/all",function(req,res){
-    var resString = "Fields Updated:";
+    var resString = {};
     var error = false;
 
     if(!isLoggedIn(req)){
@@ -215,19 +215,19 @@ apiRouter.post("/user/update/all",function(req,res){
     }
     if(req.body.password){
         controller.resetPass(req.body.password,req.session.user.username);
-        resString+=" Password updated."     
+        resString.password = true;     
     }
     if(req.body.username){
         controller.updateUsername(req.body.username,req.session.user.user_id);        
-        resString+=" Username updated."     
+        resString.username = true;    
     }
     if(req.body.email){
         controller.updateEmail(req.body.email,req.session.user.user_id);           
-        resString+=" Email updated."     
+        resString.email = true;  
     }
     if(req.body.first_name && req.body.last_name){
         controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
-        resString+=" First and Last name updated."     
+        resString.name = true;  
     }
     res.send(resString);
 })
