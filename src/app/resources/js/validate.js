@@ -24,7 +24,6 @@ function validateLoginForm(){
 	} //end if: did they fill out all the fields?
 	data.username = username;
 	data.password = password;
-	console.log("Data: "+ JSON.stringify(data) );
 	HellaWickedFonts.prototype.ajaxCall("/api/login", "POST",data, "");
 	return false;
 } //end function: validateLoginForm
@@ -35,6 +34,7 @@ function validateLoginForm(){
 * Validates sign up form 
 */
 function validateSignUpForm () {
+	var data = {};
 	var fullName = document.forms["signUpForm"]["fullname"].value;
 	var userName = document.forms["signUpForm"]["username"].value;
 	var password = document.forms["signUpForm"]["password"].value;
@@ -46,15 +46,21 @@ function validateSignUpForm () {
 		errors.innerHTML = "All fields must be filled out";
 		errors.classList.add("error");
 		window.scrollTop = 0; //make sure they see that there are errors
+		return false;
 	} //end if: did they fill out all the fields?
 
 	if(password != repassword){
 		errors.innerHTML += "Passwords do not match";
 		errors.classList.add("error");
 		window.scrollTop = 0;
+		return false;
 	} //end if: does the first password match the second?
-	
-	return false;
+	data.username = username;
+	data.password = password;
+	data.repassword = repassword;
+	data.first_name = ;
+	data.last_name = ;
+	HellaWickedFonts.prototype.ajaxCall("/api/signup", "POST",data, "");
 } //end function: validateSignUpForm
 
 

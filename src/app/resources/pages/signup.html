@@ -1,7 +1,7 @@
 <%include top_layout.html%>
 
 	<div id="formCenter">
-		<form name="signUpForm" onsubmit="return validateSignUpForm();" method="post">
+		<form name="signUpForm" action="">
 			<p id="errors"></p>
 			<input type="text" placeholder="Full Name" name="fullname" class="max_input">
 			<br>
@@ -11,7 +11,7 @@
 			<br>
 			<input type="password" placeholder="Re-enter password" name="repassword" class="max_input">
 			<br>
-			<button class="max_input">Sign Up</button>
+			<button class="max_input" type="submit" onclick="return validateSignUpForm()" value="Sign Up">Sign Up</button>
 		</form>
 
 		<div>
