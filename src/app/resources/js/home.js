@@ -75,7 +75,7 @@ Home.prototype.handlePopularFonts = function (data, err) {
 Home.prototype.initTrendingFonts = function () {
 	'use strict';
 	//TODO: comment the ajax call back in
-	this.ajaxCall("/api/trending/fonts", "POST", "", "handleTrendingFonts");
+	//this.ajaxCall("/api/trending/fonts", "POST", "", "handleTrendingFonts");
 	
 	//TODO: remove everything below here
 	//dummy_fonts is the expected JSON return
