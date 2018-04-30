@@ -98,14 +98,23 @@ apiRouter.post("/search/fonts",function(req,res){
     var txt = req.body.search_string;
     var uid = req.body.user_id;
     var type = req.body.type;
+    var limitStart = req.body.limit_start;
+    var limitEnd = req.body.limit_end;
+    if(!limitStart){
+        limitStart = 0;
+    }
+    if(!limitEnd){
+        limitEnd = 25;
+    }
+
     if(!txt){
         res.send("Missing Search Text");
     }else if(!type){
         res.send("Missing Type Field");
     }else if(uid){
-        controller.searchUserCollection(uid, txt, type, res);
+        controller.searchUserCollection(uid, txt, type,limitStart,limitEnd res);
     } else {
-        controller.searchFonts(txt, type, res);
+        controller.searchFonts(txt, type,limitStart,limitEnd, res);
     }
 
 });

@@ -21,16 +21,16 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$1::varchar,'%')  group by font_id",
-	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$1::varchar,'%')  group by font_id",
+	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$1::varchar,'%')  group by font_id limit $2,$3",
+	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$1::varchar,'%')  group by font_id limit $2,$3",
 	searchInCollQueryFamily = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $1 AND "+
 		" family like concat('%',$2::varchar,'%')"+
-		" group by font.font_id",
+		" group by font.font_id limit $3,$4",
 	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $1 AND "+
 		" kind like concat('%',$2::varchar,'%')"+
-		" group by font.font_id";
+		" group by font.font_id limit $3,$4";
 
 function getFont(id){
 	return conn.execute(getOneQuery,[id]);
@@ -82,19 +82,19 @@ function recordPopValye(oldVal,fid){
 function getSuggestion(){
 	return conn.execute(suggQuery,null);
 }
-function search(type,txt){
+function search(type,txt,start,end){
 	var qq = searchQueryFamily;
 	if(type == "kind"){
 		qq=searchQueryKind;
 	}
-	return conn.execute(qq,[txt]);
+	return conn.execute(qq,[txt,start,end]);
 }
-function searchInColl(uid,type,txt){
+function searchInColl(uid,type,txt,start,end){
 	var qq = searchInCollQueryFamily;
 	if(type == "kind"){
 		qq=searchInCollQueryKind;
 	}
-	return conn.execute(qq,[uid,txt]);
+	return conn.execute(qq,[uid,txt,start,end]);
 }
 module.exports = {
 	get: getFont,

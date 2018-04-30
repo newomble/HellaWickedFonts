@@ -52,7 +52,18 @@ function handleLogin (data, err) {
 	errors.classList.add("error");
 } //end function: handleLogin
 
-
+function handleSignup(data,err){
+	console.log("handle signip");
+	if(!err){
+		console.log("NO ERRORS")
+		if(data){
+			console.log("GOT HERE")
+			window.location = "/collection";
+			return true;
+		}
+	}
+	console.log(err);
+}
 /**
 * Validates sign up form 
 */
@@ -66,19 +77,19 @@ function validateSignUpForm () {
 	var errors = document.getElementById('errors');
 	errors.innerHTML = "";
 	
-	if(fullName == "" || userName == "" || password == "" || repassword == ""){
-		errors.innerHTML = "All fields must be filled out";
-		errors.classList.add("error");
-		window.scrollTop = 0; //make sure they see that there are errors
-		return false;
-	} //end if: did they fill out all the fields?
+	// if(fullName == "" || userName == "" || password == "" || repassword == ""){
+	// 	errors.innerHTML = "All fields must be filled out";
+	// 	errors.classList.add("error");
+	// 	window.scrollTop = 0; //make sure they see that there are errors
+	// 	return false;
+	// } //end if: did they fill out all the fields?
 
-	if(password != repassword){
-		errors.innerHTML += "Passwords do not match";
-		errors.classList.add("error");
-		window.scrollTop = 0;
-		return false;
-	} //end if: does the first password match the second?
+	// if(password != repassword){
+	// 	errors.innerHTML += "Passwords do not match";
+	// 	errors.classList.add("error");
+	// 	window.scrollTop = 0;
+	// 	return false;
+	// } //end if: does the first password match the second?
 	var names = fullName.split(" ");
 	if(!names[0] || !names[1]){
 		errors.innerHTML += "First and last name required."
@@ -92,7 +103,7 @@ function validateSignUpForm () {
 	data.first_name = names[0];
 	data.last_name = names[1];
 	data.email = email;
-	hwf.ajaxCall("/api/signup", "POST",data, "");
+	hwf.ajaxCall("/api/signup", "POST",data, "handleSignup",this);
 } //end function: validateSignUpForm
 
 

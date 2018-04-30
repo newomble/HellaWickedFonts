@@ -66,6 +66,7 @@ function newUser(uName,fName,lName,pWord,email,res){
         if(err){
             dberr(err,res);
         } else {
+            console.log("sending true");
             res.send(true);
         }
     });

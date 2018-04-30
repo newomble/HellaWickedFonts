@@ -54,12 +54,12 @@ function getSuggestion(res){
     var client = fontModel.getSuggestion();
     sendRows(client,res);
 }
-function searchFonts(txt, type,res){
-    var client = fontModel.search(type,txt);
+function searchFonts(txt, type,start,end,res){
+    var client = fontModel.search(type,txt,start,end);
     sendRows(client,res);
 }
-function searchUserCollection(uid, txt, type,res){
-    var client = fontModel.searchInColl(uid,type,txt);
+function searchUserCollection(uid, txt, type,start,end,res){
+    var client = fontModel.searchInColl(uid,type,txt,start,end);
     sendRows(client,res);
 }
 function getTrending(res){
