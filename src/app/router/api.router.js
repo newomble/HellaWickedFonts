@@ -111,12 +111,7 @@ apiRouter.post("/search/fonts",function(req,res){
     var txt = req.body.search_string;
     var uid = req.body.user_id;
     var type = req.body.type;
-<<<<<<< HEAD
-    if(utils.isString(txt) == false){
-        res.send("Missing or bad search text");
-    }else if(utils.isString(type) == false){
-        res.send("Missing or bad type field");
-=======
+    
     var limitStart = req.body.limit_start;
     var limitEnd = req.body.limit_end;
     if(!limitStart){
@@ -126,11 +121,10 @@ apiRouter.post("/search/fonts",function(req,res){
         limitEnd = 25;
     }
 
-    if(!txt && !(txt === "") ){
-        res.send("Missing Search Text");
-    }else if(!type){
-        res.send("Missing Type Field");
->>>>>>> bee495049442ee38ccde967d3e7325e796adbace
+    if(utils.isString(txt) == false && !(txt === "") ){
+        res.send("Missing or bad search text");
+    }else if(utils.isString(type) == false){
+        res.send("Missing or bad type field");
     }else if(uid){
         var myuid = getUid(req);
         controller.searchUserCollection(uid, txt, type,limitStart,limitEnd, res,myuid);
@@ -142,14 +136,9 @@ apiRouter.post("/search/fonts",function(req,res){
 });
 
 apiRouter.post("/font",function(req,res){
-<<<<<<< HEAD
-    if(utils.isNumeric(req.body.id)){
-        controller.getFontById(req.body.id,res);
-=======
     var uid = getUid(req);
-    if(req.body.id){
+    if(utils.isNumeric(req.body.id) ){
         controller.getFontById(req.body.id,res,uid);
->>>>>>> bee495049442ee38ccde967d3e7325e796adbace
     }else{
         console.log("Error with id in /font");
         res.send("No id given or bad id input");
