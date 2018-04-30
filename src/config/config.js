@@ -3,9 +3,9 @@ var path = require('path'),
 //Change Api Key here
 const apiKey = "AIzaSyBV6W1Ip2noHGQHBbtAZnObsaXq4w9hZKA&sort";
 db = {
-    loc: "localhost:5433/hellawickedfonts",
+    loc: "localhost:5432/hellawickedfonts",
     user: "postgres",
-    pass: "postgres"
+    pass: "student"
 }
 var config = {
     development:{

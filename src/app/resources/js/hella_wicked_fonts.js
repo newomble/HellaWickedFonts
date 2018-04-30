@@ -83,19 +83,10 @@ HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, 
 	} //end if: is the user logged in?
 	
 	var i, ratingIcon;
+	var rate_box = manage_ratings.getRatingStars(font_details.rating || 0, font_id);
+	box.appendChild(rate_box);
 	
-	if (show_rating) {
-		var is_rated = false;
-		for(i = 0; i < 5; i++){
-			ratingIcon = document.createElement('i');
-			ratingIcon.classList.add('fa-star');
-			ratingIcon.classList.add((is_rated)? 'fas' : 'far');
-			ratingIcon.classList.add('rated');
-			ratingIcon.setAttribute('data-is-rated', String(is_rated));
-			//manage_ratings.addChangeEvent(ratingIcon);
-			box.appendChild(ratingIcon);
-		}
-	}
+	console.log(rate_box);
 	
 	return box;
 }; //end function: HellaWickedFonts --> getFontBox

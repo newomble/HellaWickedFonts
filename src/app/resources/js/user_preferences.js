@@ -167,7 +167,7 @@ UserPreferences.prototype.loadUser =  function () {
 	'use strict';
 	console.log("Loading USer")
 	console.log(this.user);
-	this.USERNAME.value = this.user.username;
+	//this.USERNAME.value = this.user.username;
 	this.FIRST_NAME.value = this.user.first_name;
 	this.LAST_NAME.value = this.user.last_name;
 	this.EMAIL.value = this.user.email;
@@ -186,8 +186,8 @@ UserPreferences.prototype.getParams = function () {
 	'use strict';
 	return {
 		'user_id' : this.USER_ID, //obviously update later.
-		'first_name' : this.LAST_NAME.value || "",
-		'last_name' : this.FIRST_NAME.value || "",
+		'first_name' : this.FIRST_NAME.value || "",
+		'last_name' : this.LAST_NAME.value || "",
 		'email' : this.EMAIL.value || "",
 		'new_pwd' : this.NEW_PWD.value || "",
 		'new_again_pwd' : this.NEW_AGAIN_PWD.value || "",

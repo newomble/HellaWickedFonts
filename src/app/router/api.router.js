@@ -72,7 +72,7 @@ apiRouter.route("/signup").post(function(req,res){
         res.send("Your username, email, or first/lastname is over 45 characters long");
     }else{
         console.log("signing up");
-        controller.newUser(uName,fname,lname,pWord,email,res);
+        controller.newUser(uName,fname,lname,pWord,email,res,req);
     }
 });
 

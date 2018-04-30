@@ -18,7 +18,6 @@ function newComment(uid,fid,text,res){//return bool
     var client = comModel.insertComment(uid,fid,text);
     client(function(err,vals){
         if(vals.rows){
-            console.log("here");
             var resId = vals.rows[0].comment_id;            
             var getClient = comModel.get(resId);
             sendRows(getClient,res);
@@ -99,8 +98,11 @@ function insertResponse(client,res){
             console.log(err);
             res.send(false);
         }else{
-            console.log(vals);
-            res.send(true);
+            if( vals && vals.rows && vals.rows[0] ){
+                res.send(vals.rows[0]);
+            }else{
+                res.send(true);
+            }
         }
     });
 }
