@@ -93,18 +93,26 @@ function searchUser(txt,res){
             vals.rows.forEach(item => {
                 item.user_icon = makeGravLink(item.email);
             });
-            
+
             res.send(vals.rows);
         }
     });
 }
 
-function resetPass(newPwd, uName){
+function resetPass(newPwd, uName,res){
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(newPwd,salt);
     
     var client = usrModel.resetPass(pass, uName);
-    noResponse(client);
+    if(!res){
+        noResponse(client);
+    }else{
+        cleint(function(err,vals){
+            if(err){console.log(err);res.send("Something went wrong");}else{
+                res.send(true);
+            }
+        })
+    }
 }
 
 function updateUsername(newUsername,uid){
