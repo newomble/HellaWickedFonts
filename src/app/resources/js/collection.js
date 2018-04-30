@@ -13,8 +13,9 @@
 * @constructor
 * to do --  will need to pass in a user id (yours or another user's)
 */
-function Collection(is_my_collection) {
+function Collection(is_my_collection, user_id) {
 	'use strict';
+	this.user_id = user_id;
 	this.search_fonts = true;
 	this.search_users = false;
 	this.my_collection = is_my_collection;
@@ -58,17 +59,11 @@ Collection.prototype.getSearchResults = function (search_string) {
 	'use strict';
 	//clear out the old search results
 	this.search_results.innerHTML = "";
-	
-	
+
 	//make an ajax call -- URL, method (get/post), Params, callback function name
-	this.ajaxCall("TODO", "GET", {user_id:"TODO", search_text: "some search text"}, "loadMatchingFonts");
-	
-	//load any matching fonts - Search Function
-	//this.loadMatchingFonts();
-	
-	//no results?
-	//this.noResultsMessage();
-	
+	var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
+	//make an ajax call -- URL, method (get/post), Params, callback function name
+	this.ajaxCall("/api/search/fonts", "POST", {search_string: search_string, type: font_type, user_id:this.user_id}, "loadMatchingFonts");
 }; //end function: Collection --> getSearchResults
 
 
