@@ -16,7 +16,6 @@ function login(uName,pword,res,req){
                         req.session.user = user;
                         req.session.loggedIn = true;
                         req.session.user.icon = makeGravLink(user.email);
-                        console.log(req.session.user.icon);
                         res.send(true); 
                     } else {
                         res.send("Passwords did not match");

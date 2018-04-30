@@ -99,6 +99,9 @@ function searchPage(req,res){
     var data = fs.readFileSync(pageRoot+'/search.html');
     renderRequestedPage(data, res); 
 }
+function test(req,res){
+    renderRequestedPage(fs.readFileSync(basePath+"/app/resources/templates/logged_in.html"),res);
+}
 
 module.exports = {
     prefPage:prefPage,
@@ -108,7 +111,8 @@ module.exports = {
     loginPage:loginPage,
     fontPage:fontPage,
     collectionPage:collectionPage,
-    searchPage:searchPage
+    searchPage:searchPage,
+    test:test
 }
 
 
@@ -116,9 +120,9 @@ module.exports = {
 function initList(req,title){
     list.title= title;
     if(req.session.loggedIn){
-        list.user_id = req.session.user_id;
+        list.user_id = req.session.user.user_id;
         list.isLoggedIn = req.session.loggedIn;
-        list.icon = req.session.user.icon;
+        list.my_icon = req.session.user.icon;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
     } else{
         list.isLoggedIn = false;
@@ -131,6 +135,7 @@ function makeGravLink(email){
 
 function renderRequestedPage(data, res) {
     tjs.setSync(data);   
+    console.log(list);
     var output = tjs.renderAllSync(list);  
     res.write(output);  
     res.end(); 

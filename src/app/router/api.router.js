@@ -112,16 +112,19 @@ apiRouter.post("/search/fonts",function(req,res){
     }else if(!type){
         res.send("Missing Type Field");
     }else if(uid){
-        controller.searchUserCollection(uid, txt, type,limitStart,limitEnd, res);
+        var myuid = getUid(req);
+        controller.searchUserCollection(uid, txt, type,limitStart,limitEnd, res,myuid);
     } else {
-        controller.searchFonts(txt, type,limitStart,limitEnd, res);
+        var uid = getUid(req);
+        controller.searchFonts(txt, type,limitStart,limitEnd, res,uid);
     }
 
 });
 
 apiRouter.post("/font",function(req,res){
+    var uid = getUid(req);
     if(req.body.id){
-        controller.getFontById(req.body.id,res);
+        controller.getFontById(req.body.id,res,uid);
     }else{
         res.send("No id given");
     }
@@ -137,7 +140,8 @@ apiRouter.post("/search/users",function(req,res){
 });
 
 apiRouter.post("/popular/fonts",function(req,res){
-    controller.getMostPopular(res);
+        var myuid = getUid(req);
+        controller.getMostPopular(res,uid);
 });
 
 apiRouter.post("/suggested/fonts",function(req,res){
@@ -158,7 +162,8 @@ apiRouter.post("/font/history",function(req,res){
     }
 })
 apiRouter.post("/trending/fonts",function(req,res){
-    controller.getTrending(res);
+        var myuid = getUid(req);
+        controller.getTrending(res,myuid);
 });
 
 apiRouter.post("/user/edit/collection",function(req,res){
@@ -248,4 +253,11 @@ module.exports = apiRouter;
 
 function isLoggedIn(req){
     return (req.session.loggedIn == true);
+}
+
+function getUid(req){
+    if(req.session.user && req.session.user.user_id){
+        return req.session.user.user_id;
+    }
+    return null
 }

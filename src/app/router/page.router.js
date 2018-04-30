@@ -69,6 +69,10 @@ pageRouter.get("/user/:id", function (req, res, next){
     }
 });
 
+pageRouter.get("/test",function(req,res){
+    pageLoader.text(req,res);
+})
+
 module.exports = pageRouter;
 
 
