@@ -10,6 +10,8 @@
 * Validates login form 
 */
 function validateLoginForm(){
+	data = {};
+
 	var username = document.forms["loginForm"]["username"].value;
 	var password = document.forms["loginForm"]["password"].value;
 	var errors = document.getElementById('errors');
@@ -20,7 +22,10 @@ function validateLoginForm(){
 		errors.classList.add("error");
 		window.scrollTop = 0; //make sure they see that there are errors
 	} //end if: did they fill out all the fields?
-	
+	data.username = username;
+	data.password = password;
+	console.log("Data: "+ JSON.stringify(data) );
+	HellaWickedFonts.prototype.ajaxCall("/api/login", "POST",data, "");
 	return false;
 } //end function: validateLoginForm
 

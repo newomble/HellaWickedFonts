@@ -4,25 +4,28 @@ var usrModel = require(process.env.modelRoot+"user.model.js"),
     bCrypt = require('bcrypt-nodejs');
 
 function login(uName,pword,res,req){ //used inapi
+    console.log("hit login ");
     var client = usrModel.getCredentials(uName);
     client(function(err,vals){
         if(err){
             dberr(err,res);
         }else{
-            console.log(req.session);
             var user = vals.rows[0];
             if(user && user.password){   
                 bCrypt.compare(pword,user.password,function(err,hashRes){
                     if(hashRes){
+                        console.log("logged in user");
                         req.session.user = user;
                         req.session.loggedIn = true;
                         req.session.user.icon = makeGravLink(user.email);
                         res.send(true); 
                     } else {
+                        console.log("pass mismatch");
                         res.send("Passwords did not match");
                     }
                 });
             } else{
+                console.log("no user");
                 res.send("Username not found");
             }
         } 
