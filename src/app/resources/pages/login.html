@@ -1,21 +1,25 @@
 <%include top_layout.html%>
 	
 	<div id="formCenter">
-		 <form name="loginForm" onsubmit="return validateLoginForm()" method="get">
+		 <form name="loginForm" action="">
+
 				<p id="errors"></p>
 				<input type="text" placeholder="Username" name="username" class="max_input">
 				<br>
 				<input type="password" placeholder="Password" name="password" class="max_input">
 				<br>
-				<button class="max_input">login</button>
+			 <button class="max_input" type="submit" onclick= "return validateLoginForm()" value="Login">Login</button>
 				<span>Forgot <a href="reset.html">password?</a></span>
+
+				
 		 </form>
 
 		<div>
 			<br><br>
-			<span onclick="window.location.href ='./signup.html';">Don't have an account?</span>
-			<button class="signUpButton" onclick="window.location.href ='signup.html';">Sign Up</button><br/>
-			
+
+			<span onclick="window.location.href ='/signup';">Don't have an account?</span>
+			<button class="signUpButton" onclick="window.location.href ='/signup';">Sign Up</button>
+
 		</div>
 	</div>
 	

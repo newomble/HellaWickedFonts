@@ -20,8 +20,17 @@
 */
 function CommentManager(comments_grab_id) {
 	'use strict';
+	this.font_id = comments_grab_id;
 	this.init();
 }//end function CommentManager
+
+
+/** ----------------------------------------------------------- **/
+/** --------------------- INHERIT CLASSES --------------------- **/
+/** ----------------------------------------------------------- **/
+CommentManager.prototype = Object.create(HellaWickedFonts.prototype);
+CommentManager.prototype.constructor = CommentManager;
+
 
 CommentManager.prototype.COMMENTS_CONTAINER = document.getElementById('comment_container');
 
@@ -52,7 +61,8 @@ CommentManager.prototype.init = function () {
 CommentManager.prototype.buildCommentsList = function () {
 	'use strict';
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_LIST);
-	
+	//make an ajax call to set it
+	this.ajaxCall("/api/get/comments", "POST", {font_id: this.font_id}, "handleLoadComments");
 	//Later make res be an ajax call and it will be the data response
 	var res = [
 		{
@@ -83,7 +93,7 @@ CommentManager.prototype.buildCommentsList = function () {
 	
 	//below commented out line allows you to see it if its blank (no comments)
 	//res = [];
-	
+	/*
 	if (res) {
 		if (res.length > 0) {
 			this.loadComments(res);
@@ -92,25 +102,27 @@ CommentManager.prototype.buildCommentsList = function () {
 	} //end if: did we get back a response?
 	
 	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
-	
+	*/
 }; //end function: CommentManager --> buildCommentsList
 
-
-/**
-* Loads in all the comments for this page/font
-*/
-CommentManager.prototype.loadComments = function (comment_list) {
+CommentManager.prototype.handleLoadComments = function (data, err) {
 	'use strict';
-	var i,
-		comment_amt = comment_list.length,
-		comment;
 	
+	if (!err) {
+		var i,
+			comment_amt = data.length,
+			comment;
+		if (comment_amt > 0) {
+			for (i = 0; i < comment_amt; i++) {
+				this.addComment(data[i]);
+			} //end for: go through all comments
+			return true;
+		} //end if: do we have any comments?
+	}
 	
-	for (i = 0; i < comment_amt; i++) {
-		this.addComment(comment_list[i]);
-	} //end for: go through all comments
-	
-}; //end function: CommentManager --> loadComments
+	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
+};
+
 
 
 
@@ -176,8 +188,15 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	up_vote_icon.setAttribute('data-comment_id', comment_id);
 	down_vote_icon.setAttribute('data-comment_id', comment_id);
 	
-	this.upDownAction(up_vote_icon);
-	this.upDownAction(down_vote_icon);
+	
+	if (LOGGED_IN) {
+		this.upDownAction(up_vote_icon);
+		this.upDownAction(down_vote_icon);
+	} else {
+		up_vote_icon.style.cursor = "default";
+		down_vote_icon.style.cursor = "default";
+	} //end if: is the user logged in?
+	
 	this.tmp_comment_id_count = comment_id + 1;
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
@@ -237,27 +256,37 @@ CommentManager.prototype.buildCommentControls = function () {
 	'use strict';
 	var app = this;
 	
-	this.submit_button = document.createElement('button');
-	this.comment_text = document.createElement('textarea');
 	this.comment_header = document.createElement("h3");
 	this.comment_error = document.createElement("div");
-	
 	this.comment_header.innerHTML = "Add A Comment";
-	this.submit_button.innerHTML = "post comment";
-	this.comment_text.setAttribute("placeholder", "write your comment here");
-	this.COMMENTS_CONTROLS.appendChild(this.comment_header);
-	this.COMMENTS_CONTROLS.appendChild(this.comment_error);
-	this.COMMENTS_CONTROLS.appendChild(this.comment_text);
-	this.COMMENTS_CONTROLS.appendChild(this.submit_button);
 	
-	this.submit_button.addEventListener("click", function () {
-		if (app.validateComment()) {
-			app.handleAddComment(); //attempt to add the comment
-		}//end if: comment input okay?
-	}); //end add event listener
+	if (LOGGED_IN) {
+		this.submit_button = document.createElement('button');
+		this.comment_text = document.createElement('textarea');
+				
+		this.submit_button.innerHTML = "post comment";
+		this.comment_text.setAttribute("placeholder", "write your comment here");
+		this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+		this.COMMENTS_CONTROLS.appendChild(this.comment_error);
+		this.COMMENTS_CONTROLS.appendChild(this.comment_text);
+		this.COMMENTS_CONTROLS.appendChild(this.submit_button);
+
+		this.submit_button.addEventListener("click", function () {
+			if (app.validateComment()) {
+				app.ajaxCall("/api/comment", "POST", {font_id:app.font_id, comment: app.comment_text.value}, "handleAddComment");
+				//app.handleAddComment(); //attempt to add the comment
+			}//end if: comment input okay?
+		}); //end add event listener
+		
+	} else {
+		this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+		this.comment_error.innerHTML = "You must be <a href='/login'>logged in</a> to post a comment";
+		this.COMMENTS_CONTROLS.appendChild(this.comment_error);
+	}//end else/if: are they logged in?
 	
-	this.COMMENTS_CONTROLS.className = "comment_controls";
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_CONTROLS);
+	this.COMMENTS_CONTROLS.className = "comment_controls";
+	
 }; //end function: CommentManager --> buildCommentControls
 
 
@@ -265,30 +294,37 @@ CommentManager.prototype.buildCommentControls = function () {
 /**
 * Handles adding a new comment to the list of existing comments
 */
-CommentManager.prototype.handleAddComment = function () {
+CommentManager.prototype.handleAddComment = function (data, err) {
 	'use strict';
 	
+	if (!err) {
+		if (data.length > 0) {
+			this.comment_error.innerHTML = ""; //reset any previous errors
+			//add the comment to the UI (based on feedback from the API)
+			this.clearFields(); //no errors? cool, add the comment
+			this.addComment(comment);
+			return true;
+		}
+		this.setCommentError("Unable to post comment. Please try again.");
+		return true;
+	}
+	
+	/*
 	var comment = {
-		'comment_id' : this.tmp_comment_id_count++,//UPDATE TO REAL ID LATER
 		'text' : this.comment_text.value,
 		'username' : 'memrie',
 		'user_id' : 1,
 		'up_count' : 40,
-		'down_count' : 1,
-		'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
+		'down_count' : 1
+		//'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 	};
+	*/
 	
-	this.comment_error.innerHTML = ""; //reset any previous errors
+	
 	//make an ajax call to actually add the comment
 	
 	//was there an error?  - below comment handles that
-	//this.setCommentError("some error message here");
-	
-	
-	//add the comment to the UI (based on feedback from the API)
-	this.clearFields(); //no errors? cool, add the comment
-	this.addComment(comment);
-	
+	this.setCommentError(err);
 }; //end function: CommentManager --> handleAddComment
 
 

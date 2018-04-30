@@ -1,7 +1,7 @@
 <%include top_layout.html%>
 
 	<div id="formCenter">
-		<form name="resetPasswordForm" onsubmit="return validateResetPasswordForm();" method="post">
+		<form name="resetPasswordForm">
 			<p id="errors"></p>
 			<input type="text" placeholder="Username" name="username" class="max_input">
 			<br>
@@ -9,13 +9,13 @@
 			<br>
 			<input type="password" placeholder="Re-enter password" name="repassword" class="max_input">
 			<br>
-			<button onclick="window.location.href='./login.html' class="max_input">Reset Password</button>
+			<button onclick="return validateResetPasswordForm();" class="max_input">Reset Password</button>
 		</form>
 
 		<div>
 			<br><br>
-			<span onclick="window.location.href ='./login.html';">Have an account?</span>
-			<span class="signInLink"><a href="./login.html">Login</a></span>
+			<span onclick="window.location.href='/login'">Have an account?</span>
+			<span class="signInLink"><a href="/login">Login</a></span>
 		</div>
 
 	</div>

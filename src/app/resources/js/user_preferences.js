@@ -1,8 +1,9 @@
 /************************************************************
 * @desc		Handles a the user preferences page
 *
-* @author	erika tobias (et5392@rit.edu)
-*			Niharika Nakka (nn6889@rit.edu)
+* @author	Niharika Nakka (nn6889@rit.edu)
+*			erika tobias (et5392@rit.edu)
+*			
 * @date		4/12/2018
 *************************************************************/
 
@@ -14,6 +15,13 @@ function UserPreferences() {
 	this.init();
 }; //end function: UserPreferences
 
+/** ----------------------------------------------------------- **/
+/** --------------------- INHERIT CLASSES --------------------- **/
+/** ----------------------------------------------------------- **/
+UserPreferences.prototype = Object.create(HellaWickedFonts.prototype);
+UserPreferences.prototype.constructor = UserPreferences;
+
+
 //generic items we need to grab
 UserPreferences.prototype.ERRORS = document.getElementById('errors');
 UserPreferences.prototype.USERNAME = document.getElementById('uname');
@@ -24,6 +32,9 @@ UserPreferences.prototype.CURRENT_PWD = document.getElementById('cpassword');
 UserPreferences.prototype.NEW_PWD = document.getElementById('npassword');
 UserPreferences.prototype.NEW_AGAIN_PWD = document.getElementById('repassword');
 
+//this user's id (the one logged in)
+UserPreferences.prototype.USER_ID = document.getElementById('user_id').value;
+
 
 /**
 * Initializes this object
@@ -32,7 +43,7 @@ UserPreferences.prototype.init = function () {
 	'use strict';
 	
 	//go and get this user (add ajax call once back-end is completed)
-	this.getUser();
+	//this.getUser();
 }; //end function: UserPreferences --> init
 
 
@@ -109,7 +120,7 @@ UserPreferences.prototype.clearErrors = function () {
 
 /**
 * Make an ajax call to grab the user to load them for view.
-*/
+
 UserPreferences.prototype.getUser = function () {
 	'use strict';
 	this.user = {
@@ -123,25 +134,48 @@ UserPreferences.prototype.getUser = function () {
 	
 	this.loadUser();
 }; //end function: UserPreferences --> getUser
-
-/**
-* Load up this user's current preferences into their respective fields
 */
-UserPreferences.prototype.loadUser =  function () {
-	'use strict';
-	this.USERNAME.value = this.user.username;
-	this.FIRST_NAME.value = this.user.first_name;
-	this.LAST_NAME.value = this.user.last_name;
-	this.EMAIL.value = this.user.email;
-}; //end function: UserPreferences --> loadUser
-
 
 UserPreferences.prototype.updateUser = function () {
 	'use strict';
 	//make an ajax call to update this user
-	//this.getParams(); //<-- obtain the user object
+	this.ajaxCall("/api/user/update/all", "POST", this.getParams(), "handleUpdateUser");
 }; //end function: UserPreferences --> updateUser
 
+
+UserPreferences.prototype.handleUpdateUser = function (data, err) {
+	'use strict';
+	this.clearErrors(); //clear any errors
+	console.log(data);
+	if (!err) {
+		this.user = data;
+		this.loadUser(); //load up the new data
+	} else {
+		console.log(err);
+		this.ERRORS.innerHTML = err;
+	} //end else/if: did we get an error?
+	
+	window.scrollTo(0,0);
+}; //end function: UserPreferences --> handleUpdateUser
+
+
+/**
+* Load up this user's current preferences into their respective fields
+* Also clear out any password fields
+*/
+UserPreferences.prototype.loadUser =  function () {
+	'use strict';
+	console.log("Loading USer")
+	console.log(this.user);
+	this.USERNAME.value = this.user.username;
+	this.FIRST_NAME.value = this.user.first_name;
+	this.LAST_NAME.value = this.user.last_name;
+	this.EMAIL.value = this.user.email;
+	
+	this.CURRENT_PWD.value = "";
+	this.NEW_PWD.value = "";
+	this.NEW_AGAIN_PWD.value = "";
+}; //end function: UserPreferences --> loadUser
 
 
 /**
@@ -151,7 +185,7 @@ UserPreferences.prototype.updateUser = function () {
 UserPreferences.prototype.getParams = function () {
 	'use strict';
 	return {
-		'user_id' : 0, //obviously update later.
+		'user_id' : this.USER_ID, //obviously update later.
 		'first_name' : this.LAST_NAME.value || "",
 		'last_name' : this.FIRST_NAME.value || "",
 		'email' : this.EMAIL.value || "",

@@ -21,7 +21,9 @@ DROP TABLE IF EXISTS public.user  CASCADE;
 CREATE TABLE public.user(
 	user_id INT NOT NULL DEFAULT nextval('user_id_seq'),
 	username VARCHAR(45),
-	password VARCHAR(45),
+	first_name VARCHAR(45),
+	last_name VARCHAR(45),
+	password VARCHAR(555),
 	salt VARCHAR(45),
 	email VARCHAR(45),
 	PRIMARY KEY (user_id)
@@ -39,6 +41,7 @@ CREATE TABLE public.font(
 	family VARCHAR(45),
 	source_json VARCHAR (45) NOT NULL DEFAULT '/fonts/json/',
 	popularity INT DEFAULT -1,
+	trending_rank INT,
 	kind VARCHAR(15) NOT NULL DEFAULT 'unknown',
 	PRIMARY KEY (font_id)
 );
@@ -96,6 +99,20 @@ CREATE TABLE public.sample_text(
 	PRIMARY KEY (sample_id)
 );
 
+DROP SEQUENCE IF EXISTS history_id_seq CASCADE;
+CREATE SEQUENCE history_id_seq START 1;
+
+DROP TABLE IF EXISTS public.font_history;
+CREATE TABLE public.font_history(
+	history_id INT NOT NULL DEFAULT nextval('history_id_seq'),
+	font_id INT,
+	rank INT,
+	trending_rank INT,
+	time TIMESTAMP DEFAULT CURRENT_DATE,
+	FOREIGN KEY (font_id) REFERENCES public.font (font_id),
+	PRIMARY KEY (history_id)
+);
+
 
 -- -----------------------------------------------------
 -- User Font Table
@@ -113,6 +130,5 @@ CREATE TABLE public.user_font (
 	FOREIGN KEY (font_font_id) REFERENCES public.font (font_id),
 	PRIMARY KEY (user_font_id)
 );
-
 
 

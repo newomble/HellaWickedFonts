@@ -9,6 +9,9 @@
 		<link href="https://fonts.googleapis.com/css?family=EB+Garamond|Marck+Script|Roboto" rel="stylesheet">
 		<link href="/css/main.css" rel="stylesheet">
 		<link href="/css/fontawesome-all.min.css" rel="stylesheet">
+		<script>
+			var LOGGED_IN = <%isLoggedIn%>;
+		</script>
 	</head>
 
 	<body>
@@ -20,11 +23,15 @@
 			
 			<div id="account_controls">
 				<ul>
-					<!-- later just add a check for if they are logged in --> 
+					<%nav%>
+					
+					<!-- later just add a check for if they are logged in
 					<li id="logged_out"><a href="/login/">login <i class="fas fa-sign-in-alt"></i></a></li>
 					<li id="signup"><a href="/signup/">signup <i class="far fa-edit"></i></a></li>
+					 --> 
 					
 					
+					<!--
 					<li id="logged_in"> 
 						<div id="avatar">
 							<div id="avatar_wrapper">
@@ -44,7 +51,7 @@
 						</ul>
 					</li>
 				</ul>
-				
+				-->
 			</div>
 		</div>
 		
@@ -60,8 +67,5 @@
 		
 		<!-- the content of the app -->
 		<div id="app_content">
-			
-			
-		
 		
 		

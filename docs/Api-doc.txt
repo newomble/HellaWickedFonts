@@ -1,0 +1,171 @@
+----------SEARCH------------------
+/api/search/fonts
+{
+ search_string: val,
+ user_id: val (optional),
+ type: [family,kind] (one of those values)
+}
+if user_id is given will search only fonts in that user's collection
+METHOD: post
+RETURNS: json array/string (error)
+**********************************
+/api/search/users
+{
+search_string : val
+}
+searches on username and email
+METHOD: post
+RETURN json array/string (error)
+***********************************
+
+-----------FONT-----------------
+/api/font
+{
+ id:val
+}
+NOTE: rating may be null and is the average rating given 
+
+METHOD: post
+RETURNS json array/string (error)
+**********************************
+
+
+/api/popular/fonts
+
+jsut the top 5
+
+METHOD: POST
+RETURNS json array/string (error)
+**********************************
+
+
+/api/suggested/fonts
+METHOD: POST
+RETURNS json array/string (error)
+**********************************
+/api/font/history
+{
+ font_id:val
+}
+METHOD: POST
+RETURNS json array/string (error)
+------COMMENT------------------
+/api/comment
+{
+ comment: val,
+ font_id: val
+}
+NOTE: must be logged in
+
+METHOD: post
+RETURNS true/false/string (error)
+**********************************
+/api/get/comment
+{
+font_id:val
+}
+METHOD: post
+RETURNS jsonArray /string (error)
+
+**********************************
+/api/trending/fonts
+METHOD: POST
+RETURNS jsonArray 
+------RATING---------------------
+/api/rate
+{
+ font_id:val,
+ rating:val
+}
+OR
+{
+ comment_id:val,
+ rating:val
+}
+If rating a comment pass comment_id
+If rating a font pass font_id
+do not pass both
+
+METHOD: post
+RETURNS true/false/string (error)
+
+---------SIGNUP-----------------
+/api/signup
+{
+ username: val,
+ password: val,
+ repassword:val,
+ first_name:val,
+ last_name:val,
+ email:val
+}
+
+METHOD: post
+RETURNS true/false/string (error)
+
+----------LOGIN/OUT--------------
+/api/login
+{
+ username:val,
+ password:val,
+}
+
+METHOD: post
+RETURNS true/false/string (error)
+*********************************
+/api/logout
+
+METHOD: post/get
+
+RETURNS true;
+*********************************
+
+------RESET---------------------
+/api/reset/password
+{
+ username:val,
+ newpassword:val,
+ repassword:val
+}
+If newpassword equals repassword, pass respassword and username
+If newpassword doesn't equals repassword, return error string
+
+METHOD: post
+RETURNS true/string (error)
+
+--------------COLLECITON------------
+/api/user/edit/collection
+{
+    font_id:val,
+    is_fav: true/false
+}
+
+if is_fav is true adds the font to logged in users collection
+if false removes it
+
+METHOD post
+RETURNS true/ string(error)
+
+
+
+----------------UPDATE USER------------
+/api/user/update/all
+{
+    email : val
+    first_name: val,
+    last_name:val
+    username:val
+    password:val
+}
+
+
+
+
+
+
+
+
+
+
+
+
