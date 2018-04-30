@@ -16,10 +16,10 @@
 */
 function UserProfile(user_id) {
 	this.init();
-	this.viewer_id = user_id;
+	this.viewer_id = user_id; //person looking at it
 };//end function: UserProfile
 
-
+//store the profile's user id
 UserProfile.prototype.USER_ID = document.getElementById('user_id').value;
 
 /**
@@ -27,12 +27,6 @@ UserProfile.prototype.USER_ID = document.getElementById('user_id').value;
 */
 UserProfile.prototype.init = function () {
 	'use strict';
-	//go grab this user's details
-	//this.ajaxCall("TODO", "GET", {uid: "TODO-User id"}, "loadUser");
-	//this.user = this.loadUser();
-	
-	//build out the view for this user
-	//this.buildUserDetails();
 	
 	if(parseInt(this.USER_ID, 10) === parseInt(this.viewer_id), 10) {
 		this.collection = new Collection(true, this.USER_ID);
@@ -41,34 +35,10 @@ UserProfile.prototype.init = function () {
 	} else {
 		//we are viewing a collection for another user - go get it
 		this.collection = new Collection(false, this.USER_ID);
-	}
-	
-	
+	} //end else/if: is this user looking at themselves?
 	
 }; //end function: UserProfile --> init
 
-
-/**
-* Initialize the app
-
-UserProfile.prototype.buildUserDetails = function () {
-	'use strict';
-	
-	//set up the headers
-	this.USERNAME_HEADER.innerHTML = this.user.username;
-	this.COLLECTION_HEADER.innerHTML = this.user.username + "'s font collection";
-	
-	//set up this user's avatar
-	var avatar = document.createElement("img");
-	avatar.setAttribute("src", this.user.icon_url);
-	avatar.className = "user_avatar";
-	
-	//append it
-	this.DETAIL_CONTAINER.appendChild(avatar);
-	
-}; //end function: UserProfile --> init
-
-*/
 
 
 

@@ -89,5 +89,5 @@ ManageRatings.prototype.handleRatingChange = function (id, is_rated) {
 }; //end function: ManageRatings --> handleFavChange
 
 //Initialize (Create the ManageRatings Object)
-var manage_ratings = new ManageRatings();
+//var manage_ratings = new ManageRatings();
 

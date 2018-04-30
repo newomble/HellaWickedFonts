@@ -222,16 +222,23 @@ Search.prototype.getSearchResults = function (search_string) {
 	'use strict';
 	//clear out the old search results
 	this.search_results.innerHTML = "";
+	var searching_fonts = true;
+	var searching_users = false;
+	
+	if (this.search_fonts && this.search_users) {
+		searching_fonts = this.font_search_chk.checked;
+		searching_users = this.user_search_chk.checked;
+	}
 	
 	//load any matching fonts - check for if there are any returned
-	if (this.search_fonts && this.font_search_chk.checked) {
+	if (this.search_fonts && searching_fonts) {
 		var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
 		//make an ajax call -- URL, method (get/post), Params, callback function name
 		this.ajaxCall("/api/search/fonts", "POST", {search_string: search_string, type: font_type}, "loadMatchingFonts");
 	} //end if: can they search for fonts?
 	
 	//load any matching users - check for if there are any returned
-	if (this.search_users && this.user_search_chk.checked) {
+	if (this.search_users && searching_users) {
 		//make an ajax call -- URL, method (get/post), Params, callback function name
 		this.ajaxCall("/api/search/users", "POST", {search_string: search_string}, "loadMatchingUsers");
 	} //end if: can they search for fonts?
@@ -261,10 +268,7 @@ Search.prototype.loadMatchingFonts = function (font_list, err) {
 			for (i = 0; i < font_amt; i++) {
 				font_detail = font_list[i];
 				this.search_results.appendChild(this.getFontBox(
-					font_detail.font_id, 
-					true,
-					true,
-					font_detail.family,
+					font_detail,
 					true,
 					true
 				)); //end append font box
