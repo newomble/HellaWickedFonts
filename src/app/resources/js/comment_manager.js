@@ -273,11 +273,10 @@ CommentManager.prototype.buildCommentControls = function () {
 
 		this.submit_button.addEventListener("click", function () {
 			if (app.validateComment()) {
-				app.handleAddComment(); //attempt to add the comment
+				app.ajaxCall("/api/comment", "POST", {font_id:app.font_id, comment: app.comment_text.value}, "handleAddComment");
+				//app.handleAddComment(); //attempt to add the comment
 			}//end if: comment input okay?
 		}); //end add event listener
-
-		
 		
 	} else {
 		this.COMMENTS_CONTROLS.appendChild(this.comment_header);
@@ -295,30 +294,37 @@ CommentManager.prototype.buildCommentControls = function () {
 /**
 * Handles adding a new comment to the list of existing comments
 */
-CommentManager.prototype.handleAddComment = function () {
+CommentManager.prototype.handleAddComment = function (data, err) {
 	'use strict';
 	
+	if (!err) {
+		if (data.length > 0) {
+			this.comment_error.innerHTML = ""; //reset any previous errors
+			//add the comment to the UI (based on feedback from the API)
+			this.clearFields(); //no errors? cool, add the comment
+			this.addComment(comment);
+			return true;
+		}
+		this.setCommentError("Unable to post comment. Please try again.");
+		return true;
+	}
+	
+	/*
 	var comment = {
-		'comment_id' : this.tmp_comment_id_count++,//UPDATE TO REAL ID LATER
 		'text' : this.comment_text.value,
 		'username' : 'memrie',
 		'user_id' : 1,
 		'up_count' : 40,
-		'down_count' : 1,
-		'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
+		'down_count' : 1
+		//'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=60&d=mm&r=g'
 	};
+	*/
 	
-	this.comment_error.innerHTML = ""; //reset any previous errors
+	
 	//make an ajax call to actually add the comment
 	
 	//was there an error?  - below comment handles that
-	//this.setCommentError("some error message here");
-	
-	
-	//add the comment to the UI (based on feedback from the API)
-	this.clearFields(); //no errors? cool, add the comment
-	this.addComment(comment);
-	
+	this.setCommentError(err);
 }; //end function: CommentManager --> handleAddComment
 
 
