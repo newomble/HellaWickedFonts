@@ -46,9 +46,12 @@ function userPage(uid,req,res){
             list.username = aUser.username;
             list.user_prof_icon = makeGravLink(aUser.email);
             list.user_prof_id = aUser.user_id;
+            var data = fs.readFileSync(pageRoot+'/user.html');
+            renderRequestedPage(data, res); 
+        } else{
+            homePage(req,res);
         }
-        var data = fs.readFileSync(pageRoot+'/user.html');
-        renderRequestedPage(data, res); 
+        
     });
 
 }

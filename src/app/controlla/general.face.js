@@ -100,10 +100,7 @@ function getTrending(res,uid){
 function getFontHistory(fid,res){
     var client =  fontModel.getHistory(fid);
     //sendRows(client,res);
-    /**
-     * Reversing the order last minute at front end request.
-     * TODO: move it into the sql
-     */
+    //flip order for front end package. psql 'function' stored stamentes are a mystery to me
     client(function(err,vals){
         if(err){console.log(err); res.send(false);return;}
         var temp = [];
