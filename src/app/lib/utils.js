@@ -3,7 +3,6 @@ function isNumeric(val){
 		if(isNaN(val)){
 			return false;
 		}else{
-			console.log("This is a number");
 			return true;
 		}
 	}else{
