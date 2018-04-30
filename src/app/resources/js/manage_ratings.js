@@ -62,7 +62,6 @@ ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 	//add the empty stars
 	this.addStars(this.star_empty_icon, this.totalEmpty);
 	
-	console.log(this.ratingStars);
 	return this.buildStars(font_id);
 	
 }; //end function: ManageRatings --> getRatingStars
@@ -180,7 +179,7 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 	'use strict';
 	
 	if (!err) {
-		console.log(data);
+		
 		return true;
 	}
 	

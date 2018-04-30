@@ -43,7 +43,7 @@ Font.prototype.init = function () {
 	//create the comment manager to populate comments
 	//and create commenting controls
 	this.font_comments = new CommentManager(this.FONT_ID);
-	this.updateChart();
+	//this.updateChart();
 }; //end function: Font --> init
 
 
@@ -57,9 +57,6 @@ Font.prototype.loadFont = function () {
 	this.ajaxCall("/api/font", "POST", {id:this.FONT_ID}, "handleFontLoad");
 	
 	this.ajaxCall("/api/font/history", "POST", {font_id:this.FONT_ID}, "handleFontHistory");
-	///no favorites?
-	//this.FONT_COMMENTS.innerHTML = "<p>No comments have been added.</p>";
-	
 }; //end function: Font --> init
 
 /**
@@ -69,7 +66,75 @@ Font.prototype.loadFont = function () {
 */
 Font.prototype.handleFontHistory = function (data, err) {
 	
+	if (!err) {
+		
+		this.day_pop_hist = [
+			130,244,567,432,234,567
+		];
+		
+		this.day_trend_hist = [
+			345,123,543,765,456,346
+		];
+		
+		this.week_day = [
+			"tues","wed","thur","fri","sat","sun"
+		];
+		
+		this.updateChart();
+	}
+	
 };
+
+
+Font.prototype.updateChart = function () {
+	'use strict';
+	
+	var ctx = document.getElementById("popular_month");
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data:{ 
+			labels: [
+				this.week_day[0],
+				this.week_day[1],
+				this.week_day[2],
+				this.week_day[3],
+				this.week_day[4],
+				this.week_day[5],
+				"today"],
+        	datasets: [{
+				label: 'popularity rank',
+				borderColor: "#B975BD",
+				backgroundColor: "#B975BD",
+				fill: false,
+            	data: [
+					this.day_pop_hist[0], 
+					this.day_pop_hist[1], 
+					this.day_pop_hist[2],
+					this.day_pop_hist[3], 
+					this.day_pop_hist[4], 
+					this.day_pop_hist[5], 
+					parseInt(this.font_details.popularity)]
+			},{
+				label: 'trending rank',
+				borderColor:"#75BDB9",
+				backgroundColor: "#75BDB9",
+				fill: false,
+            	data: [
+					this.day_trend_hist[0], 
+					this.day_trend_hist[1], 
+					this.day_trend_hist[2],
+					this.day_trend_hist[3], 
+					this.day_trend_hist[4], 
+					this.day_trend_hist[5],
+					parseInt(this.font_details.trending_rank)]
+			}]
+		},
+		options:{
+			responsive: true
+		}
+	});
+
+}; //end function
 
 
 /**
@@ -82,6 +147,7 @@ Font.prototype.handleFontLoad = function (data, err) {
     if  (!err)  {
 		if (data.length > 0) {
 			this.font_details = data[0];
+			
 			var font_family = this.font_details.family ;
 			this.FONT_TITLE.innerHTML = "<span style='font-family:\""+font_family+"\", arial;'>" + font_family + "</span>";
 			var is_fav = (parseInt(this.font_details.favorite, 10) === 1) ? true : false;
@@ -124,6 +190,9 @@ Font.prototype.handleFontLoad = function (data, err) {
 			
 		} //end if: do we have font_details?
         
+		
+		
+		
     } else {
 		
 		this.FONT_TITLE.innerHTML = "{Unknown Font}";
@@ -134,24 +203,7 @@ Font.prototype.handleFontLoad = function (data, err) {
 
 
 
-Font.prototype.updateChart = function () {
-	'use strict';
-	var ctx = document.getElementById("popular_month");
-	var myChart = new Chart(ctx, {
-		type: 'line',
-		data:{ 
-			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-        	datasets: [{
-				label: '# of days popular',
-            	data: [12, 19, 3, 5, 2, 3, 1, 0]
-			}]
-		},
-		options:{
-			responsive: true
-		}
-	});
 
-}; //end function
 
 
 var f = new Font();
