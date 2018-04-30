@@ -107,7 +107,7 @@ apiRouter.post("/search/fonts",function(req,res){
         limitEnd = 25;
     }
 
-    if(!txt){
+    if(!txt && !(txt === "") ){
         res.send("Missing Search Text");
     }else if(!type){
         res.send("Missing Type Field");
@@ -141,7 +141,7 @@ apiRouter.post("/search/users",function(req,res){
 
 apiRouter.post("/popular/fonts",function(req,res){
         var myuid = getUid(req);
-        controller.getMostPopular(res,uid);
+        controller.getMostPopular(res,myuid);
 });
 
 apiRouter.post("/suggested/fonts",function(req,res){

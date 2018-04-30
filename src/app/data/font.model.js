@@ -21,16 +21,16 @@ const ratingJoin = " left join public.rating using(font_id) ",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
 		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
 		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$2::varchar,'%')  group by font_id limit $3,$4",
-	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$2::varchar,'%')  group by font_id limit $3,$4",
+	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
+	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
 	searchInCollQueryFamily = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $2 AND "+
 		" family like concat('%',$3::varchar,'%')"+
-		" group by font.font_id limit $4,$5",
+		" group by font.font_id limit $4 OFFSET $5",
 	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $2 AND "+
 		" kind like concat('%',$3::varchar,'%')"+
-		" group by font.font_id limit $4,$5";
+		" group by font.font_id limit $4 OFFSET $5";
 
 var SearchBase = "   "
 function getFont(id,uid){
@@ -83,19 +83,19 @@ function recordPopValye(oldVal,fid){
 function getSuggestion(){
 	return conn.execute(suggQuery,null);
 }
-function search(type,txt,start,end,uid){
+function search(type,txt,end,start,uid){
 	var qq = searchQueryFamily;
 	if(type == "kind"){
 		qq=searchQueryKind;
 	}
-	return conn.execute(qq,[uid,txt,start,end]);
+	return conn.execute(qq,[uid,txt,end,start]);
 }
-function searchInColl(uid,type,txt,start,end,currUid){
+function searchInColl(uid,type,txt,end,start,currUid){
 	var qq = searchInCollQueryFamily;
 	if(type == "kind"){
 		qq=searchInCollQueryKind;
 	}
-	return conn.execute(qq,[currUid,uid,txt,start,end]);
+	return conn.execute(qq,[currUid,uid,txt,end,start]);
 }
 module.exports = {
 	get: getFont,
