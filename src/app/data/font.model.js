@@ -32,7 +32,6 @@ const ratingJoin = " left join public.rating using(font_id) ",
 		" kind like concat('%',$3::varchar,'%') "+
 		" group by font.font_id limit $4 OFFSET $5";
 
-var SearchBase = "   "
 function getFont(id,uid){
 	return conn.execute(getOneQuery,[uid,id]);
 }

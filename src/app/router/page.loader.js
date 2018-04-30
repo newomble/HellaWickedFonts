@@ -1,3 +1,6 @@
+/** 
+ * 
+ */
 var path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
@@ -49,6 +52,7 @@ function userPage(uid,req,res){
             var data = fs.readFileSync(pageRoot+'/user.html');
             renderRequestedPage(data, res); 
         } else{
+            //user doesnt exist
             homePage(req,res);
         }
         
@@ -90,7 +94,6 @@ function collectionPage(cid,req,res){
             return;
         }else if(vals.rows[0]){
             var theColl = vals.rows[0];
-            //TODO: collection in template format
         }
         var data = fs.readFileSync(pageRoot+'/collection.html');
         renderRequestedPage(data, res); 

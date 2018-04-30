@@ -77,7 +77,7 @@ CREATE TABLE public.rating(
 	user_id INT,
 	font_id INT,
 	comment_id INT,
-	rating SMALLINT,
+	rating INT,
 	FOREIGN KEY (user_id) REFERENCES public.user,
 	FOREIGN KEY (font_id) REFERENCES public.font,
 	FOREIGN KEY (comment_id) REFERENCES public.comment,
