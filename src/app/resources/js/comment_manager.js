@@ -172,8 +172,9 @@ CommentManager.prototype.commentBox = function (user_comment) {
 			comment_votes.appendChild(down_vote);
 			comment_votes.appendChild(down_vote_icon);
 	
-	avatar_img.setAttribute('src', user_comment.icon_url);
-	username.innerHTML = user_comment.username;
+	avatar_img.setAttribute('src', user_comment.icon + "?s=60&d=mm&r=g");
+	avatar_img.addEventListener("click", function(){window.location = "/user/" + user_comment.user_id});
+	username.innerHTML = '<a href="/user/' + user_comment.user_id+ '">'+user_comment.username +'</a>';
 	comment_text.innerHTML = user_comment.comment_text;
 	
 	var up_count = user_comment.rating || 0;
