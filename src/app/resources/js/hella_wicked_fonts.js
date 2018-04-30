@@ -86,6 +86,8 @@ HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, 
 	var rate_box = manage_ratings.getRatingStars(font_details.rating || 0, font_id);
 	box.appendChild(rate_box);
 	
+	console.log(rate_box);
+	
 	return box;
 }; //end function: HellaWickedFonts --> getFontBox
 

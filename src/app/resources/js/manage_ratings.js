@@ -42,6 +42,7 @@ ManageRatings.prototype.init = function () {
 *
 */
 ManageRatings.prototype.getRatingStars = function (rating, font_id) {
+	this.font_current_rating = rating;
 	this.ratingStars = [];
 	//grab anything that would make it part of a star
 	var not_whole = rating%1;
@@ -61,6 +62,7 @@ ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 
 	//add the empty stars
 	this.addStars(this.star_empty_icon, this.totalEmpty);
+	
 	
 	return this.buildStars(font_id);
 	
@@ -86,6 +88,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 	
 	rate_container.classList.add("rating");
 	rate_container.id = "rating_" + font_id;
+	rate_container.setAttribute('title', "rating: " + this.font_current_rating);
 	rate_container.setAttribute("data-original-rating", JSON.stringify(this.ratingStars));
 	rate_container.setAttribute("data-font-id", font_id);
 	
@@ -94,12 +97,17 @@ ManageRatings.prototype.buildStars = function (font_id) {
 		ratingIcon.className = this.ratingStars[i].type;
 		ratingIcon.setAttribute("data-font-id", font_id);
 		ratingIcon.setAttribute("data-star-rank", i+1);
-		this.addChangeEvent(ratingIcon);
+		
+		
+		if (LOGGED_IN) {
+			this.addChangeEvent(ratingIcon);
+		}
 		rate_container.appendChild(ratingIcon);
 	} //end for: go through and add stars
 	
-	this.addMouseoutEvent(rate_container);
-	
+	if (LOGGED_IN) {
+		this.addMouseoutEvent(rate_container);
+	}
 	return rate_container;
 }; //end function: ManageRatings --> buildStars
 
@@ -127,18 +135,17 @@ ManageRatings.prototype.addChangeEvent = function (ele, container) {
 	}); //end addEventListener
 	
 	
-	
 	ele.addEventListener("mouseover", function (){
 		var fid = this.getAttribute('data-font-id'),
 			is_rated = (this.getAttribute('data-star-rank')),
 			rate_container = document.getElementById("rating_" + fid),
 			all_stars = rate_container.childNodes,
 			full_star = true;
-		
+
 		for (var i = 0; i < all_stars.length; i++) {
 			var star = all_stars[i];
 			var rank = star.getAttribute('data-star-rank');
-			
+
 			if (rank === is_rated || rank < is_rated) {
 				star.className = app.star_full_icon;
 			} else if (rank > is_rated) {
@@ -146,6 +153,7 @@ ManageRatings.prototype.addChangeEvent = function (ele, container) {
 			}
 		}
 	}); //end addEventListener
+	
 	
 	
 }; //end function: ManageRatings --> addChangeEvent
