@@ -77,10 +77,6 @@ function getAllFonts(res,uid){
     var client =  fontModel.getAll(uid);
     sendRows(client,res);
 }
-function getFontHistory(fid,res){
-    var client =  fontModel.getHistory(fid);
-    sendRows(client,res);
-}
 function getMostPopular(res,uid){
     var client =  fontModel.getMostPopular(uid);
     sendRows(client,res);
@@ -100,6 +96,22 @@ function searchUserCollection(uid, txt, type,start,end,res,myuid){
 function getTrending(res,uid){
     var client = fontModel.getTrending(uid);
     sendRows(client,res);
+}
+function getFontHistory(fid,res){
+    var client =  fontModel.getHistory(fid);
+    //sendRows(client,res);
+    /**
+     * Reversing the order last minute at front end request.
+     * TODO: move it into the sql
+     */
+    client(function(err,vals){
+        if(err){console.log(err); res.send(false);return;}
+        var temp = [];
+        for (var i = vals.rows.length; i >0; i--){
+            temp.push(vals.rows[i-1]);
+        } 
+        res.send(temp);
+    });
 }
 module.exports = {
     userComments:userComments,
