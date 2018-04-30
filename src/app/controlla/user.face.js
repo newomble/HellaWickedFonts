@@ -56,19 +56,26 @@ function getCollection(cid){//specific collection
     return false;
 }
 function newUser(uName,fName,lName,pWord,email,res){
-    console.log("new user");
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(pWord,salt);
-
-    var client = usrModel.addNewUser(uName,pass,fName,lName,salt,email);
-    client(function(err,vals){
-        if(err){
-            dberr(err,res);
-        } else {
-            console.log("sending true");
-            res.send(true);
+    var uNameClient = usrModel.getCredentials(uName)
+    uNameClient(function(err1,response){
+        if(err1){dberr(err1,response);return;}
+        if(response.rows.length > 0){
+            res.send("Username is taken");
+        }else{
+            var client = usrModel.addNewUser(uName,pass,fName,lName,salt,email);
+            client(function(err,vals){
+                if(err){
+                    dberr(err,res);
+                } else {
+                    console.log("sending true");
+                    res.send(true);
+                }
+            });
         }
-    });
+    })
+    
 }
 function getUserData(userId,res){
     var client = usrModel.get(userId);
