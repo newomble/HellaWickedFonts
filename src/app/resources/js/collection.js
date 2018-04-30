@@ -48,6 +48,8 @@ Collection.prototype.init = function () {
 	
 	//call parent init function
 	Search.prototype.init.call(this);
+	
+	this.getSearchResults("");
 }; //end function: Collection --> init
 
 /**
