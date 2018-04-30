@@ -29,7 +29,7 @@ const ratingJoin = " left join public.rating using(font_id) ",
 		" group by font.font_id limit $4 OFFSET $5",
 	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
 		" where user_font.user_user_id = $2 AND "+
-		" kind like concat('%',$3::varchar,'%')"+
+		" kind like concat('%',$3::varchar,'%') "+
 		" group by font.font_id limit $4 OFFSET $5";
 
 var SearchBase = "   "
@@ -88,14 +88,22 @@ function search(type,txt,end,start,uid){
 	if(type == "kind"){
 		qq=searchQueryKind;
 	}
-	return conn.execute(qq,[uid,txt,end,start]);
+	console.log("SEARCH 2")
+	console.log(type,txt,end,start,uid);
+	return conn.execute(qq,[uid,txt,start,end]);
 }
 function searchInColl(uid,type,txt,end,start,currUid){
 	var qq = searchInCollQueryFamily;
 	if(type == "kind"){
 		qq=searchInCollQueryKind;
 	}
-	return conn.execute(qq,[currUid,uid,txt,end,start]);
+	console.log("HERE FAGGOT")
+	console.log("curruid: "+currUid)
+	console.log("uid: "+uid)
+	console.log("txt: "+txt)
+	console.log("end: "+end)
+	console.log("start: "+start)
+	return conn.execute(qq,[currUid,uid,txt,start,end]);
 }
 module.exports = {
 	get: getFont,

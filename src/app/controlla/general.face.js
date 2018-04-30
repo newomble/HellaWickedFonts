@@ -58,8 +58,8 @@ function searchFonts(txt, type,start,end,res,uid){
     var client = fontModel.search(type,txt,start,end,uid);
     sendRows(client,res);
 }
-function searchUserCollection(uid, txt, type,start,end,res,uid){
-    var client = fontModel.searchInColl(uid,type,txt,start,end,uid);
+function searchUserCollection(uid, txt, type,start,end,res,myuid){
+    var client = fontModel.searchInColl(uid,type,txt,start,end,myuid);
     sendRows(client,res);
 }
 function getTrending(res,uid){

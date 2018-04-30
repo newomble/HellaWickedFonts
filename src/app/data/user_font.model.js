@@ -15,7 +15,8 @@ function add(uid,fid){
 }
 
 function search(uid,txt){
-	// return conn.execute(searchQuery,[uid,txt]);
+	console.log("search??");
+	return conn.execute(searchQuery,[uid,txt]);
 }
 function remove(uid,fid){
 	return conn.execute(removeQuery,[uid,fid]);
