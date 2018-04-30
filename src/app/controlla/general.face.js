@@ -33,16 +33,33 @@ function newComment(uid,fid,text,res){//return bool
 function newRating(uid,type,id,rating,res){//add rating to type (constant)
     var client;
     if(type == consts.FONT ){
-        client = ratingModel.addFont(uid,id,rating);
-        client(function(err,vals){
-            if(err){console.log(err);res.send(false);return;}
-            getFontById(id,res,uid);
+        var hasRatedClient = ratingModel.hasRatedFont(id,uid);
+        hasRatedClient(function(err1,response){
+            if(err1){console.log(err); res.send(false);return;}
+            if(response.rows.length < 1){
+                client = ratingModel.addFont(uid,id,rating);
+                client(function(err,vals){
+                    if(err){console.log(err);res.send(false);return;}
+                    getFontById(id,res,uid);
+                });
+            }else{
+                res.send("Already Rated");
+            }
+            
         });
     } else if (type == consts.COMMENT){
-        client = ratingModel.addComment(uid,id,rating);
-        client(function(err,vals){
-            if(err){console.log(err);res.send(false);return;}
-            getComment(id,res);
+        var hasRatedClient = ratingModel.hasRatedComment(id,uid);
+        hasRatedClient(function(err1,response){
+            if(err1){console.log(err); res.send(false);return;}
+            if(response.rows.length < 1){
+                client = ratingModel.addComment(uid,id,rating);
+                client(function(err,vals){
+                    if(err){console.log(err);res.send(false);return;}
+                    getComment(id,res);
+                });
+            }else{
+                res.send("Already Rated");
+            }
         })
     }else{
         res.send(false);
