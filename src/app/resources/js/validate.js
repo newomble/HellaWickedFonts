@@ -4,7 +4,7 @@
 * @author	niharika nakka (nn6889@rit.edu)
 * @date		4/8/2018
 *************************************************************/
-
+var hwf = new HellaWickedFonts();
 
 /**
 * Validates login form 
@@ -21,13 +21,38 @@ function validateLoginForm(){
 		errors.innerHTML = "All fields must be filled out";
 		errors.classList.add("error");
 		window.scrollTop = 0; //make sure they see that there are errors
+	} else {
+		data.username = username;
+		data.password = password;
+
+		console.log("Data: "+ JSON.stringify(data) );
+		
+		hwf.ajaxCall("/api/login", "POST", data, "handleLogin", this);
 	} //end if: did they fill out all the fields?
-	data.username = username;
-	data.password = password;
-	HellaWickedFonts.prototype.ajaxCall("/api/login", "POST",data, "");
+	
+	
 	return false;
 } //end function: validateLoginForm
 
+/**
+* Handles a login attempt
+* @param data {boolean/JSON} false if there is an error, the JSON response if successful
+* @param err {boolean/string} false if no error, string if there is
+*/
+function handleLogin (data, err) {
+	console.log("helo");
+	if (!err) { //no back-end error
+		if (data) {
+			window.location = "/collection";
+		} else {
+			errors.innerHTML = "Invalid Login. Please check your credentials.";
+			errors.classList.add("error");
+		} //end else/if: login successful?
+	} else { //there was an error (not bad password)
+		errors.innerHTML = "Invalid Login. Please check your credentials.";
+		errors.classList.add("error");
+	} //end if: was there a critical error?
+} //end function: handleLogin
 
 
 /**
@@ -60,7 +85,7 @@ function validateSignUpForm () {
 	data.repassword = repassword;
 	data.first_name = ;
 	data.last_name = ;
-	HellaWickedFonts.prototype.ajaxCall("/api/signup", "POST",data, "");
+	hwf.ajaxCall("/api/signup", "POST",data, "");
 } //end function: validateSignUpForm
 
 

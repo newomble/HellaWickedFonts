@@ -112,24 +112,27 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, rating, 
 */
 HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, app_obj) {
 	'use strict';
+	console.log("hey");
+	
 	var app = app_obj || this;
+	console.log(app);
 	$.ajax({
 		type: method,
 		async: true,
 		cache: false,
 		url: url,
-		data: params,
-		dataType: "json"
+		data: params
 	}).done(function (json_data) {
-			var res, err;
-			if ((typeof(json_data) == "string")) {
-				res = false;
-				err = json_data;
-			} else {
-				res = json_data;
-				err = false;
-			} //end if: did we get something back that isn't JSON?
-			app[callback](res, err);
+		var res, err;
+		if ((typeof(json_data) == "string")) {
+			res = false;
+			err = json_data;
+		} else {
+			res = json_data;
+			err = false;
+		} //end if: did we get something back that isn't JSON?
+
+		app[callback](res, err);
 	}); //end done
 }; //end function: HellaWickedFonts --> ajaxPOST
 
