@@ -4,6 +4,7 @@ var express = require('express'),
     bodyParser = require("body-parser"),
     controller = require(basePath + "/app/controlla/index.face.js"),
     consts = require(basePath+"/app/lib/constants.js"),
+    utils = require(basePath+"/app/lib/utils.js"),
     apiRouter = express.Router();
 apiRouter.use(bodyParser.urlencoded({extended:true}));
 apiRouter.use(bodyParser.json());
@@ -22,15 +23,19 @@ apiRouter.route("/logout").post(function(req,res){
     res.send(true);
 });
 
-apiRouter.route("/reset/password").post(function(req,res){//Not sure where reset password input is from
+apiRouter.route("/reset/password").post(function(req,res){
     var uName = req.body.username;
     var newPwod = req.body.newpassword;
     var confirmdNewPw = req.body.repassword;
 
-    if(newPwod == confirmdNewPw){
-        controller.resetPass(confirmdNewPw, uName);
+    if(!utils.isString(uName) || !utils.isString(newPwod) || !utils.isString(confirmdNewPw)){
+        res.send("Missing or bad field");
     }else{
-        res.send("Please reconfirm new password");
+        if(newPwod == confirmdNewPw){
+            controller.resetPass(confirmdNewPw, uName);
+        }else{
+            res.send("Please reconfirm new password");
+        }
     }
 });
 
@@ -50,13 +55,22 @@ apiRouter.route("/signup").post(function(req,res){
     var fname = req.body.first_name;
     var lname = req.body.last_name;
     var email = req.body.email;
-    console.log("signup hit")
-    if(!uName || !pWord || !repWord || !fname || !lname || !email){
+    console.log("signup hit");
+    console.log(req.body);
+    if(utils.isString(uName) == false || utils.isString(pWord) == false || utils.isString(repWord) == false || utils.isString(fname) == false || 
+        utils.isString(lname) == false || utils.isString(email) == false){
         console.log("missing")
-        res.send("Missing Field");
+        res.send("Missing or bad field");
     }else if( !pWord || pWord != repWord){
         console.log("pass mismatch")
         res.send("Passwords do not match");
+    }else if(utils.isEmail(email) == false){
+        console.log("email entered is not a valid email");
+        res.send(email+" is not a valid email");
+    }else if(!utils.isStringUnder45(uName)|| !utils.isStringUnder45(email) || 
+            !utils.isStringUnder45(fname) || !utils.isStringUnder45(lname)){
+        console.log("username, email, or first/last name over 45 chars");
+        res.send("Your username, email, or first/lastname is over 45 characters long");
     }else{
         console.log("signing up");
         controller.newUser(uName,fname,lname,pWord,email,res);
@@ -66,8 +80,8 @@ apiRouter.route("/signup").post(function(req,res){
 apiRouter.post("/rate",function(req,res){
     if(!isLoggedIn(req)){
         res.send("Must be logged in.");
-    } else if( !req.body.rating){
-        res.send("Rating required");
+    }else if(!utils.isNumeric(req.body.rating)){
+        res.send("Missing or bad rating");
     }else{
         var id = 0;
         var type = null;
@@ -87,7 +101,7 @@ apiRouter.post("/rate",function(req,res){
 });
 
 apiRouter.post("/comment",function(req,res){
-    if( ! isLoggedIn(req) || !req.body.comment || !req.body.font_id ){
+    if( ! isLoggedIn(req) || !utils.isString(req.body.comment) || !utils.isNumeric(req.body.font_id) ){
         res.send("Must be logged in and have a font and comment");
     }else{
         controller.newComment(req.session.user.user_id,req.body.font_id,req.body.comment,res);
@@ -98,10 +112,10 @@ apiRouter.post("/search/fonts",function(req,res){
     var txt = req.body.search_string;
     var uid = req.body.user_id;
     var type = req.body.type;
-    if(!txt){
-        res.send("Missing Search Text");
-    }else if(!type){
-        res.send("Missing Type Field");
+    if(utils.isString(txt) == false){
+        res.send("Missing or bad search text");
+    }else if(utils.isString(type) == false){
+        res.send("Missing or bad type field");
     }else if(uid){
         controller.searchUserCollection(uid, txt, type, res);
     } else {
@@ -111,17 +125,18 @@ apiRouter.post("/search/fonts",function(req,res){
 });
 
 apiRouter.post("/font",function(req,res){
-    if(req.body.id){
+    if(utils.isNumeric(req.body.id)){
         controller.getFontById(req.body.id,res);
     }else{
-        res.send("No id given");
+        console.log("Error with id in /font");
+        res.send("No id given or bad id input");
     }
-})
+});
 
 apiRouter.post("/search/users",function(req,res){
     var txt = req.body.search_string;
-    if(!txt){
-        res.send("Missing Search Text");
+    if(!utils.isString(txt)){
+        res.send("Missing or bad search text");
     } else {
         controller.searchUser(txt,res);
     }
@@ -135,19 +150,20 @@ apiRouter.post("/suggested/fonts",function(req,res){
     controller.getSuggestion(res);
 });
 apiRouter.post("/get/comments",function(req,res){
-    if(!req.body.font_id){
-        res.send("Font id is required");
+    if(!utils.isNumeric(req.body.font_id)){
+        res.send("Font id is missing or bad font id value");
     }else{
         controller.fontComments(req.body.font_id,res);
     }
 });
 apiRouter.post("/font/history",function(req,res){
-    if(!req.body.font_id){
+    if(!utils.isNumeric(req.body.font_id)){
+        console.log("Error with font id in /font/history");
         res.send("Font id is required");
     }else{
         controller.getFontHistory(req.body.font_id,res);
     }
-})
+});
 apiRouter.post("/trending/fonts",function(req,res){
     controller.getTrending(res);
 });
@@ -155,7 +171,7 @@ apiRouter.post("/trending/fonts",function(req,res){
 apiRouter.post("/user/edit/collection",function(req,res){
     if( !isLoggedIn(req) ){
         res.send("Must be logged in");
-    } else if(!req.body.font_id){
+    } else if(!utils.isNumeric(req.body.font_id)){
         res.send("No font selected");
     }else if (req.body.is_fav != null){
         console.log(req.body.is_fav);
@@ -169,45 +185,49 @@ apiRouter.post("/user/edit/collection",function(req,res){
     } else{
         res.send("Could not determine of adding or removing");
     }
-})
+});
 
 
 apiRouter.post("/user/update/email",function(req,res){
-    if(!req.body.email){
+    if(!utils.isEmail(req.body.email)){
         res.send("Requires email.")
     }else if(isLoggedIn(req)){
         controller.updateEmail(req.body.email,req.session.user.user_id,res);
     }else{
         res.send("Are you logged in?");
     }
-})
+});
 apiRouter.post("/user/update/name",function(req,res){
-    if(!req.body.first_name || !req.body.last_name){
-        res.send("Requires first name and last name.")
+    if(!utils.isString(req.body.first_name) || !utils.isString(req.body.last_name)){
+        res.send("Requires first name and last name.");
+    }else if(!utils.isStringUnder45(req.body.first_name) || !utils.isStringUnder45(req.body.last_name)){
+        res.send("First and last name need to be under 45 characters");
     }else if(isLoggedIn(req)){
         controller.updateName(req.body.first_name,req.body.last_name,req.session.user.username,res);
     }else{
         res.send("Are you logged in?");
     }
-})
+});
 apiRouter.post("/user/update/username",function(req,res){
-    if(!req.body.username){
-        res.send("Requires username.")
+    if(!utils.isString(req.body.username)){
+        res.send("Requires username.");
+    }else if(!utils.isStringUnder45(req.body.username)){
+        res.send("Username needs to be under 45 characters");
     }else if(isLoggedIn(req)){
         controller.updateUsername(req.body.username,req.session.user.user_id,res);
     }else{
         res.send("Are you logged in?");
     }
-})
+});
 apiRouter.post("/user/update/password",function(req,res){
-    if(!req.body.password){
-        res.send("Requires new password.")
+    if(!utils.isString(req.body.password)){
+        res.send("Requires new password or bad password input");
     }else if(isLoggedIn(req)){
         controller.resetPass(req.body.password,req.session.user.username,res);
     }else{
         res.send("Are you logged in?");
     }
-})
+});
 apiRouter.post("/user/update/all",function(req,res){
     var resString = {};
     var error = false;
@@ -216,24 +236,40 @@ apiRouter.post("/user/update/all",function(req,res){
         res.send("Must be logged in");
         return;
     }
-    if(req.body.password){
+    if(utils.isString(req.body.password)){
         controller.resetPass(req.body.password,req.session.user.username);
         resString.password = true;     
+    }else{
+        res.send("Password is required or bad password input");
     }
-    if(req.body.username){
+    if(utils.isString(req.body.username)){
         controller.updateUsername(req.body.username,req.session.user.user_id);        
         resString.username = true;    
+    }else{
+        res.send("Username is required or bad username input");
     }
-    if(req.body.email){
-        controller.updateEmail(req.body.email,req.session.user.user_id);           
-        resString.email = true;  
+    if(utils.isString(req.body.email)){
+        if(utils.isEmail(req.body.email)){
+            controller.updateEmail(req.body.email,req.session.user.user_id);           
+            resString.email = true; 
+        }else{
+            res.send(req.body.email+" is not a valid email");
+        }   
+    }else{
+        res.send("Email is required or bad email input");
     }
-    if(req.body.first_name && req.body.last_name){
-        controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
-        resString.name = true;  
+    if(utils.isString(req.body.first_name) && utils.isString(req.body.last_name)){
+        if(utils.isStringUnder45(req.body.first_name) && utils.isStringUnder45(req.body.last_name)){
+            controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
+            resString.name = true;
+        }else{
+            res.send("First and last name need to be under 45 characters");
+        }
+    }else{
+        res.send("First and last name required or bad input");
     }
     res.send(resString);
-})
+});
 
 module.exports = apiRouter;
 
