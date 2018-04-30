@@ -77,11 +77,11 @@ apiRouter.route("/signup").post(function(req,res){
 });
 
 apiRouter.post("/rate",function(req,res){
-    if(!isLoggedIn(req)){
-        res.send("Must be logged in.");
-    }else if(!utils.isNumeric(req.body.rating)){
-        res.send("Missing or bad rating");
-    }else{
+    // if(!isLoggedIn(req)){
+    //     res.send("Must be logged in.");
+    // }else if(!utils.isNumeric(req.body.rating)){
+    //     res.send("Missing or bad rating");
+    // }else{
         var id = 0;
         var type = null;
         if(req.body.font_id){
@@ -94,9 +94,9 @@ apiRouter.post("/rate",function(req,res){
         if(type == null){
             res.send("Couldn't determine if comment or font rating");
         }else{
-            controller.newRating(req.session.user.user_id,type,id,req.body.rating,res);
+            controller.newRating(2,type,id,req.body.rating,res);
         }
-    }
+    // }
 });
 
 apiRouter.post("/comment",function(req,res){
@@ -115,7 +115,7 @@ apiRouter.post("/search/fonts",function(req,res){
     
     var limitStart = req.body.limit_start;
     var limitEnd = req.body.limit_end;
-    if(!limitStart){
+    if(!limitStart || limitStart < 0){
         limitStart = 0;
     }
     if(!limitEnd){

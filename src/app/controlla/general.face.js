@@ -36,14 +36,19 @@ function newRating(uid,type,id,rating,res){//add rating to type (constant)
         var hasRatedClient = ratingModel.hasRatedFont(id,uid);
         hasRatedClient(function(err1,response){
             if(err1){console.log(err); res.send(false);return;}
-            if(response.rows.length < 1){
+            var client = null;
+            if(response.rows.length < 1){//add
                 client = ratingModel.addFont(uid,id,rating);
+            }else{//update
+                client = ratingModel.update(response.rows[0].rating_id,rating);
+            }
+            if(client){
                 client(function(err,vals){
                     if(err){console.log(err);res.send(false);return;}
                     getFontById(id,res,uid);
                 });
             }else{
-                res.send("Already Rated");
+                res.send("Something went wrong");
             }
             
         });
@@ -53,12 +58,16 @@ function newRating(uid,type,id,rating,res){//add rating to type (constant)
             if(err1){console.log(err); res.send(false);return;}
             if(response.rows.length < 1){
                 client = ratingModel.addComment(uid,id,rating);
+            }else{//update
+                client = ratingModel.update(response.rows[0].rating_id,rating);
+            }
+            if(client){
                 client(function(err,vals){
                     if(err){console.log(err);res.send(false);return;}
                     getComment(id,res);
                 });
             }else{
-                res.send("Already Rated");
+                res.send("Something went wrong");
             }
         })
     }else{
