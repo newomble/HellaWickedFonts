@@ -174,10 +174,13 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	
 	avatar_img.setAttribute('src', user_comment.icon_url);
 	username.innerHTML = user_comment.username;
-	comment_text.innerHTML = user_comment.text;
+	comment_text.innerHTML = user_comment.comment_text;
 	
-	up_vote.innerHTML = user_comment.up_count;
-	down_vote.innerHTML = user_comment.down_count;
+	var up_count = user_comment.rating || 0;
+	var down_count = parseInt(up_count) - parseInt(user_comment.rating || 0);
+	
+	up_vote.innerHTML = up_count;
+	down_vote.innerHTML = down_count;
 	
 	up_vote.id = "up_count_" + comment_id;
 	down_vote.id = "down_count_" + comment_id;
@@ -197,7 +200,7 @@ CommentManager.prototype.commentBox = function (user_comment) {
 		down_vote_icon.style.cursor = "default";
 	} //end if: is the user logged in?
 	
-	this.tmp_comment_id_count = comment_id + 1;
+	//this.tmp_comment_id_count = comment_id + 1;
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
 
