@@ -141,7 +141,7 @@ HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, a
 HellaWickedFonts.prototype.includeFontFamily = function (font_family) {
 	'use strict';
 	var existing_fonts = this.FONT_LOADER.getAttribute('href'),
-		font_url_name = font_family.replace(/\s/g, "+");
+		font_url_name = this.cssFontName(font_family);
 	
 	if (existing_fonts.indexOf(font_url_name) === -1) {
 		this.FONT_LOADER.setAttribute("href", existing_fonts + "|" + font_url_name);
