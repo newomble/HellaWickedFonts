@@ -41,6 +41,11 @@ pageRouter.get("/prefs" || "/preferences", function (req, res){
 pageRouter.get("/login", function (req, res, next){
     pageLoader.loginPage(req,res);
 });
+pageRouter.get("/logout",function(req,res){
+    req.session.loggedIn = false;
+    pageLoader.loginPage(req,res);
+    req.session.destroy();
+})
 
 pageRouter.get("/signup", function (req, res, next){
     pageLoader.signup(req,res);

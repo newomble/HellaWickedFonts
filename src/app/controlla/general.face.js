@@ -89,6 +89,7 @@ function insertResponse(client,res){
             console.log(err);
             res.send(false);
         }else{
+            console.log(vals);
             res.send(true);
         }
     });
