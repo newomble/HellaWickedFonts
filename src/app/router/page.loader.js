@@ -122,16 +122,11 @@ function initList(req,title){
     if(req.session.loggedIn){
         list.user_id = req.session.user.user_id;
         list.isLoggedIn = req.session.loggedIn;
-<<<<<<< HEAD
-        list.my_icon = req.session.user.icon;
-        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
-=======
         list.icon = req.session.user.icon;
 		
 		tjs.setSync(fs.readFileSync( basePath+"/app/resources/templates/logged_in.html"));   
     	var output = tjs.renderAllSync(list);
         list.nav = output;
->>>>>>> e410dc049e3fcb250c53e330d1cd4e0934494c54
     } else{
         list.isLoggedIn = false;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
