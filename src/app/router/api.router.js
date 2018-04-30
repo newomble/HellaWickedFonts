@@ -101,11 +101,11 @@ apiRouter.post("/rate",function(req,res){
 
 apiRouter.post("/comment",function(req,res){
     //TODO remove comments
-    // if( ! isLoggedIn(req) || !req.body.comment || !utils.isNumeric(req.body.font_id) ){
-    //     res.send("Must be logged in and have a font and comment");
-    // }else{
-        controller.newComment(2,req.body.font_id,req.body.comment,res);
-    // }
+    if( ! isLoggedIn(req) || !req.body.comment || !utils.isNumeric(req.body.font_id) ){
+        res.send("Must be logged in and have a font and comment");
+    }else{
+        controller.newComment(req.session.user.user_id,req.body.font_id,req.body.comment,res);
+    }
 });
 
 apiRouter.post("/search/fonts",function(req,res){
