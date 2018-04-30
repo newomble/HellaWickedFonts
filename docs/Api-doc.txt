@@ -148,8 +148,26 @@ RETURNS true/ string(error)
 
 
 
+----------------UPDATE USER------------
+/api/user/update/email
+{
+    email : val
+}
+/api/user/update/name
+{
+    first_name: val,
+    last_name:val
+}
+--Both are required
 
-
+/api/user/update/username
+{
+    username:val
+}
+/api/user/update/password
+{
+    password:val
+}
 
 
 
