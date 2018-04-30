@@ -167,11 +167,77 @@ apiRouter.post("/user/edit/collection",function(req,res){
         res.send("Could not determine of adding or removing");
     }
 })
+
+
+apiRouter.post("/user/update/email",function(req,res){
+    if(!req.body.email){
+        res.send("Requires email.")
+    }else if(isLoggedIn(req)){
+        controller.updateEmail(req.body.email,req.session.user.user_id,res);
+    }else{
+        res.send("Are you logged in?");
+    }
+})
+apiRouter.post("/user/update/name",function(req,res){
+    if(!req.body.first_name || !req.body.last_name){
+        res.send("Requires first name and last name.")
+    }else if(isLoggedIn(req)){
+        controller.updateName(req.body.first_name,req.body.last_name,req.session.user.username,res);
+    }else{
+        res.send("Are you logged in?");
+    }
+})
+apiRouter.post("/user/update/username",function(req,res){
+    if(!req.body.username){
+        res.send("Requires username.")
+    }else if(isLoggedIn(req)){
+        controller.updateUsername(req.body.username,req.session.user.user_id,res);
+    }else{
+        res.send("Are you logged in?");
+    }
+})
+apiRouter.post("/user/update/password",function(req,res){
+    if(!req.body.password){
+        res.send("Requires new password.")
+    }else if(isLoggedIn(req)){
+        controller.resetPass(req.body.password,req.session.user.username,res);
+    }else{
+        res.send("Are you logged in?");
+    }
+})
+apiRouter.post("/user/update/all",function(req,res){
+    var resString = {};
+    var error = false;
+
+    if(!isLoggedIn(req)){
+        res.send("Must be logged in");
+        return;
+    }
+    if(req.body.password){
+        controller.resetPass(req.body.password,req.session.user.username);
+        resString.password = true;     
+    }
+    if(req.body.username){
+        controller.updateUsername(req.body.username,req.session.user.user_id);        
+        resString.username = true;    
+    }
+    if(req.body.email){
+        controller.updateEmail(req.body.email,req.session.user.user_id);           
+        resString.email = true;  
+    }
+    if(req.body.first_name && req.body.last_name){
+        controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
+        resString.name = true;  
+    }
+    res.send(resString);
+})
+
 module.exports = apiRouter;
 
 function isLoggedIn(req){
     req.session.user = {};
     req.session.user.user_id =1;
+    req.session.user.username = "newUser3";
     return true;
     // return (req.session.loggedIn == true);
 }

@@ -148,8 +148,15 @@ RETURNS true/ string(error)
 
 
 
-
-
+----------------UPDATE USER------------
+/api/user/update/all
+{
+    email : val
+    first_name: val,
+    last_name:val
+    username:val
+    password:val
+}
 
 
 

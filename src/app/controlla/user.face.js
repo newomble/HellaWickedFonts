@@ -95,15 +95,24 @@ function searchUser(txt,res){
 }
 
 function resetPass(newPwd, uName){
-    var client = usrModel.resetPass(newPwd, uName);
-    client(function(err,vals){
-        if(err){
-            console.log(err);
-            res.send("Something went wrong");
-        }else{
-            res.send(true);
-        }
-    });
+    var salt =  bCrypt.genSaltSync(10);
+    var pass = createHash(newPwd,salt);
+    
+    var client = usrModel.resetPass(pass, uName);
+    noResponse(client);
+}
+
+function updateUsername(newUsername,uid){
+    var client = usrModel.updateUsername(newUsername,uid);
+    noResponse(client)
+}
+function updateName(first_name,last_name,uid){
+    var client = usrModel.updateName(first_name,last_name,uid);
+    noResponse(client)
+}
+function updateEmail(email,uid){
+    var client = usrModel.updateEmail(email,uid);
+    noResponse(client)
 }
 
 module.exports = {
@@ -115,9 +124,19 @@ module.exports = {
     newUser:newUser,
     resetPass: resetPass,
     searchUser:searchUser,
-    removeCollection:removeCollection
+    removeCollection:removeCollection,
+    updateUsername:updateUsername,
+    updateName:updateName,
+    updateEmail:updateEmail
 }
 
+function noResponse(client){
+    client(function(err,vals){
+        if(err){
+            console.log(err);
+        }
+    });
+}
 function stripSensative(res){
     delete res["password"];
     delete res["salt"];

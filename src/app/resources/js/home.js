@@ -74,34 +74,8 @@ Home.prototype.handlePopularFonts = function (data, err) {
 */
 Home.prototype.initTrendingFonts = function () {
 	'use strict';
-	//TODO: comment the ajax call back in
+	//go grab the trending fonts
 	this.ajaxCall("/api/trending/fonts", "POST", "", "handleTrendingFonts");
-	
-	//TODO: remove everything below here
-	//dummy_fonts is the expected JSON return
-	var dummy_fonts = [
-		{
-			family :"Roboto",
-			url : ""
-		},
-		{
-			family :"EB Garamond",
-			url : ""
-		},
-		{
-			family :"EB Garamond",
-			url : ""
-		},
-		{
-			family :"Marck Script",
-			url : ""
-		},
-		{
-			family :"Marck Script",
-			url : ""
-		}
-	];
-	this.handleTrendingFonts(dummy_fonts, false);
 }; //end function: Home --> initTrendingFonts
 
 
