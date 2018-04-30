@@ -1,8 +1,7 @@
 /************************************************************
 * @desc		Handles a the user preferences page
 *
-* @author	Niharika Nakka (nn6889@rit.edu)
-*			erika tobias (et5392@rit.edu)
+* @author	erika tobias (et5392@rit.edu)
 *			
 * @date		4/12/2018
 *************************************************************/
@@ -11,13 +10,10 @@
 /**
 * @constructor
 */
-function UserPreferences() {
-	this.init();
-}; //end function: UserPreferences
+function UserPreferences() {};
 
-/** ----------------------------------------------------------- **/
-/** --------------------- INHERIT CLASSES --------------------- **/
-/** ----------------------------------------------------------- **/
+
+/** --------------------- INHERIT HellaWickedFonts --------------------- **/
 UserPreferences.prototype = Object.create(HellaWickedFonts.prototype);
 UserPreferences.prototype.constructor = UserPreferences;
 
@@ -37,18 +33,7 @@ UserPreferences.prototype.USER_ID = document.getElementById('user_id').value;
 
 
 /**
-* Initializes this object
-*/
-UserPreferences.prototype.init = function () {
-	'use strict';
-	
-	//go and get this user (add ajax call once back-end is completed)
-	//this.getUser();
-}; //end function: UserPreferences --> init
-
-
-/**
-* Function called on button click
+* Function called on button click & validates the fields are as they should be
 */
 UserPreferences.prototype.validateFields = function () {
 	'use strict';
@@ -59,27 +44,27 @@ UserPreferences.prototype.validateFields = function () {
 		this.ERRORS.innerHTML = "You must enter a first name.<br>";
 		this.FIRST_NAME.classList.add("error");
 		no_errors = false;
-	} //end if: do we have a first name?
+	}
 	
 	if (this.LAST_NAME.value === "") {
 		this.ERRORS.innerHTML += "You must enter a last name.<br>";
 		this.LAST_NAME.classList.add("error");
 		no_errors = false;
-	} //end if: do we have a first name?
+	}
 	
 	
 	if (this.EMAIL.value === "") {
 		this.ERRORS.innerHTML += "You must enter a valid email.<br>";
 		this.EMAIL.classList.add("error");
 		no_errors = false;
-	} //end if: do we have a first name?
+	}
 	
 	
 	if (this.CURRENT_PWD.value === "") {
 		this.ERRORS.innerHTML += "You must enter your current password.<br>";
 		this.CURRENT_PWD.classList.add("error");
 		no_errors = false;
-	} //end if: do we have a first name?
+	}
 	
 	var a_pwd = this.NEW_AGAIN_PWD.value,
 		n_pwd = this.NEW_PWD.value;
@@ -90,17 +75,18 @@ UserPreferences.prototype.validateFields = function () {
 			this.NEW_AGAIN_PWD.classList.add('error');
 			this.NEW_PWD.classList.add('error');
 			no_errors = false;
-		} //end if: are they the same?
-	} //end else/if
+		}
+	}
 	
 	if (!no_errors) {
 		window.scrollTo(0,0);
 	} else {
-		this.updateUser();
+		this.ajaxCall("/api/user/update/all", "POST", this.getParams(), "handleUpdateUser");
 	} //end if: did we have any errors?
 	
 	return no_errors;
 }; //end function: UserPreferences --> init
+
 
 /**
 * Resets any existing errors in the form
@@ -117,32 +103,10 @@ UserPreferences.prototype.clearErrors = function () {
 }; //end function: UserPreferences --> validateFields
 
 
-
 /**
-* Make an ajax call to grab the user to load them for view.
-
-UserPreferences.prototype.getUser = function () {
-	'use strict';
-	this.user = {
-		'username' : "memrie",
-		'use_id' : 1,
-		'first_name' : "enbn",
-		'last_name' : 'tnpw',
-		'email' : 'et5392@rit.edu',
-		'icon_url' : 'https://www.gravatar.com/avatar/fd675280dec9225f301bd5c90dc2bf1b?s=150&d=mm&r=g'
-	};
-	
-	this.loadUser();
-}; //end function: UserPreferences --> getUser
+* Handles an update user request
+* @param data {JSON}
 */
-
-UserPreferences.prototype.updateUser = function () {
-	'use strict';
-	//make an ajax call to update this user
-	this.ajaxCall("/api/user/update/all", "POST", this.getParams(), "handleUpdateUser");
-}; //end function: UserPreferences --> updateUser
-
-
 UserPreferences.prototype.handleUpdateUser = function (data, err) {
 	'use strict';
 	this.clearErrors(); //clear any errors
@@ -165,9 +129,7 @@ UserPreferences.prototype.handleUpdateUser = function (data, err) {
 */
 UserPreferences.prototype.loadUser =  function () {
 	'use strict';
-	console.log("Loading USer")
-	console.log(this.user);
-	//this.USERNAME.value = this.user.username;
+	
 	this.FIRST_NAME.value = this.user.first_name;
 	this.LAST_NAME.value = this.user.last_name;
 	this.EMAIL.value = this.user.email;
@@ -185,7 +147,7 @@ UserPreferences.prototype.loadUser =  function () {
 UserPreferences.prototype.getParams = function () {
 	'use strict';
 	return {
-		'user_id' : this.USER_ID, //obviously update later.
+		'user_id' : this.USER_ID,
 		'first_name' : this.FIRST_NAME.value || "",
 		'last_name' : this.LAST_NAME.value || "",
 		'email' : this.EMAIL.value || "",
