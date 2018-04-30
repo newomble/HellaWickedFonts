@@ -14,6 +14,10 @@ function fontComments(fontId,res){//all comments for font
     var client = comModel.getFromFontId(fontId);
     sendRows(client,res);
 }
+function getComment(commentId,res){
+    var client = comModel.get(commentId);
+    sendRows(client,res);
+}
 function newComment(uid,fid,text,res){//return bool
     var client = comModel.insertComment(uid,fid,text);
     client(function(err,vals){
@@ -30,12 +34,17 @@ function newRating(uid,type,id,rating,res){//add rating to type (constant)
     var client;
     if(type == consts.FONT ){
         client = ratingModel.addFont(uid,id,rating);
+        client(function(err,vals){
+            if(err){console.log(err);res.send(false);return;}
+            getFontById(id,res,uid);
+        });
     } else if (type == consts.COMMENT){
         client = ratingModel.addComment(uid,id,rating);
-    }
-    if(client){
-        insertResponse(client,res);
-    } else {
+        client(function(err,vals){
+            if(err){console.log(err);res.send(false);return;}
+            getComment(id,res);
+        })
+    }else{
         res.send(false);
     }
 }
