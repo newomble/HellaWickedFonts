@@ -116,6 +116,7 @@ module.exports = {
 function initList(req,title){
     list.title= title;
     if(req.session.loggedIn){
+        list.user_id = req.session.user_id;
         list.isLoggedIn = req.session.loggedIn;
         list.icon = req.session.user.icon;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");

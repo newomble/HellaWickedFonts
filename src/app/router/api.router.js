@@ -112,7 +112,7 @@ apiRouter.post("/search/fonts",function(req,res){
     }else if(!type){
         res.send("Missing Type Field");
     }else if(uid){
-        controller.searchUserCollection(uid, txt, type,limitStart,limitEnd res);
+        controller.searchUserCollection(uid, txt, type,limitStart,limitEnd, res);
     } else {
         controller.searchFonts(txt, type,limitStart,limitEnd, res);
     }
