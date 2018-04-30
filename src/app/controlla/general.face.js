@@ -98,7 +98,7 @@ function insertResponse(client,res){
             console.log(err);
             res.send(false);
         }else{
-            if( vals.rows ){
+            if( vals && vals.rows ){
                 res.send(vals.rows[0]);
             }else{
                 res.send(true);
