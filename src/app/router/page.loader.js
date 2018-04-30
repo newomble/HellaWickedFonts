@@ -44,7 +44,7 @@ function userPage(uid,req,res){
         }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
-            list.user_icon = makeGravLink(aUser.email);
+            list.user_prof_icon = makeGravLink(aUser.email);
             list.user_prof_id = aUser.user_id;
         }
         var data = fs.readFileSync(pageRoot+'/user.html');
