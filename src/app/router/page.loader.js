@@ -119,12 +119,16 @@ function initList(req,title){
         list.user_id = req.session.user_id;
         list.isLoggedIn = req.session.loggedIn;
         list.icon = req.session.user.icon;
-        list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_in.html");
+		
+		tjs.setSync(fs.readFileSync( basePath+"/app/resources/templates/logged_in.html"));   
+    	var output = tjs.renderAllSync(list);
+        list.nav = output;
     } else{
         list.isLoggedIn = false;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
 }
+
 function makeGravLink(email){
     return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }
