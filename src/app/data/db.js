@@ -12,7 +12,6 @@ function ex(sqlQuery,params){
         return onQueryReturn(new Error(['Database connection failed-', err.toString()].join(' ')));
       } else {
         client.query(sqlQuery,params, function(err, results) {
-          console.log(sqlQuery,params);
           done(err);
           onQueryReturn(err, results);
         });

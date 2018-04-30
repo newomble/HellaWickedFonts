@@ -88,8 +88,6 @@ function search(type,txt,end,start,uid){
 	if(type == "kind"){
 		qq=searchQueryKind;
 	}
-	console.log("SEARCH 2")
-	console.log(type,txt,end,start,uid);
 	return conn.execute(qq,[uid,txt,start,end]);
 }
 function searchInColl(uid,type,txt,end,start,currUid){
@@ -97,12 +95,6 @@ function searchInColl(uid,type,txt,end,start,currUid){
 	if(type == "kind"){
 		qq=searchInCollQueryKind;
 	}
-	console.log("HERE FAGGOT")
-	console.log("curruid: "+currUid)
-	console.log("uid: "+uid)
-	console.log("txt: "+txt)
-	console.log("end: "+end)
-	console.log("start: "+start)
 	return conn.execute(qq,[currUid,uid,txt,start,end]);
 }
 module.exports = {

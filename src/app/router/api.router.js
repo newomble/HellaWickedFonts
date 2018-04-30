@@ -253,34 +253,22 @@ apiRouter.post("/user/update/all",function(req,res){
     if(utils.isString(req.body.password)){
         controller.resetPass(req.body.password,req.session.user.username);
         resString.password = true;     
-    }else{
-        res.send("Password is required or bad password input");
     }
     if(utils.isString(req.body.username)){
         controller.updateUsername(req.body.username,req.session.user.user_id);        
         resString.username = true;    
-    }else{
-        res.send("Username is required or bad username input");
     }
     if(utils.isString(req.body.email)){
         if(utils.isEmail(req.body.email)){
             controller.updateEmail(req.body.email,req.session.user.user_id);           
             resString.email = true; 
-        }else{
-            res.send(req.body.email+" is not a valid email");
-        }   
-    }else{
-        res.send("Email is required or bad email input");
+        } 
     }
     if(utils.isString(req.body.first_name) && utils.isString(req.body.last_name)){
         if(utils.isStringUnder45(req.body.first_name) && utils.isStringUnder45(req.body.last_name)){
             controller.updateName(req.body.first_name,req.body.last_name,req.session.user.user_id);        
             resString.name = true;
-        }else{
-            res.send("First and last name need to be under 45 characters");
         }
-    }else{
-        res.send("First and last name required or bad input");
     }
     res.send(resString);
 });

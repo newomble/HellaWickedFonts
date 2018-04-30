@@ -139,13 +139,14 @@ UserPreferences.prototype.getUser = function () {
 UserPreferences.prototype.updateUser = function () {
 	'use strict';
 	//make an ajax call to update this user
-	this.ajaxCall("TODO - API URL", "POST", this.getParams(), "handleUpdateUser");
+	this.ajaxCall("/api/user/update/all", "POST", this.getParams(), "handleUpdateUser");
 }; //end function: UserPreferences --> updateUser
 
 
 UserPreferences.prototype.handleUpdateUser = function (data, err) {
 	'use strict';
 	this.clearErrors(); //clear any errors
+	console.log(data);
 	if (!err) {
 		this.user = data;
 		this.loadUser(); //load up the new data
@@ -163,7 +164,7 @@ UserPreferences.prototype.handleUpdateUser = function (data, err) {
 */
 UserPreferences.prototype.loadUser =  function () {
 	'use strict';
-	
+	console.log(this.user);
 	this.USERNAME.value = this.user.username;
 	this.FIRST_NAME.value = this.user.first_name;
 	this.LAST_NAME.value = this.user.last_name;
