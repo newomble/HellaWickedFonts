@@ -62,6 +62,7 @@ function validateSignUpForm () {
 	var userName = document.forms["signUpForm"]["username"].value;
 	var password = document.forms["signUpForm"]["password"].value;
 	var repassword = document.forms["signUpForm"]["repassword"].value;
+	var email = document.forms["signUpForm"]["email"].value;
 	var errors = document.getElementById('errors');
 	errors.innerHTML = "";
 	
@@ -78,11 +79,19 @@ function validateSignUpForm () {
 		window.scrollTop = 0;
 		return false;
 	} //end if: does the first password match the second?
-	data.username = username;
+	var names = fullName.split(" ");
+	if(!names[0] || !names[1]){
+		errors.innerHTML += "First and last name required."
+		errors.classList.add("error");
+		window.scrollTop = 0;
+		return false;
+	}
+	data.username = userName;
 	data.password = password;
 	data.repassword = repassword;
-	data.first_name = ;
-	data.last_name = ;
+	data.first_name = names[0];
+	data.last_name = names[1];
+	data.email = email;
 	hwf.ajaxCall("/api/signup", "POST",data, "");
 } //end function: validateSignUpForm
 

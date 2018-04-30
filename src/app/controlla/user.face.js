@@ -3,8 +3,7 @@ var usrModel = require(process.env.modelRoot+"user.model.js"),
     md5 = require("md5"),
     bCrypt = require('bcrypt-nodejs');
 
-function login(uName,pword,res,req){ //used inapi
-    console.log("hit login ");
+function login(uName,pword,res,req){
     var client = usrModel.getCredentials(uName);
     client(function(err,vals){
         if(err){
@@ -14,18 +13,16 @@ function login(uName,pword,res,req){ //used inapi
             if(user && user.password){   
                 bCrypt.compare(pword,user.password,function(err,hashRes){
                     if(hashRes){
-                        console.log("logged in user");
                         req.session.user = user;
                         req.session.loggedIn = true;
                         req.session.user.icon = makeGravLink(user.email);
+                        console.log(req.session.user.icon);
                         res.send(true); 
                     } else {
-                        console.log("pass mismatch");
                         res.send("Passwords did not match");
                     }
                 });
             } else{
-                console.log("no user");
                 res.send("Username not found");
             }
         } 
@@ -60,6 +57,7 @@ function getCollection(cid){//specific collection
     return false;
 }
 function newUser(uName,fName,lName,pWord,email,res){
+    console.log("new user");
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(pWord,salt);
 

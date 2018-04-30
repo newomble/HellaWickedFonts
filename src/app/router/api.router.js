@@ -50,12 +50,15 @@ apiRouter.route("/signup").post(function(req,res){
     var fname = req.body.first_name;
     var lname = req.body.last_name;
     var email = req.body.email;
-
+    console.log("signup hit")
     if(!uName || !pWord || !repWord || !fname || !lname || !email){
+        console.log("missing")
         res.send("Missing Field");
     }else if( !pWord || pWord != repWord){
+        console.log("pass mismatch")
         res.send("Passwords do not match");
     }else{
+        console.log("signing up");
         controller.newUser(uName,fname,lname,pWord,email,res);
     }
 });
@@ -235,9 +238,5 @@ apiRouter.post("/user/update/all",function(req,res){
 module.exports = apiRouter;
 
 function isLoggedIn(req){
-    req.session.user = {};
-    req.session.user.user_id =1;
-    req.session.user.username = "newUser3";
-    return true;
-    // return (req.session.loggedIn == true);
+    return (req.session.loggedIn == true);
 }
