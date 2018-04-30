@@ -1,6 +1,6 @@
 const conn = require("./db.js");
 
-const   getBase =  "select username,comment_text,comment.comment_id,public.user.user_id, AVG(rating.rating) as \"rating\", count(rating.rating) as \"total votes\" "+
+const   getBase =  "select public.user.email, username,comment_text,comment.comment_id,public.user.user_id, AVG(rating.rating) as \"rating\", count(rating.rating) as \"total votes\" "+
 "from public.comment join public.font using(font_id) join public.user using(user_id) left join rating ON comment.comment_id = rating.comment_id ",
 
     getFromNameQuery = getBase+" where public.user.username = $1 group by comment.comment_id, public.user.user_id;",

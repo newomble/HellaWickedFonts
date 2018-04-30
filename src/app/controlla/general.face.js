@@ -3,6 +3,7 @@ var path = require('path'),
     consts = require("../lib/constants.js"),
     comModel = require(process.env.modelRoot+"comment.model.js"),
     fontModel = require(process.env.modelRoot+"font.model.js"),
+    md5 = require("md5"),
     ratingModel = require(process.env.modelRoot+"rating.model.js"); 
 
 function userComments(uName,res){//all comments from user uName
@@ -110,7 +111,16 @@ function sendRows(client,res){
             console.log(err);
             res.send(false);
         }else{
+            vals.rows.forEach(element => {
+                if(element.email){
+                    element.icon = makeGravLink(element.email);
+                }
+            });
             res.send(vals.rows);
         }
     });
+}
+
+function makeGravLink(email){
+    return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }
