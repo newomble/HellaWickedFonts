@@ -64,10 +64,48 @@ Search.prototype.buildSearchControls = function () {
 	this.SEARCH_CONTAINER.appendChild(this.search_input);
 	
 	var search_obj = document.createElement('div');
-	if (this.search_fonts) {
-		this.font_search_opt = document.createElement('div');
-		this.font_search_opt.id = "font_search_options";
+	
+	this.font_search_opt = document.createElement('div');
+	this.font_search_opt.id = "font_search_options";
+	
+	if (this.search_fonts && this.search_users) {
 		
+		this.font_search_chk = document.createElement("input");
+		this.font_search_lbl = document.createElement("label");
+		this.user_search_chk = document.createElement("input");
+		this.user_search_lbl = document.createElement("label");
+		
+		this.font_search_lbl.innerHTML = "fonts";
+		this.font_search_chk.type = "radio";
+		this.font_search_chk.setAttribute("name", "user_font");
+		
+		this.font_search_chk.addEventListener("click", function(){
+			if (this.checked) {
+				app.font_search_opt.style.display = "block";
+			} //end if: is this checked?
+		});
+		
+		this.user_search_lbl.innerHTML = "users";
+		this.user_search_chk.type = "radio";
+		this.user_search_chk.setAttribute("name", "user_font");
+		
+		this.user_search_chk.addEventListener("click", function(){
+			if (this.checked) {
+				app.font_search_opt.style.display = "none";
+			} //end if: is this checked?
+		});
+		
+		//append the search controls to the page
+		search_obj.appendChild(this.font_search_chk);
+		search_obj.appendChild(this.font_search_lbl);
+		search_obj.appendChild(this.user_search_chk);
+		search_obj.appendChild(this.user_search_lbl);
+		
+	}//end if: are they allowed to search for both fonts/users here?
+	
+	
+	
+	if (this.search_fonts) {
 		this.search_options = document.createElement("span");
 		this.font_search_fam_chk = document.createElement("input");
 		this.font_search_fam_lbl = document.createElement("span");
@@ -97,25 +135,7 @@ Search.prototype.buildSearchControls = function () {
 	} //end if: are they able to search fonts?
 	
 	
-	if (this.search_fonts && this.search_users) {
-		
-		this.font_search_chk = document.createElement("input");
-		this.font_search_lbl = document.createElement("label");
-		this.user_search_chk = document.createElement("input");
-		this.user_search_lbl = document.createElement("label");
-		
-		this.font_search_chk.type = "radio";
-		this.font_search_lbl.innerHTML = "fonts";
-		this.user_search_chk.type = "radio";
-		this.user_search_lbl.innerHTML = "users";
-		
-		//append the search controls to the page
-		search_obj.appendChild(this.font_search_chk);
-		search_obj.appendChild(this.font_search_lbl);
-		search_obj.appendChild(this.user_search_chk);
-		search_obj.appendChild(this.user_search_lbl);
-		
-	}//end if: are they allowed to search for both fonts/users here?
+	
 	
 	this.SEARCH_CONTAINER.appendChild(search_obj);
 }; //end function: Search --> buildSearchControls
