@@ -24,9 +24,8 @@ function validateLoginForm(){
 	} else {
 		data.username = username;
 		data.password = password;
-
-		console.log("Data: "+ JSON.stringify(data) );
 		
+		//@this --> the window object
 		hwf.ajaxCall("/api/login", "POST", data, "handleLogin", this);
 	} //end if: did they fill out all the fields?
 	
@@ -40,30 +39,23 @@ function validateLoginForm(){
 * @param err {boolean/string} false if no error, string if there is
 */
 function handleLogin (data, err) {
-	console.log("helo");
 	if (!err) { //no back-end error
 		if (data) {
 			window.location = "/collection";
 			return true;
-		}
-	}
+		} //end if: did we get back "true"?
+	} //end if: no error?
 	
 	errors.innerHTML = "Invalid Login. Please check your credentials.";
 	errors.classList.add("error");
 } //end function: handleLogin
 
-function handleSignup(data,err){
-	console.log("handle signip");
-	if(!err){
-		console.log("NO ERRORS")
-		if(data){
-			console.log("GOT HERE")
-			window.location = "/collection";
-			return true;
-		}
-	}
-	console.log(err);
-}
+
+
+
+
+
+
 /**
 * Validates sign up form 
 */
@@ -77,89 +69,66 @@ function validateSignUpForm () {
 	var errors = document.getElementById('errors');
 	errors.innerHTML = "";
 	
-	// if(fullName == "" || userName == "" || password == "" || repassword == ""){
-	// 	errors.innerHTML = "All fields must be filled out";
-	// 	errors.classList.add("error");
-	// 	window.scrollTop = 0; //make sure they see that there are errors
-	// 	return false;
-	// } //end if: did they fill out all the fields?
+	 if(fullName == "" || userName == "" || password == "" || repassword == "" || email == ""){
+	 	errors.innerHTML = "All fields must be filled out.<br>";
+	 } //end if: did they fill out all the fields?
 
-	// if(password != repassword){
-	// 	errors.innerHTML += "Passwords do not match";
-	// 	errors.classList.add("error");
-	// 	window.scrollTop = 0;
-	// 	return false;
-	// } //end if: does the first password match the second?
+	 if(password != repassword){
+	 	errors.innerHTML += "Passwords do not match.<br>";
+	 } //end if: does the first password match the second?
+	
 	var names = fullName.split(" ");
 	if(!names[0] || !names[1]){
 		errors.innerHTML += "First and last name required."
+		
+	} //end if: full name given?
+	
+	if (errors.innerHTML !== "") {
 		errors.classList.add("error");
-		window.scrollTop = 0;
-		return false;
-	}
+		window.scrollTop = 0; //make sure they see that there are errors
+		return false
+	}//end if: were there any errors?
+	
+	//we made it this far - must be good, try to signup
 	data.username = userName;
 	data.password = password;
 	data.repassword = repassword;
 	data.first_name = names[0];
 	data.last_name = names[1];
 	data.email = email;
-	hwf.ajaxCall("/api/signup", "POST",data, "handleSignup",this);
+	
+	//@this --> the window object
+	hwf.ajaxCall("/api/signup", "POST", data, "handleSignup", this);
+	
+	return false;
 } //end function: validateSignUpForm
 
 
+/**
+* Handles a signup attempt
+* @param data {boolean/JSON} false if there is an error, the JSON response if successful
+* @param err {boolean/string} false if no error, string if there is
+*/
+function handleSignup(data,err){
+	if(!err){
+		if(data){
+			window.location = "/collection";
+			return true;
+		} //end if: did we get back "true"?
+	} //end if: do we have an error?
+	
+	var display_error = (err) ? err : "An unknown error has occured";
+	
+	errors.innerHTML = display_error;
+	errors.classList.add("error");
+} //end function: handleSignup
+
+
+
 /**********************************************************************
+* @desc		Login/Signup API hook & code cleanup
+* @date		4/29	Nick Womble & Erika Tobias
+***********************************************************************
 * @desc		Updated some comments and added an error field
 * @date		4/8		erika tobias
 **********************************************************************/
-
-
-function cancel(){
-	alert("No changes made. You will be proceeded back to the home page");
-	//window.location.href = "index.php";
-}
-		
-function validateEmail(mail) 
-{
- if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-  {
-    return true;
-  }
-    return false;
-}
-		
-		
-function validatePreferencesForm () {
-	
-	var email = document.forms["preferencesForm"]["email"].value;
-	var firstname = document.forms["preferencesForm"]["firstname"].value;
-	var lastname = document.forms["preferencesForm"]["lastname"].value;
-	var username = document.forms["preferencesForm"]["username"].value;
-	var cpassword = document.forms["preferencesForm"]["cpassword"].value;
-	var npassword = document.forms["preferencesForm"]["npassword"].value;
-	var repassword = document.forms["preferencesForm"]["repassword"].value;
-	
-	var errors = document.getElementById('errors');
-	errors.innerHTML = "";
-		
-	if(validateEmail(email) == false){
-		 errors.innerHTML += "You have entered an invalid email address!";
-		 errors.classList.add("error");
-		 window.scrollTop = 0;
-	}
-	
-	if(cpassword == "" && npassword != "" && repassword !="" ){
-		errors.innerHTML += "Please enter current password in order to change passwords";
-		errors.classList.add("error");
-		window.scrollTop = 0;
-	} //end if: does the first password match the second?
-
-
-
-	if(npassword != repassword ){
-		errors.innerHTML += "Passwords do not match";
-		errors.classList.add("error");
-		window.scrollTop = 0;
-	} //end if: does new password match the re-entered password?
-	
-	return false;
-} 
