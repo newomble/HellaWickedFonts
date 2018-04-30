@@ -78,7 +78,17 @@ input[type="checkbox"], input[type="radio"]{
 	font-size:1.2em;
 }
 
-.box .favorite:hover{
+.box .rating{
+	position:absolute;
+	bottom:0;
+	left:0;
+	display:block;
+	padding:0.2em;
+	color:#BDB975;
+	font-size:1.2em;
+}
+
+.box .favorite:hover, .box .rating:hover{
 	cursor: pointer;
 }
 
