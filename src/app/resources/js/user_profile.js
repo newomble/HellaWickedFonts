@@ -18,18 +18,8 @@ function UserProfile() {
 	this.init();
 };//end function: UserProfile
 
-/** ----------------------------------------------------------- **/
-/** --------------------- INHERIT CLASSES --------------------- **/
-/** ----------------------------------------------------------- **/
-//UserProfile.prototype = Object.create(HellaWickedFonts.prototype);
-//UserProfile.prototype.constructor = UserProfile;
 
 UserProfile.prototype.USER_ID = document.getElementById('user_id').value;
-
-
-///UserProfile.prototype.USERNAME_HEADER = document.getElementById('username');
-//UserProfile.prototype.COLLECTION_HEADER = document.getElementById('username_collection');
-//UserProfile.prototype.DETAIL_CONTAINER = document.getElementById('user_details_container');
 
 /**
 * Initialize the app
@@ -44,7 +34,7 @@ UserProfile.prototype.init = function () {
 	//this.buildUserDetails();
 	
 	//we are viewing a collection for another user - go get it
-	this.collection = new Collection(false);
+	this.collection = new Collection(false, this.USER_ID);
 	console.log(this.USER_ID);
 	
 }; //end function: UserProfile --> init
