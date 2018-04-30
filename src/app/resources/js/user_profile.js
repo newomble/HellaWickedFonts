@@ -14,8 +14,9 @@
 /**
 * @constructor
 */
-function UserProfile() {
+function UserProfile(user_id) {
 	this.init();
+	this.viewer_id = user_id;
 };//end function: UserProfile
 
 
@@ -33,9 +34,16 @@ UserProfile.prototype.init = function () {
 	//build out the view for this user
 	//this.buildUserDetails();
 	
-	//we are viewing a collection for another user - go get it
-	this.collection = new Collection(false, this.USER_ID);
-	console.log(this.USER_ID);
+	if(parseInt(this.USER_ID, 10) === parseInt(this.viewer_id), 10) {
+		this.collection = new Collection(true, this.USER_ID);
+		document.getElementById("username").innerHTML += " {You}";
+		document.getElementById("username_collection").innerHTML = "Your Collection";
+	} else {
+		//we are viewing a collection for another user - go get it
+		this.collection = new Collection(false, this.USER_ID);
+	}
+	
+	
 	
 }; //end function: UserProfile --> init
 
