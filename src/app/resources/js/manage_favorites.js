@@ -55,22 +55,24 @@ ManageFavorites.prototype.addChangeEvent = function (ele) {
 	var app = this;
 	
 	ele.addEventListener("click", function (){
+		console.log("hey");
+		app.clicked_ele = this;
 		var fid = this.getAttribute('data-font-id'),
 			is_fav = (this.getAttribute('data-is-favorite') == "true") ? false : true;
-
+		
 		if (is_fav) {
 			this.className = this.className.replace('far', 'fas');
 		} else {
 			this.className = this.className.replace('fas', 'far');
 		} //end else/if: was it set to be a favorite before?
 		
-		//if (app.error_update) {
-			app.handleFavChange(fid, is_fav);
-		//} //end if: was this triggered by a failed collection update?
-		//app.error_update = false;
-		
 		this.setAttribute('data-is-favorite', String(!!is_fav));
-		app.clicked_ele = this;
+		
+		if (!app.error_update) {
+			app.handleFavChange(fid, is_fav);
+		} //end if: was this triggered by a failed collection update?
+		app.error_update = false;
+
 	}); //end addEventListener
 	
 }; //end function: ManageFavorites --> addChangeEvent
@@ -82,8 +84,6 @@ ManageFavorites.prototype.addChangeEvent = function (ele) {
 */
 ManageFavorites.prototype.handleFavChange = function (id, is_fav) {
 	'use strict';
-	console.log(id);
-	console.log(is_fav);
 	
 	//make an ajax call to set it
 	this.ajaxCall("/api/user/edit/collection", "POST", {font_id: id, is_fav: is_fav}, "handleFavResponse");
@@ -91,7 +91,7 @@ ManageFavorites.prototype.handleFavChange = function (id, is_fav) {
 
 ManageFavorites.prototype.handleFavResponse = function (data, err) {
 	'use strict';
-	//err = false;
+
 	if (!err) {
 		if (data) {
 			return true;
@@ -99,7 +99,7 @@ ManageFavorites.prototype.handleFavResponse = function (data, err) {
 	}
 	
 	this.error_update = true;
-	this.clicked_ele.click();
+	this.fireEvent(this.clicked_ele, "click");
 };
 
 
