@@ -15,8 +15,8 @@
 * @constructor
 */
 function UserProfile(user_id) {
-	this.init();
 	this.viewer_id = user_id; //person looking at it
+	this.init();
 };//end function: UserProfile
 
 //store the profile's user id
@@ -28,7 +28,11 @@ UserProfile.prototype.USER_ID = document.getElementById('user_id').value;
 UserProfile.prototype.init = function () {
 	'use strict';
 	
-	if(parseInt(this.USER_ID, 10) === parseInt(this.viewer_id), 10) {
+	console.log(parseInt(this.USER_ID));
+	console.log(this.viewer_id);
+	console.log(parseInt(this.viewer_id));
+	
+	if(((parseInt(this.USER_ID) === parseInt(this.viewer_id)))) {
 		this.collection = new Collection(true, this.USER_ID);
 		document.getElementById("username").innerHTML += " {You}";
 		document.getElementById("username_collection").innerHTML = "Your Collection";
