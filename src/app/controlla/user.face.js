@@ -55,7 +55,7 @@ function getCollections(uid,res){//all users collections
 function getCollection(cid){//specific collection
     return false;
 }
-function newUser(uName,fName,lName,pWord,email,res){
+function newUser(uName,fName,lName,pWord,email,res,req){
     var salt =  bCrypt.genSaltSync(10);
     var pass = createHash(pWord,salt);
     var uNameClient = usrModel.getCredentials(uName)
@@ -69,8 +69,10 @@ function newUser(uName,fName,lName,pWord,email,res){
                 if(err){
                     dberr(err,res);
                 } else {
-                    console.log("sending true");
-                    res.send(true);
+//log
+		    login(uName,pWord,res,req);
+                    //console.log("sending true");
+                    //res.send(true);
                 }
             });
         }
