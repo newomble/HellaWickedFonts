@@ -20,6 +20,7 @@
 */
 function CommentManager(comments_grab_id) {
 	'use strict';
+	this.font_id = comments_grab_id;
 	this.init();
 }//end function CommentManager
 
@@ -176,8 +177,15 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	up_vote_icon.setAttribute('data-comment_id', comment_id);
 	down_vote_icon.setAttribute('data-comment_id', comment_id);
 	
-	this.upDownAction(up_vote_icon);
-	this.upDownAction(down_vote_icon);
+	
+	if (LOGGED_IN) {
+		this.upDownAction(up_vote_icon);
+		this.upDownAction(down_vote_icon);
+	} else {
+		up_vote_icon.style.cursor = "default";
+		down_vote_icon.style.cursor = "default";
+	} //end if: is the user logged in?
+	
 	this.tmp_comment_id_count = comment_id + 1;
 	return comment_wrapper;
 }; //end function: CommentManager --> commentBox
@@ -237,27 +245,38 @@ CommentManager.prototype.buildCommentControls = function () {
 	'use strict';
 	var app = this;
 	
-	this.submit_button = document.createElement('button');
-	this.comment_text = document.createElement('textarea');
 	this.comment_header = document.createElement("h3");
 	this.comment_error = document.createElement("div");
-	
 	this.comment_header.innerHTML = "Add A Comment";
-	this.submit_button.innerHTML = "post comment";
-	this.comment_text.setAttribute("placeholder", "write your comment here");
-	this.COMMENTS_CONTROLS.appendChild(this.comment_header);
-	this.COMMENTS_CONTROLS.appendChild(this.comment_error);
-	this.COMMENTS_CONTROLS.appendChild(this.comment_text);
-	this.COMMENTS_CONTROLS.appendChild(this.submit_button);
 	
-	this.submit_button.addEventListener("click", function () {
-		if (app.validateComment()) {
-			app.handleAddComment(); //attempt to add the comment
-		}//end if: comment input okay?
-	}); //end add event listener
+	if (LOGGED_IN) {
+		this.submit_button = document.createElement('button');
+		this.comment_text = document.createElement('textarea');
+				
+		this.submit_button.innerHTML = "post comment";
+		this.comment_text.setAttribute("placeholder", "write your comment here");
+		this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+		this.COMMENTS_CONTROLS.appendChild(this.comment_error);
+		this.COMMENTS_CONTROLS.appendChild(this.comment_text);
+		this.COMMENTS_CONTROLS.appendChild(this.submit_button);
+
+		this.submit_button.addEventListener("click", function () {
+			if (app.validateComment()) {
+				app.handleAddComment(); //attempt to add the comment
+			}//end if: comment input okay?
+		}); //end add event listener
+
+		
+		
+	} else {
+		this.COMMENTS_CONTROLS.appendChild(this.comment_header);
+		this.comment_error.innerHTML = "You must be <a href='/login'>logged in</a> to post a comment";
+		this.COMMENTS_CONTROLS.appendChild(this.comment_error);
+	}//end else/if: are they logged in?
 	
-	this.COMMENTS_CONTROLS.className = "comment_controls";
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_CONTROLS);
+	this.COMMENTS_CONTROLS.className = "comment_controls";
+	
 }; //end function: CommentManager --> buildCommentControls
 
 

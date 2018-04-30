@@ -63,6 +63,11 @@ input[type="checkbox"]{
 	position:relative;
 }
 
+
+.font_box div{
+	padding:1em;
+}
+
 .box .favorite{
 	position:absolute;
 	bottom:0;
@@ -106,6 +111,10 @@ input[type="checkbox"]{
 
 .center{
 	text-align: center;
+}
+
+.left {
+	text-align: left;
 }
 
 .no_list{
@@ -354,6 +363,12 @@ footer {
 	display: block;
 	margin-bottom:1em;
 	font-size:1.2em;
+}
+
+#font_details div{
+	display:table;
+	margin:0 auto;
+	position:relative;
 }
 
 /** ---------------------------- CHART ------------------------------- **/

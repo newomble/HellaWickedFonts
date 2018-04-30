@@ -3,8 +3,24 @@
 		<input type="hidden" value="<%font_id%>" id="font_id">
 		<h3 id="font_name">{font name}</h3>
 		<div id="font_preview"></div>
-
+		
+		
+		
+		
 		<h3>Font Stats</h3>
+		<div id="font_details" class="left">
+			<div>
+				<p><label>Popularity Rank:</label> <span id="pop_rank"></span><br></p>
+				<p><label>Trending Rank:</label> <span id="trend_rank"></span><br></p>
+				<p><label>Font Type:</label> <span id="font_type"></span><br></p>
+				<p><label>Font Family:</label> <span id="font_family"></span><br></p>
+				<br><br>
+			</div>
+			
+		</div>
+		
+		<br><br>
+		<h3>Popularity vs. Trending</h3>
 		<div id="font_stats">
 			<div class="chart-container">
 				<canvas id="popular_month"></canvas>
@@ -12,7 +28,12 @@
 
 
 		</div>
-
+		
+		<h3 class="center">Font Web Use</h3>
+			<code id="font_use"></code>
+			<br><br>	
+			
+			
 
 		<h3>Comments</h3>
 		<div id="comment_container"></div>

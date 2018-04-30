@@ -11,9 +11,16 @@
 */
 function HellaWickedFonts() {
 	'use strict';	
-}
+} //end function: HellaWickedFonts
 
 HellaWickedFonts.prototype.FONT_LOADER = document.getElementsByTagName("link")[0];
+HellaWickedFonts.prototype.API_URL = "https://fonts.googleapis.com/css?family=";
+
+
+HellaWickedFonts.prototype.cssFontName = function (font_family) {
+	'use strict';
+	return font_family.replace(/\s/g, "+");
+}; //end function:
 
 
 /**
@@ -22,10 +29,10 @@ HellaWickedFonts.prototype.FONT_LOADER = document.getElementsByTagName("link")[0
 * @param font_id {int} the font id
 * @param is_favorite {boolean} true if it is
 * @param font {string} the font family
-* @param txt {string} the text to have the font be
+* @param show_font_link {boolean} true will show the font name with a link to it's page
 * @return box {object} the html object with all needed elements for a font box
 */
-HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, is_rated, font, txt) {
+HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, rating, font_family, show_font_link, show_rating) {
 	'use strict';
 	
 	var box = document.createElement('div'),
@@ -35,42 +42,57 @@ HellaWickedFonts.prototype.getFontBox = function (font_id, is_favorite, is_rated
 		
 	
 	box.classList.add('box');
+	box.classList.add('font_box');
 	
-	if (font) {
-		font_txt.style.fontFamily = font;
+	if (font_family) {
+		this.includeFontFamily(font_family);
+		font_txt.style.fontFamily = "'" + font_family + "', arial";
 	} //end if: do we have a font family to set?
 	
 	
-	font_txt.innerHTML = txt || "The sky is clear; the stars are twinkling.";
+	font_txt.innerHTML = "The sky is clear; the stars are twinkling.";
 	font_txt.contentEditable = true; //let them type in it
-	
-	var i, ratingIcon;
-	
-	icon.classList.add('fa-heart');
-	icon.classList.add((is_favorite) ? 'fas' : 'far');
-	icon.classList.add('favorite');
-	icon.setAttribute('data-font-id', font_id);
-	icon.setAttribute('data-is-favorite', String(is_favorite));
 	
 	/// @see /resources/js/manage_favorites.js
 	manage_favorites.addChangeEvent(icon);
-	font_name.innerHTML = "{font name}";
-	font_name.classList.add("font_name");
-	font_name.setAttribute("href", "/font/" + font_id);
 	
-	box.appendChild(font_name);
+	if (show_font_link) {
+		font_name.innerHTML = "{" + font_family + "}";
+		font_name.classList.add("font_name");
+		font_name.style.fontFamily = font_family + ", arial";
+		font_name.setAttribute("href", "/font/" + font_id);
+
+		box.appendChild(font_name);
+	} //end if:
+	
 	box.appendChild(font_txt);
-	box.appendChild(icon);
 	
-	for(i = 0; i < 5; i++){
-		ratingIcon = document.createElement('i');
-		ratingIcon.classList.add('fa-star');
-		ratingIcon.classList.add((is_rated)? 'fas' : 'far');
-		ratingIcon.classList.add('rated');
-		ratingIcon.setAttribute('data-is-rated', String(is_rated));
-		manage_ratings.addChangeEvent(ratingIcon);
-		box.appendChild(ratingIcon);
+	
+	
+	if (LOGGED_IN) {
+		icon.classList.add('fa-heart');
+		icon.classList.add((is_favorite) ? 'fas' : 'far');
+		icon.classList.add('favorite');
+		icon.setAttribute('data-font-id', font_id);
+		icon.setAttribute('data-is-favorite', String(is_favorite));
+		box.appendChild(icon);
+	} //end if: is the user logged in?
+	
+	var i, ratingIcon;
+	
+	if (show_rating) {
+		var is_rated = false;
+		for(i = 0; i < 5; i++){
+			ratingIcon = document.createElement('i');
+			ratingIcon.classList.add('fa-star');
+			ratingIcon.classList.add((is_rated)? 'fas' : 'far');
+			ratingIcon.classList.add('rated');
+			ratingIcon.setAttribute('data-is-rated', String(is_rated));
+			manage_ratings.addChangeEvent(ratingIcon);
+			box.appendChild(ratingIcon);
+		}
 	}
+	
 	return box;
 }; //end function: HellaWickedFonts --> getFontBox
 
@@ -119,7 +141,7 @@ HellaWickedFonts.prototype.ajaxCall = function (url, method, params, callback, a
 HellaWickedFonts.prototype.includeFontFamily = function (font_family) {
 	'use strict';
 	var existing_fonts = this.FONT_LOADER.getAttribute('href'),
-		font_url_name = font_family.replace(" ", "+");
+		font_url_name = font_family.replace(/\s/g, "+");
 	
 	if (existing_fonts.indexOf(font_url_name) === -1) {
 		this.FONT_LOADER.setAttribute("href", existing_fonts + "|" + font_url_name);
