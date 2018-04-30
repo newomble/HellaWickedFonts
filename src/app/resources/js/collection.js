@@ -61,7 +61,7 @@ Collection.prototype.getSearchResults = function (search_string) {
 	
 	
 	//make an ajax call -- URL, method (get/post), Params, callback function name
-	this.ajaxCall("TODO", "GET", {uid:"TODO", search_text: "some search text"}, "loadMatchingFonts");
+	this.ajaxCall("TODO", "GET", {user_id:"TODO", search_text: "some search text"}, "loadMatchingFonts");
 	
 	//load any matching fonts - Search Function
 	//this.loadMatchingFonts();
