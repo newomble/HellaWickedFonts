@@ -40,8 +40,7 @@ Font.prototype.FONT_CODE = document.getElementById('font_use');
 Font.prototype.init = function () {
 	'use strict';
 	this.loadFont();
-	//create the comment manager to populate comments
-	//and create commenting controls
+	//create the comment manager to populate comments & create commenting controls
 	this.font_comments = new CommentManager(this.FONT_ID);
 }; //end function: Font --> init
 
@@ -237,12 +236,12 @@ Font.prototype.handleFontLoad = function (data, err) {
 										+ '<br><br><b>CSS:</b><br>' 
 										+ 'font-family:"' + font_family + '", ' + suggested_backup + ';'; 
 			
-		} //end if: do we have font_details?
+		} else {
+			window.history.back();
+		}//end if: do we have font_details?
 		
     } else {
-		
-		this.FONT_TITLE.innerHTML = "{Unknown Font}";
-        //there was an error, err will hold the error message
+		window.history.back();
     }//end if: did we have an error?
 };//end function: Font --> handleFontLoad
 
