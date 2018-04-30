@@ -247,7 +247,7 @@ Search.prototype.getSearchResults = function (search_string) {
 
 
 Search.prototype.noResultsMessage = function () {
-	this.search_results.innerHTML = this.empty_message;
+	this.search_results.innerHTML = (this.search_input.value == "") ? this.empty_message : "No Results";
 }; //end function: Search --> noResultsMessage
 
 

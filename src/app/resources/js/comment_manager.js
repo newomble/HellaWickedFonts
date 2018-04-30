@@ -24,6 +24,14 @@ function CommentManager(comments_grab_id) {
 	this.init();
 }//end function CommentManager
 
+
+/** ----------------------------------------------------------- **/
+/** --------------------- INHERIT CLASSES --------------------- **/
+/** ----------------------------------------------------------- **/
+CommentManager.prototype = Object.create(HellaWickedFonts.prototype);
+CommentManager.prototype.constructor = CommentManager;
+
+
 CommentManager.prototype.COMMENTS_CONTAINER = document.getElementById('comment_container');
 
 CommentManager.prototype.COMMENTS_LIST = document.createElement('div');
@@ -53,7 +61,8 @@ CommentManager.prototype.init = function () {
 CommentManager.prototype.buildCommentsList = function () {
 	'use strict';
 	this.COMMENTS_CONTAINER.appendChild(this.COMMENTS_LIST);
-	
+	//make an ajax call to set it
+	this.ajaxCall("/api/get/comments", "POST", {font_id: this.font_id}, "handleLoadComments");
 	//Later make res be an ajax call and it will be the data response
 	var res = [
 		{
@@ -84,7 +93,7 @@ CommentManager.prototype.buildCommentsList = function () {
 	
 	//below commented out line allows you to see it if its blank (no comments)
 	//res = [];
-	
+	/*
 	if (res) {
 		if (res.length > 0) {
 			this.loadComments(res);
@@ -93,25 +102,27 @@ CommentManager.prototype.buildCommentsList = function () {
 	} //end if: did we get back a response?
 	
 	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
-	
+	*/
 }; //end function: CommentManager --> buildCommentsList
 
-
-/**
-* Loads in all the comments for this page/font
-*/
-CommentManager.prototype.loadComments = function (comment_list) {
+CommentManager.prototype.handleLoadComments = function (data, err) {
 	'use strict';
-	var i,
-		comment_amt = comment_list.length,
-		comment;
 	
+	if (!err) {
+		var i,
+			comment_amt = data.length,
+			comment;
+		if (comment_amt > 0) {
+			for (i = 0; i < comment_amt; i++) {
+				this.addComment(data[i]);
+			} //end for: go through all comments
+			return true;
+		} //end if: do we have any comments?
+	}
 	
-	for (i = 0; i < comment_amt; i++) {
-		this.addComment(comment_list[i]);
-	} //end for: go through all comments
-	
-}; //end function: CommentManager --> loadComments
+	this.COMMENTS_LIST.innerHTML = "<p>No comments have been added.</p>";
+};
+
 
 
 
