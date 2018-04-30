@@ -44,14 +44,12 @@ function handleLogin (data, err) {
 	if (!err) { //no back-end error
 		if (data) {
 			window.location = "/collection";
-		} else {
-			errors.innerHTML = "Invalid Login. Please check your credentials.";
-			errors.classList.add("error");
-		} //end else/if: login successful?
-	} else { //there was an error (not bad password)
-		errors.innerHTML = "Invalid Login. Please check your credentials.";
-		errors.classList.add("error");
-	} //end if: was there a critical error?
+			return true;
+		}
+	}
+	
+	errors.innerHTML = "Invalid Login. Please check your credentials.";
+	errors.classList.add("error");
 } //end function: handleLogin
 
 
