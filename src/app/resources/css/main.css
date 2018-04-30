@@ -155,9 +155,13 @@ input[type="checkbox"], input[type="radio"]{
 #links {
 	display:inline-block;
 	position:relative;
-	
 }
 
+
+#links a{
+	display:inline-block;
+	margin:0 0.5em;
+}
 .middle_cell{
 	display: inline-block;
 	vertical-align: middle;
