@@ -114,7 +114,8 @@ function resetPass(newPwd, uName,res){
     if(!res){
         noResponse(client);
     }else{
-        cleint(function(err,vals){
+        client(function(err,vals){
+            console.log("has res");
             if(err){console.log(err);res.send("Something went wrong");}else{
                 res.send(true);
             }

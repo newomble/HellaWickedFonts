@@ -122,8 +122,48 @@ function handleSignup(data,err){
 	errors.innerHTML = display_error;
 	errors.classList.add("error");
 } //end function: handleSignup
+function handleReset(data,err){
+	if(!err){
+		if(data){
+			window.location = "/login";
+			return true;
+		} //end if: did we get back "true"?
+	} //end if: do we have an error?
+	
+	var display_error = (err) ? err : "An unknown error has occured";
+	
+	errors.innerHTML = display_error;
+	errors.classList.add("error");
+}
 
+function validateResetPasswordForm(){
 
+	
+	var username = document.forms["resetPasswordForm"]["username"].value;
+	var npassword = document.forms["resetPasswordForm"]["newpassword"].value;
+	var repassword = document.forms["resetPasswordForm"]["repassword"].value;
+	
+	var errors = document.getElementById('errors');
+	errors.innerHTML = "";
+	
+	if(username == "" || npassword == "" || repassword == ""){
+		errors.innerHTML += "All fields must be filled out";
+		errors.classList.add("error");
+		window.scrollTop = 0;
+		return false;
+	}
+	if(npassword != repassword ){
+		errors.innerHTML += "Passwords do not match";
+		errors.classList.add("error");
+		window.scrollTop = 0;
+		return false;
+	} //end if: does new password match the re-entered password?
+	data = {};
+	data.username = username;
+	data.newpassword = npassword;
+	data.repassword = repassword;
+	hwf.ajaxCall("/api/reset/password", "POST", data, "handleReset", this);
+}
 
 /**********************************************************************
 * @desc		Login/Signup API hook & code cleanup

@@ -74,6 +74,11 @@ pageRouter.get("/user/:id", function (req, res, next){
     }
 });
 
+
+pageRouter.get("/reset/password",function(req,res){
+    pageLoader.resetPage(req,res);
+})
+
 pageRouter.get("/test",function(req,res){
     pageLoader.text(req,res);
 })

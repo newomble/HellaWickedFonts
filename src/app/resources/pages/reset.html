@@ -1,0 +1,24 @@
+<%include top_layout.html%>
+
+	<div id="formCenter">
+		<form name="resetPasswordForm">
+			<p id="errors"></p>
+			<input type="text" placeholder="Username" name="username" class="max_input">
+			<br>
+			<input type="password" placeholder="New Password" name="newpassword" class="max_input">
+			<br>
+			<input type="password" placeholder="Re-enter password" name="repassword" class="max_input">
+			<br>
+			<button onclick="return validateResetPasswordForm();" class="max_input">Reset Password</button>
+		</form>
+
+		<div>
+			<br><br>
+			<span onclick="window.location.href='/login'">Have an account?</span>
+			<span class="signInLink"><a href="/login">Login</a></span>
+		</div>
+	</div>
+	
+<%include bottom_layout.html%>
+<script src="/js/validate.js"></script>
+

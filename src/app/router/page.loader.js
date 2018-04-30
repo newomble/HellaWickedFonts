@@ -102,7 +102,11 @@ function searchPage(req,res){
 function test(req,res){
     renderRequestedPage(fs.readFileSync(basePath+"/app/resources/templates/logged_in.html"),res);
 }
-
+function resetPage(req,res){
+    initList(req,"Reset");
+    var data = fs.readFileSync(pageRoot+'/reset.html');
+    renderRequestedPage(data, res); 
+}
 module.exports = {
     prefPage:prefPage,
     userPage:userPage,
@@ -112,6 +116,7 @@ module.exports = {
     fontPage:fontPage,
     collectionPage:collectionPage,
     searchPage:searchPage,
+    resetPage:resetPage,
     test:test
 }
 

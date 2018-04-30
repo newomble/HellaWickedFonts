@@ -32,7 +32,7 @@ apiRouter.route("/reset/password").post(function(req,res){
         res.send("Missing or bad field");
     }else{
         if(newPwod == confirmdNewPw){
-            controller.resetPass(confirmdNewPw, uName);
+            controller.resetPass(confirmdNewPw, uName,res);
         }else{
             res.send("Please reconfirm new password");
         }
