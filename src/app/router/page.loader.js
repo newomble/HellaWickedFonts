@@ -48,6 +48,7 @@ function userPage(uid,req,res){
             list.user_id = aUser.user_id;
         }
         var data = fs.readFileSync(pageRoot+'/user.html');
+        console.log(list);
         renderRequestedPage(data, res); 
     });
 

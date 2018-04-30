@@ -90,6 +90,10 @@ function searchUser(txt,res){
             console.log(err);
             res.send("Something went wrong");
         }else{
+            vals.rows.forEach(item => {
+                item.user_icon = makeGravLink(item.email);
+            });
+            
             res.send(vals.rows);
         }
     });
