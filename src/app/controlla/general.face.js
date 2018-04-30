@@ -15,7 +15,16 @@ function fontComments(fontId,res){//all comments for font
 }
 function newComment(uid,fid,text,res){//return bool
     var client = comModel.insertComment(uid,fid,text);
-    insertResponse(client,res);
+    client(function(err,vals){
+        if(vals.rows){
+            console.log("here");
+            var resId = vals.rows[0].comment_id;            
+            var getClient = comModel.get(resId);
+            sendRows(getClient,res);
+        } else {
+            res.send(false);
+        }
+    })
 }
 function newRating(uid,type,id,rating,res){//add rating to type (constant)
     var client;

@@ -163,4 +163,3 @@ function validateResetPasswordForm(){
 * @desc		Updated some comments and added an error field
 * @date		4/8		erika tobias
 **********************************************************************/
-
