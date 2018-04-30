@@ -100,7 +100,6 @@ apiRouter.post("/rate",function(req,res){
 });
 
 apiRouter.post("/comment",function(req,res){
-    //TODO remove comments
     if( ! isLoggedIn(req) || !req.body.comment || !utils.isNumeric(req.body.font_id) ){
         res.send("Must be logged in and have a font and comment");
     }else{

@@ -1,7 +1,7 @@
 const conn = require("./db.js");
 var USER_ID = null;
 const ratingJoin = " left join public.rating using(font_id) ",
-	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\", coalesce((select user_font.user_font_id  from user_font where font_font_id = font.font_id and user_user_id = $1 limit 1),0) as \"favorite\" from public.font ",
+	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\", COUNT(rating) as \"rating_total\" ,coalesce((select user_font.user_font_id  from user_font where font_font_id = font.font_id and user_user_id = $1 limit 1),0) as \"favorite\" from public.font ",
 	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $2 GROUP BY public.font.font_id",
 	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
 	updateQuery = "",
