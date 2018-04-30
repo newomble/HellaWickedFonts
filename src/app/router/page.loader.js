@@ -44,11 +44,11 @@ function userPage(uid,req,res){
         }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
+            console.log(aUser.email);
             list.user_prof_icon = makeGravLink(aUser.email);
             list.user_prof_id = aUser.user_id;
         }
         var data = fs.readFileSync(pageRoot+'/user.html');
-        console.log(list);
         renderRequestedPage(data, res); 
     });
 
@@ -120,6 +120,7 @@ module.exports = {
 
 function initList(req,title){
     list.title= title;
+    list.user_id = "";
     if(req.session.loggedIn){
         list.user_id = req.session.user.user_id;
         list.isLoggedIn = req.session.loggedIn;
@@ -140,7 +141,6 @@ function makeGravLink(email){
 
 function renderRequestedPage(data, res) {
     tjs.setSync(data);   
-    console.log(list);
     var output = tjs.renderAllSync(list);  
     res.write(output);  
     res.end(); 
