@@ -43,7 +43,6 @@ Font.prototype.init = function () {
 	//create the comment manager to populate comments
 	//and create commenting controls
 	this.font_comments = new CommentManager(this.FONT_ID);
-	//this.updateChart();
 }; //end function: Font --> init
 
 
@@ -52,12 +51,10 @@ Font.prototype.init = function () {
 */
 Font.prototype.loadFont = function () {
 	'use strict';
-	
-	///make an ajax call to gather the fonts that are this users favorites.
 	this.ajaxCall("/api/font", "POST", {id:this.FONT_ID}, "handleFontLoad");
-	
 	this.ajaxCall("/api/font/history", "POST", {font_id:this.FONT_ID}, "handleFontHistory");
 }; //end function: Font --> init
+
 
 /**
 * handles the response from attempting to login
@@ -67,29 +64,72 @@ Font.prototype.loadFont = function () {
 Font.prototype.handleFontHistory = function (data, err) {
 	
 	if (!err) {
+		var days_array = ["sun", "mon", "tues", "wed", "thurs", "fri", "sat"],
+			today = new Date(),
+			todays_day = today.getDay(),
+			i = 0,
+			array_position = todays_day + 1,
+			n;
 		
-		this.day_pop_hist = [
-			130,244,567,432,234,567
-		];
+		this.week_day = [];
 		
-		this.day_trend_hist = [
-			345,123,543,765,456,346
-		];
+		// build out the days backwards by weekday from today
+		while (i < 6) {
+			if (array_position === todays_day) { //its today, get out
+				break;
+			} else if(array_position == 7) { //6 is max, set it back to beginning
+				array_position = 0;
+			}
+			
+			this.week_day[i] = days_array[array_position];
+			
+			//if it is less than 7, add 1
+			if (array_position < 7) {
+				array_position++;
+			}
+			
+			i++;
+		} //end while: set up the week day abrevs
 		
-		this.week_day = [
-			"tues","wed","thur","fri","sat","sun"
-		];
+		
+		this.day_pop_hist = [];
+		this.day_trend_hist = [];
+		
+		for (n = 0; n < 6; n++) {
+			var font_hist = data[n];
+			
+			if (font_hist) {
+				this.day_pop_hist[n] = font_hist.rank;
+				this.day_trend_hist[n] = font_hist.trending_rank;
+			} else {
+				this.day_pop_hist[n] = 0;
+				this.day_trend_hist[n] = 0;
+			}
+			
+		} //end for: go through all this font's history
 		
 		this.updateChart();
-	}
+	} //end if: was there an error?
 	
-};
+}; //end function: Font --> handleFontHistory
 
 
+
+/**
+* Builds the font stats popularity vs. trending stats line graph
+*/
 Font.prototype.updateChart = function () {
 	'use strict';
 	
-	var ctx = document.getElementById("popular_month");
+	var ctx = document.getElementById("popular_month"),
+		font = this.font_details;
+	
+	if (font) {
+		this.day_pop_hist[6] = parseInt(font.popularity || 0);
+		this.day_trend_hist[6] = parseInt(font.trending_rank || 0);
+	}
+	
+	
 	var myChart = new Chart(ctx, {
 		type: 'line',
 		data:{ 
@@ -113,7 +153,8 @@ Font.prototype.updateChart = function () {
 					this.day_pop_hist[3], 
 					this.day_pop_hist[4], 
 					this.day_pop_hist[5], 
-					parseInt(this.font_details.popularity)]
+					this.day_pop_hist[6]
+				]
 			},{
 				label: 'trending rank',
 				borderColor:"#75BDB9",
@@ -126,15 +167,23 @@ Font.prototype.updateChart = function () {
 					this.day_trend_hist[3], 
 					this.day_trend_hist[4], 
 					this.day_trend_hist[5],
-					parseInt(this.font_details.trending_rank)]
+					this.day_trend_hist[6]
+				]
 			}]
 		},
 		options:{
-			responsive: true
+			responsive: true,
+			scales: {
+				yAxes: [{
+					ticks: {
+						reverse: true,
+					}
+				}]
+			}
 		}
 	});
 
-}; //end function
+}; //end function Font: --> updateChart
 
 
 /**
@@ -189,9 +238,6 @@ Font.prototype.handleFontLoad = function (data, err) {
 										+ 'font-family:"' + font_family + '", ' + suggested_backup + ';'; 
 			
 		} //end if: do we have font_details?
-        
-		
-		
 		
     } else {
 		
@@ -201,16 +247,5 @@ Font.prototype.handleFontLoad = function (data, err) {
 };//end function: Font --> handleFontLoad
 
 
-
-
-
-
-
 var f = new Font();
-
-
-
-
-
-
 
