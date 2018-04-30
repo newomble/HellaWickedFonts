@@ -45,7 +45,7 @@ function userPage(uid,req,res){
             aUser = vals.rows[0];
             list.username = aUser.username;
             list.user_icon = makeGravLink(aUser.email);
-            list.user_id = aUser.user_id;
+            list.user_prof_id = aUser.user_id;
         }
         var data = fs.readFileSync(pageRoot+'/user.html');
         console.log(list);
