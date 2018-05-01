@@ -213,7 +213,7 @@ Font.prototype.handleFontLoad = function (data, err) {
 			this.FONT_TYPE.innerHTML = this.font_details.kind; 
 			this.FONT_FAM.innerHTML = font_family;
 			
-			this.FONT_RATE.innerHTML = parseFloat(this.font_details.rating).toFixed(2) || "No Ratings";
+			this.FONT_RATE.innerHTML = parseFloat(this.font_details.rating || 0).toFixed(2) || "No Ratings";
 			this.RATE_TOTAL.innerHTML = "total ratings: " + this.font_details.rating_total || 0;
 			
 			

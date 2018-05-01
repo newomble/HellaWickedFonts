@@ -208,7 +208,7 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 			}
 			
 			return true;
-		}
+		} //end if: was there a font
 	} //end if: was there an error:
 	
 	this.error_update = true;
