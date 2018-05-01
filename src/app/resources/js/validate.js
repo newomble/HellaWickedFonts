@@ -112,7 +112,7 @@ function validateSignUpForm () {
 function handleSignup(data,err){
 	if(!err){
 		if(data){
-			window.location = "/collection";
+			window.location = "/login";
 			return true;
 		} //end if: did we get back "true"?
 	} //end if: do we have an error?

@@ -1,3 +1,7 @@
+/** 
+ * Routes not associated to a page view
+ * Validates clientside input before sending to the controllas
+*/
 var express = require('express'),
     path = require('path'),
     basePath = path.dirname(require.main.filename),
@@ -41,8 +45,11 @@ apiRouter.route("/reset/password").post(function(req,res){
 
 
 apiRouter.route("/collection").post(function(req,res){
-    //todo if logged int
-    controller.newCollection(req.session.uid,req.body.fonts,res);
+    if(isLoggedIn(req)){
+        controller.newCollection(req.session.uid,req.body.fonts,res);
+    }else{
+        res.send("Gotta Log in first");
+    }
     
 }).get(function(req,res){
         controller.getCollections(req.session.uid,res);
