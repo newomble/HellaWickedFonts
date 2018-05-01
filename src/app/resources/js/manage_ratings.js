@@ -88,7 +88,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 	
 	rate_container.classList.add("rating");
 	rate_container.id = "rating_" + font_id;
-	rate_container.setAttribute('title', "rating: " + this.font_current_rating);
+	rate_container.setAttribute('title', "rating: " + parseFloat(this.font_current_rating).toFixed(2));
 	rate_container.setAttribute("data-original-rating", JSON.stringify(this.ratingStars));
 	rate_container.setAttribute("data-font-id", font_id);
 	
@@ -188,7 +188,7 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 	
 	if (!err) {
 		
-		return true;
+		this.getRatingStars(data);
 	}
 	
 	this.error_update = true;
