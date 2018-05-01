@@ -13,7 +13,6 @@
 function ManageRatings () {
 	'use strict';
 	this.error_update = false;
-	this.init();
 }//end function: ManageRatings
 
 /** ----------------------------------------------------------- **/
@@ -28,18 +27,13 @@ ManageRatings.prototype.MAX_RATING = 5;
 ManageRatings.prototype.star_full_icon = "fas fa-star";
 ManageRatings.prototype.star_empty_icon = "far fa-star";
 ManageRatings.prototype.half_star_icon = "fas fa-star-half";
-/**
-* Initializes and sets up the fav icons to fav/unfav
-* fonts from your collection
-*/
-ManageRatings.prototype.init = function () {
-	'use strict';
-	
-}; //end function: ManageRatings --> init
 
 
 /**
-*
+* Creates the starts and determines which ones need to be displayed
+* based on the rating given.
+* @param rating {int} the rating
+* @param font_id {int} id for the font that is being rated
 */
 ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 	this.font_current_rating = rating;
@@ -63,9 +57,7 @@ ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 	//add the empty stars
 	this.addStars(this.star_empty_icon, this.totalEmpty);
 	
-	
 	return this.buildStars(font_id);
-	
 }; //end function: ManageRatings --> getRatingStars
 
 
@@ -80,7 +72,11 @@ ManageRatings.prototype.addStars = function (star, amt){
 	}//end for: go through as many as we need
 }//end function: ManageRatings --> addStars
 
-
+/**
+* Builds the stars based on the getStars function
+* to display them as needed and add the events
+* @param font_id {int} the font id it belongs to
+*/
 ManageRatings.prototype.buildStars = function (font_id) {
 	var i,
 		ratingIcon,
@@ -88,7 +84,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 	
 	rate_container.classList.add("rating");
 	rate_container.id = "rating_" + font_id;
-	rate_container.setAttribute('title', "rating: " + this.font_current_rating);
+	rate_container.setAttribute('title', "rating: " + parseFloat(this.font_current_rating).toFixed(2));
 	rate_container.setAttribute("data-original-rating", JSON.stringify(this.ratingStars));
 	rate_container.setAttribute("data-font-id", font_id);
 	
@@ -116,6 +112,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 /**
 * Adds the change event for stars
 * @param ele {object} the html element that needs to be clicked
+* @param container {object} the html element which holds the stars
 */
 ManageRatings.prototype.addChangeEvent = function (ele, container) {
 	'use strict';
@@ -154,8 +151,6 @@ ManageRatings.prototype.addChangeEvent = function (ele, container) {
 		}
 	}); //end addEventListener
 	
-	
-	
 }; //end function: ManageRatings --> addChangeEvent
 
 
@@ -187,12 +182,36 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 	'use strict';
 	
 	if (!err) {
-		
-		return true;
-	}
+		var font = data[0];
+		if (font) {
+			var font_id = font.font_id;
+			var font_pre = document.getElementById("rating_" + font_id);
+			var font_pre_parent = font_pre.parentNode;
+			var new_rating = font.rating || 0;
+			var new_rate_total = font.rating_total || 0;
+			
+			font_pre_parent.removeChild(font_pre);//kill previous rating
+			font_pre_parent.appendChild(this.getRatingStars(new_rating, font_id));//update rating
+			
+			
+			var rating_list = document.getElementsByClassName('font_rating_value');
+			var rating_total_list = document.getElementsByClassName('font_rating_total');
+			
+			for (var i = 0; i < rating_list.length; i++) {
+				if (rating_list[i]) {
+					rating_list[i].innerHTML = parseFloat(new_rating).toFixed(2);
+				}
+				
+				if (rating_total_list[i]) {
+					rating_total_list[i].innerHTML = "total ratings: " + new_rate_total;
+				}	
+			}
+			
+			return true;
+		}
+	} //end if: was there an error:
 	
 	this.error_update = true;
-	//this.fireEvent(this.last_clicked);
 }; //end function: ManageRatings --> handleFavChange
 
 

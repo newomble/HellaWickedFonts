@@ -30,6 +30,8 @@ Font.prototype.POP_RANK = document.getElementById('pop_rank');
 Font.prototype.TREND_RANK = document.getElementById('trend_rank');
 Font.prototype.FONT_TYPE = document.getElementById('font_type');
 Font.prototype.FONT_FAM = document.getElementById('font_family');
+Font.prototype.FONT_RATE = document.getElementById('font_rate');
+Font.prototype.RATE_TOTAL = document.getElementById('rate_total');
 Font.prototype.FONT_CODE = document.getElementById('font_use');
 
 
@@ -210,6 +212,9 @@ Font.prototype.handleFontLoad = function (data, err) {
 			this.TREND_RANK.innerHTML = this.font_details.trending_rank;
 			this.FONT_TYPE.innerHTML = this.font_details.kind; 
 			this.FONT_FAM.innerHTML = font_family;
+			
+			this.FONT_RATE.innerHTML = parseFloat(this.font_details.rating).toFixed(2) || "No Ratings";
+			this.RATE_TOTAL.innerHTML = "total ratings: " + this.font_details.rating_total || 0;
 			
 			
 			var suggested_backup = "serif";
