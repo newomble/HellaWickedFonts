@@ -196,7 +196,7 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 			var new_rate_total = font.rating_total || 0;
 			
 			font_pre_parent.removeChild(font_pre);//kill previous rating
-			font_pre_parent.appendChild(this.getRatingStars(new_rating, new_rate_total));//update rating
+			font_pre_parent.appendChild(this.getRatingStars(new_rating, font_id));//update rating
 			
 			
 			var rating_list = document.getElementsByClassName('font_rating_value');
