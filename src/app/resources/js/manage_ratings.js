@@ -13,7 +13,6 @@
 function ManageRatings () {
 	'use strict';
 	this.error_update = false;
-	this.init();
 }//end function: ManageRatings
 
 /** ----------------------------------------------------------- **/
@@ -28,18 +27,13 @@ ManageRatings.prototype.MAX_RATING = 5;
 ManageRatings.prototype.star_full_icon = "fas fa-star";
 ManageRatings.prototype.star_empty_icon = "far fa-star";
 ManageRatings.prototype.half_star_icon = "fas fa-star-half";
-/**
-* Initializes and sets up the fav icons to fav/unfav
-* fonts from your collection
-*/
-ManageRatings.prototype.init = function () {
-	'use strict';
-	
-}; //end function: ManageRatings --> init
 
 
 /**
-*
+* Creates the starts and determines which ones need to be displayed
+* based on the rating given.
+* @param rating {int} the rating
+* @param font_id {int} id for the font that is being rated
 */
 ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 	this.font_current_rating = rating;
@@ -63,9 +57,7 @@ ManageRatings.prototype.getRatingStars = function (rating, font_id) {
 	//add the empty stars
 	this.addStars(this.star_empty_icon, this.totalEmpty);
 	
-	
 	return this.buildStars(font_id);
-	
 }; //end function: ManageRatings --> getRatingStars
 
 
@@ -80,7 +72,11 @@ ManageRatings.prototype.addStars = function (star, amt){
 	}//end for: go through as many as we need
 }//end function: ManageRatings --> addStars
 
-
+/**
+* Builds the stars based on the getStars function
+* to display them as needed and add the events
+* @param font_id {int} the font id it belongs to
+*/
 ManageRatings.prototype.buildStars = function (font_id) {
 	var i,
 		ratingIcon,
@@ -116,6 +112,7 @@ ManageRatings.prototype.buildStars = function (font_id) {
 /**
 * Adds the change event for stars
 * @param ele {object} the html element that needs to be clicked
+* @param container {object} the html element which holds the stars
 */
 ManageRatings.prototype.addChangeEvent = function (ele, container) {
 	'use strict';
@@ -153,8 +150,6 @@ ManageRatings.prototype.addChangeEvent = function (ele, container) {
 			}
 		}
 	}); //end addEventListener
-	
-	
 	
 }; //end function: ManageRatings --> addChangeEvent
 
@@ -214,17 +209,12 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 			
 			return true;
 		}
-	}
+	} //end if: was there an error:
 	
 	this.error_update = true;
-	//this.fireEvent(this.last_clicked);
 }; //end function: ManageRatings --> handleFavChange
 
 
-ManageRatings.prototype.updateRatingChecks = function (rating, ) {
-	'use strict';
-	// class="font_rating_value"
-};
 
 //Initialize (Create the ManageRatings Object)
 var manage_ratings = new ManageRatings();
