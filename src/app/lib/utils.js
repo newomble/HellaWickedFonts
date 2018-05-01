@@ -92,6 +92,7 @@ function makeGravLink(email){
 }
 
 function dberr(err,res){
+	//If we were tracking problems properly we'd have a class here that saves logs and stuff
     console.log(err);
     res.send("DB Error.");
 }
