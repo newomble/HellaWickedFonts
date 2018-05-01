@@ -18,7 +18,7 @@ __If Not On Windows__ run this script in a command window in the src folder of t
     npm run-script init-load
     ```
  
- If that doesn't work
+ If that doesn't work - or on windows
  
  1)Run /docs/fontDBSetup.sql
 
