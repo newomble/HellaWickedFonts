@@ -187,8 +187,33 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 	'use strict';
 	
 	if (!err) {
-		
-		this.getRatingStars(data);
+		var font = data[0];
+		if (font) {
+			var font_id = font.font_id;
+			var font_pre = document.getElementById("rating_" + font_id);
+			var font_pre_parent = font_pre.parentNode;
+			var new_rating = font.rating || 0;
+			var new_rate_total = font.rating_total || 0;
+			
+			font_pre_parent.removeChild(font_pre);//kill previous rating
+			font_pre_parent.appendChild(this.getRatingStars(new_rating, new_rate_total));//update rating
+			
+			
+			var rating_list = document.getElementsByClassName('font_rating_value');
+			var rating_total_list = document.getElementsByClassName('font_rating_total');
+			
+			for (var i = 0; i < rating_list.length; i++) {
+				if (rating_list[i]) {
+					rating_list[i].innerHTML = parseFloat(new_rating).toFixed(2);
+				}
+				
+				if (rating_total_list[i]) {
+					rating_total_list[i].innerHTML = "total ratings: " + new_rate_total;
+				}	
+			}
+			
+			return true;
+		}
 	}
 	
 	this.error_update = true;
@@ -196,6 +221,10 @@ ManageRatings.prototype.handleRatingChange = function (data, err) {
 }; //end function: ManageRatings --> handleFavChange
 
 
+ManageRatings.prototype.updateRatingChecks = function (rating, ) {
+	'use strict';
+	// class="font_rating_value"
+};
 
 //Initialize (Create the ManageRatings Object)
 var manage_ratings = new ManageRatings();
