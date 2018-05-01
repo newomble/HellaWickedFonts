@@ -25,7 +25,11 @@ module.exports = function(app){
 
     // app.use("/font",urlencoded,fontRouter);
     
-	app.use('/',pageRouter);	
+    app.use('/',pageRouter);	
+    
+    app.use(function(req,res){
+        res.redirect("/");
+    })
 	
 };
 
