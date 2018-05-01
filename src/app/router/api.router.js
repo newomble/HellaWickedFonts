@@ -257,8 +257,8 @@ apiRouter.post("/user/update/all",function(req,res){
         res.send("Must be logged in");
         return;
     }
-    if(utils.isString(req.body.password)){
-        controller.resetPass(req.body.password,req.session.user.username);
+    if(utils.isString(req.body.new_pwd)){
+        controller.resetPass(req.body.new_pwd,req.session.user.username,null);
         resString.password = true;     
     }
     if(utils.isString(req.body.username)){
