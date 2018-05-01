@@ -10,7 +10,10 @@
 
  Probly works on other stuff too, but we didn't test it thats for sure.
  
- # Installing The Database
+ # Installing The Database 
+
+__NOTE:__ src/config/config.js stores the db connection information. (Hopefully) its setup to connect at the school. might need to change it
+
  After cloning or downloading -
 __If Not On Windows__ run this script in a command window in the src folder of the project:
 
