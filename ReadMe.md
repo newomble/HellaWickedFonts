@@ -2,11 +2,11 @@
  Steals fonts from google and like, social media's it.
  
  # Build Enviroment
- [x] PSQL 9.0 +
+ [ x ] PSQL 9.0 +
 
- [x] Node 6.5 +
+ [ x ] Node 6.5 +
 
- [x] NPM 3.10 +
+ [ x ] NPM 3.10 +
 
  Probly works on other stuff too, but we didn't test it thats for sure.
  
@@ -21,6 +21,7 @@ __If Not On Windows__ run this script in a command window in the src folder of t
  If that doesn't work
  
  1)Run /docs/fontDBSetup.sql
+
  2)Run this command in a command window in the src folder of the project:
 
     ```
