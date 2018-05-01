@@ -112,6 +112,7 @@ Search.prototype.buildSearchOptions = function () {
 	this.font_search_chk.addEventListener("click", function(){
 		if (this.checked) {
 			app.font_search_opt.style.display = "block";
+			app.search_input.setAttribute("placeholder", "search fonts");
 		} //end if: is this checked?
 	});
 
@@ -122,6 +123,7 @@ Search.prototype.buildSearchOptions = function () {
 	this.user_search_chk.addEventListener("click", function(){
 		if (this.checked) {
 			app.font_search_opt.style.display = "none";
+			app.search_input.setAttribute("placeholder", "search users");
 		} //end if: is this checked?
 	}); //end eventListener
 	
@@ -335,7 +337,8 @@ Search.prototype.loadMoreButton = function () {
 	var app = this;
 	if (this.results_length === 24) {
 		var load_more = document.createElement("button");
-		load_more.innerHTML = "load more fonts";
+		var obj_search = (this.font_search_chk.checked) ? "fonts" : "users";
+		load_more.innerHTML = "load more " + obj_search;
 		this.limit_start += 24;
 		this.limit_end = 24;
 		load_more.addEventListener("click", function () {
