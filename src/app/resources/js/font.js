@@ -33,6 +33,7 @@ Font.prototype.FONT_FAM = document.getElementById('font_family');
 Font.prototype.FONT_RATE = document.getElementById('font_rate');
 Font.prototype.RATE_TOTAL = document.getElementById('rate_total');
 Font.prototype.FONT_CODE = document.getElementById('font_use');
+Font.prototype.FONT_CODE_CSS = document.getElementById('font_use_css');
 
 
 
@@ -235,11 +236,12 @@ Font.prototype.handleFontLoad = function (data, err) {
 			} //end switch
 				
 			
-			this.FONT_CODE.innerHTML = '&lt;link href="'+ this.API_URL 
+			this.FONT_CODE.value = '<link href="'+ this.API_URL 
 										+ this.cssFontName(font_family)
-										+'" rel="stylesheet"&gt;'
-										+ '<br><br><b>CSS:</b><br>' 
-										+ 'font-family:"' + font_family + '", ' + suggested_backup + ';'; 
+										+'" rel="stylesheet">'
+			
+			this.FONT_CODE_CSS.value = 'font-family:"' + font_family + '", ' + suggested_backup + ';';
+										
 			
 		} else {
 			window.history.back();
