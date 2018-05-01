@@ -91,7 +91,9 @@ Search.prototype.buildSearchControls = function () {
 	this.SEARCH_CONTAINER.appendChild(search_obj);
 }; //end function: Search --> buildSearchControls
 
-
+/**
+* Builds general search options such as font/user
+*/
 Search.prototype.buildSearchOptions = function () {
 	'use strict';
 	var app = this;
@@ -129,7 +131,10 @@ Search.prototype.buildSearchOptions = function () {
 	
 };  //end function: Search --> buildSearchOptions
 
-
+/**
+* Builds search options specific to chosing to search for a font
+* Not utilized by user search
+*/
 Search.prototype.buildFontSearchOpts = function () {
 	'use strict';
 	var app = this;
@@ -171,7 +176,9 @@ Search.prototype.buildFontSearchOpts = function () {
 }; //end function: Search --> buildFontSearchOpts
 
 
-
+/**
+* Builds the search options for searching on kind
+*/
 Search.prototype.buildKindSearch = function () {
 	this.kind_container = document.createElement("div");
 	this.kind_value = document.createElement("input");
@@ -197,6 +204,10 @@ Search.prototype.buildKindSearch = function () {
 	this.kind_container.style.display = "none";
 }; //end function: Search --> 
 
+/**
+* Handles adding the search event on click of a "font kind" search
+* @param ele {HTMLnode} the element to add the click event to
+*/
 Search.prototype.addEventKindSearch = function (ele) {
 	var app = this;
 	ele.addEventListener("click", function(){
@@ -272,7 +283,10 @@ Search.prototype.getSearchResults = function (search_string) {
 	
 }; //end function: Search --> getSearchResults
 
-
+/**
+* Displays an empty message if there are no results
+* note: a child class can overwrite this via this.empty_message
+*/
 Search.prototype.noResultsMessage = function () {
 	this.search_results.innerHTML = (this.search_input.value == "") ? this.empty_message : "No Results";
 }; //end function: Search --> noResultsMessage
@@ -280,6 +294,8 @@ Search.prototype.noResultsMessage = function () {
 
 /**
 * Loads any matching fonts into the search results
+* @param font_list {JSON} the list of fonts, false if error
+* @param err {string} boolean false if there isn't an error
 */
 Search.prototype.loadMatchingFonts = function (font_list, err) {
 	'use strict';
@@ -311,6 +327,8 @@ Search.prototype.loadMatchingFonts = function (font_list, err) {
 
 /**
 * Loads any matching users into the search results
+* @param user_list {JSON} the list of fonts, false if error
+* @param err {string} boolean false if there isn't an error
 */
 Search.prototype.loadMatchingUsers = function (user_list, err) {
 	'use strict';
@@ -332,7 +350,10 @@ Search.prototype.loadMatchingUsers = function (user_list, err) {
 }; //end function: Search --> loadMatchingUsers
 
 
-
+/**
+* Creates a "load more" button for searchs where the results
+* count is 24, meaning there could be more
+*/
 Search.prototype.loadMoreButton = function () {
 	var app = this;
 	if (this.results_length === 24) {
@@ -354,7 +375,10 @@ Search.prototype.loadMoreButton = function () {
 	}
 };
 
-
+/**
+* grabs a user box and appends it to the search results
+* @param user {JSON} the json rep of the user obj
+*/
 Search.prototype.addUser = function (user) {
 	'use strict';
 	var user_box = this.getUserBox(user);
@@ -362,7 +386,11 @@ Search.prototype.addUser = function (user) {
 }; //end function: Search --> addUser
 
 
-
+/**
+* Creates a user search box
+* @param user {JSON} the json rep of the user obj
+* @return box {HTMLnode} the user as an html element box (div)
+*/
 Search.prototype.getUserBox = function (user) {
 	'use strict';
 	var box = document.createElement("div"),

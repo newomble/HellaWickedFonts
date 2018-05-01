@@ -385,6 +385,13 @@ footer {
 	position:relative;
 }
 
+.code {
+	width:100%;
+	background-color:#ccc;
+	text-align: center;
+	p
+}
+
 /** ---------------------------- CHART ------------------------------- **/
 
 .chart-container {
