@@ -35,7 +35,7 @@ npm run-script dg
 npm run-script dg
 ```
     
-4)Run /docs/testData.sql (Optional) 
+4) Run /docs/testData.sql (Optional) 
 
 - This will create a small set of sample data and two user: new (password 123) and memrie (password thing2)
     
