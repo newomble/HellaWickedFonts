@@ -1,11 +1,12 @@
 /** 
- * 
+ * Retreives the data required to load a page
+ * Compiles pages using templatejs and sends them to browser
  */
 var path = require('path'),
     basePath = path.dirname(require.main.filename),
     pageRoot =  basePath + "/app/resources/pages",
     controller = require(basePath+"/app/controlla/index.face.js"),
-    md5 = require("md5"),
+    utils = require("../lib/utils.js"),
     fs = require('fs'),
     tjs = require("templatesjs");
 
@@ -47,7 +48,7 @@ function userPage(uid,req,res){
         }else if(vals.rows[0]){
             aUser = vals.rows[0];
             list.username = aUser.username;
-            list.user_prof_icon = makeGravLink(aUser.email);
+            list.user_prof_icon = utils.makeGravLink(aUser.email);
             list.user_prof_id = aUser.user_id;
             var data = fs.readFileSync(pageRoot+'/user.html');
             renderRequestedPage(data, res); 
@@ -127,6 +128,7 @@ module.exports = {
 }
 
 
+//--------File utils----------
 
 function initList(req,title){
     list.title= title;
@@ -143,10 +145,6 @@ function initList(req,title){
         list.isLoggedIn = false;
         list.nav = fs.readFileSync( basePath+"/app/resources/templates/logged_out.html");
     }
-}
-
-function makeGravLink(email){
-    return process.env.icon_url+"avatar/"+md5((email.trim()).toLowerCase() );
 }
 
 function renderRequestedPage(data, res) {

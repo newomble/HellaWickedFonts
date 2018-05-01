@@ -1,3 +1,10 @@
+/** 
+ * Inserts new trending info into font and font history
+ * from Google fonts
+ * 
+ * Asumes the fonts are already in the database. Insert_fonts.js should be ran atleast once
+ * before using this script
+*/
 var config = require("../../config/config.js").development;
 process.env.modelRoot = config.paths.data;
 process.env.apikey = config.apiKey;
@@ -16,8 +23,9 @@ request(trendingUrl, { json: true }, (err, res, body) => {
     client(function(err,results){
         if(err){console.log(err);return;}
         if(results.rows.length != 0){
-        for(var i = 0; i < body.items.length; i++){
+        for(var i = 0; i < body.items.length; i++){//items from google
             for(var k = 0; k < results.rows.length; k++){
+
                 //Compare an API font with a font from the DB
                 if(body.items[i].family == results.rows[k].family){
                     var insertClient = font.updateTrending((i+1),results.rows[k]);

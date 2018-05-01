@@ -1,36 +1,48 @@
 const conn = require("./db.js");
-var USER_ID = null;
-const ratingJoin = " left join public.rating using(font_id) ",
-	getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\", COUNT(rating) as \"rating_total\" ,coalesce((select user_font.user_font_id  from user_font where font_font_id = font.font_id and user_user_id = $1 limit 1),0) as \"favorite\" from public.font ",
-	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $2 GROUP BY public.font.font_id",
-	getAllQuery = getBase + ratingJoin + "GROUP BY public.font.font_id" ,
-	updateQuery = "",
+
+const getBase = "Select font_id, family,source_json,popularity, trending_rank,kind, AVG(rating) as \"rating\","+ 
+				"COUNT(rating) as \"rating_total\" ,coalesce((select user_font.user_font_id  from user_font "+
+				"where font_font_id = font.font_id and user_user_id = $1 limit 1),0) as \"favorite\" from public.font ",
+	ratingJoin = " left join public.rating using(font_id) ",
+	getGroupBy = " group by font.font_id ",
+
+	getOneQuery = getBase + ratingJoin + " where public.font.font_id = $2 "+getGroupBy,
+	getAllQuery = getBase + ratingJoin + getGroupBy,
+
 	insertQuery = "insert into font (family, popularity, kind) values ($1, $2, $3)",
 	insertWithSourceQuery = "insert into public.font (family, popularity, kind,source_json) values ($1, $2, $3, $4)",
+
 	deleteQuery = "delete from public.font where font_id = $1",
 	getByNameQuery = "select family from font where family = $1",
-	getPopularQuery = "select * from public.font order by popularity asc limit 5",
+
+	getPopularQuery = getBase+ ratingJoin+getGroupBy+" order by popularity asc limit 5",
+	getTrendingQuery = getBase+ratingJoin+getGroupBy+" order by trending_rank asc limit 5",
+
 	getHistoryQuery = "select trending_rank,rank,time from font_history where font_id = $1 order by time desc limit 7",
+
 	updatePopQuery = "update public.font set popularity = $1 where font_id = $2;",
 	updateTrendQuery = "UPDATE font set trending_rank = $1 where font_id = $2;",
+
 	recordPopQuery = "insert into public.font_history (font_id,rank) values ($1,$2)",
+
 	saveTrendingQuery = "update font_history set trending_rank = $1 where font_id = $2 AND time = CURRENT_DATE ",
 	savePopularityQuery = "insert into font_history (font_id,rank) VALUES ($1,$2)",
 
-	getTrendingQuery = getBase+ratingJoin+" group by font_id order by trending_rank asc limit 5",
 	suggQuery =  "("+getBase+ratingJoin + " where kind = 'sans-serif' group by font_id limit 1) UNION "+
-		"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
-		"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
-	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
-	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$2::varchar,'%')  group by font_id limit $3 OFFSET $4",
+					"("+getBase+ratingJoin + " where kind = 'handwriting'  group by font_id limit 1) UNION"+
+					"("+getBase+ratingJoin + " where kind = 'serif' group by font_id limit 1)",
+	
+	searchQueryFamily = getBase+ratingJoin+" where family like concat('%',$2::varchar,'%')  "+getGroupBy+" limit $3 OFFSET $4",
+	searchQueryKind = getBase+ratingJoin+" where kind like concat('%',$2::varchar,'%')  "+getGroupBy+" limit $3 OFFSET $4",
+	
 	searchInCollQueryFamily = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
-		" where user_font.user_user_id = $2 AND "+
-		" family like concat('%',$3::varchar,'%')"+
-		" group by font.font_id limit $4 OFFSET $5",
+							" where user_font.user_user_id = $2 AND "+
+							" family like concat('%',$3::varchar,'%')"+
+							getGroupBy+" limit $4 OFFSET $5",
 	searchInCollQueryKind = getBase+ratingJoin+" join user_font ON user_font.font_font_id = font.font_id"+
-		" where user_font.user_user_id = $2 AND "+
-		" kind like concat('%',$3::varchar,'%') "+
-		" group by font.font_id limit $4 OFFSET $5";
+							" where user_font.user_user_id = $2 AND "+
+							" kind like concat('%',$3::varchar,'%') "+
+							getGroupBy+" limit $4 OFFSET $5";
 
 function getFont(id,uid){
 	return conn.execute(getOneQuery,[uid,id]);
@@ -55,7 +67,7 @@ function getHistory(fid){
 	return conn.execute(getHistoryQuery,[fid]);
 }
 function getMostPopular(uid){
-	return conn.execute(getPopularQuery,null);
+	return conn.execute(getPopularQuery,[null]);
 }
 function updatePopularity(newVal,fontJson){
 	var client = conn.execute(savePopularityQuery,[fontJson.font_id,fontJson.popularity]);

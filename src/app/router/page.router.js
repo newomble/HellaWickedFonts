@@ -1,3 +1,6 @@
+/** 
+ * Directs url inputs to appropriate pages
+*/
 var express = require('express'),
     pageLoader = require("./page.loader.js"),
     pageRouter = express.Router();
