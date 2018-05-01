@@ -322,7 +322,7 @@ CommentManager.prototype.addComment = function (comment) {
 CommentManager.prototype.validateComment = function () {
 	'use strict';
 	var comment_text = this.comment_text.value,
-		clean_comment = (comment_text) ? comment_text.replace(/[^0-9A-Za-z\.\?\-,'"\s]/g, "") : "";
+		clean_comment = (comment_text) ? comment_text.replace(/[^0-9A-Za-z\.\?\-,!'"\s]/g, "") : "";
 	
 	if (comment_text === "") {
 		this.setCommentError("You must first enter a comment.");
@@ -330,7 +330,7 @@ CommentManager.prototype.validateComment = function () {
 	} //end if: is it empty?
 	
 	if (clean_comment !== comment_text) {
-		this.setCommentError("Invalid Characters. Allowed: Alphanumeric , . ? ' \" - ");
+		this.setCommentError("Invalid Characters. Allowed: Alphanumeric , . ? ! ' \" - ");
 		return false;
 	} //end if: invalid character?
 	
