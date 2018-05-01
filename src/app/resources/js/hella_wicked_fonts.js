@@ -67,7 +67,7 @@ HellaWickedFonts.prototype.getFontBox = function (font_details, show_font_link, 
 		font_name.setAttribute("href", "/font/" + font_id);
 
 		box.appendChild(font_name);
-	} //end if:
+	}
 	
 	box.appendChild(font_txt);
 	

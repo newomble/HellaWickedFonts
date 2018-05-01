@@ -138,8 +138,8 @@ CommentManager.prototype.commentBox = function (user_comment) {
 	username.innerHTML = '<a href="/user/' + user_comment.user_id+ '">'+user_comment.username +'</a>';
 	comment_text.innerHTML = user_comment.comment_text;
 	
-	var up_count = parseInt((user_comment.rating) ? parseFloat(user_comment.rating) * parseInt(user_comment['total votes']) : 0);
-	var down_count = parseInt(user_comment['total votes'] || 0) - up_count;
+	var up_count = parseInt((user_comment.rating) ? parseFloat(user_comment.rating) * parseInt(user_comment.total_votes) : 0);
+	var down_count = parseInt(user_comment.total_votes || 0) - up_count;
 	
 	up_vote.innerHTML = up_count;
 	down_vote.innerHTML = down_count;

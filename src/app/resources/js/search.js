@@ -20,6 +20,8 @@ function Search(search_fonts, search_users, default_search_placeholder) {
 	this.search_users = search_users;
 	this.input_placeholder = default_search_placeholder;
 	this.empty_message = "<p>No results</p>";
+	this.limit_start = 0;
+	this.limit_end = 24;
 	this.init();
 }//end function Home
 
@@ -57,6 +59,8 @@ Search.prototype.buildSearchControls = function () {
 	this.search_input.setAttribute("placeholder", this.input_placeholder || "find fonts");
 	
 	this.search_input.addEventListener("keyup", function () {
+		app.limit_start = 0;
+		app.limit_end = 24;
 		app.getSearchResults(this.value); //go get the search criteria
 	}); //end addEventListener --> onKeyUp (search input)
 	
@@ -194,6 +198,8 @@ Search.prototype.buildKindSearch = function () {
 Search.prototype.addEventKindSearch = function (ele) {
 	var app = this;
 	ele.addEventListener("click", function(){
+		app.limit_start = 0;
+		app.limit_end = 24;
 		app.search_input.value = this.value;
 		app.getSearchResults(this.value);
 	});
@@ -234,7 +240,14 @@ Search.prototype.getSearchResults = function (search_string) {
 	if (this.search_fonts && searching_fonts) {
 		var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
 		//make an ajax call -- URL, method (get/post), Params, callback function name
-		this.ajaxCall("/api/search/fonts", "POST", {search_string: search_string, type: font_type}, "loadMatchingFonts");
+		this.ajaxCall("/api/search/fonts", 
+					  "POST", 
+					  {search_string: search_string, 
+					   type: font_type,
+					   limit_start: this.limit_start,
+					   limit_end: this.limit_end					   
+					  }, 
+					  "loadMatchingFonts");
 	} //end if: can they search for fonts?
 	
 	//load any matching users - check for if there are any returned
