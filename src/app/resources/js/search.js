@@ -337,7 +337,13 @@ Search.prototype.loadMoreButton = function () {
 	var app = this;
 	if (this.results_length === 24) {
 		var load_more = document.createElement("button");
-		var obj_search = (this.font_search_chk.checked) ? "fonts" : "users";
+		var fonts_checked = this.font_search_chk;
+		var obj_search = "fonts";
+		
+		if (fonts_checked) {
+			obj_search = (this.font_search_chk.checked) ? "fonts" : "users";
+		}
+		
 		load_more.innerHTML = "load more " + obj_search;
 		this.limit_start += 24;
 		this.limit_end = 24;

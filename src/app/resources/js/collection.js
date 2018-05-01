@@ -19,6 +19,8 @@ function Collection(is_my_collection, user_id) {
 	this.search_fonts = true;
 	this.search_users = false;
 	this.my_collection = is_my_collection;
+	this.limit_start = 0;
+	this.limit_end = 24;
 	this.init();
 }//end function Collection
 
@@ -60,12 +62,24 @@ Collection.prototype.init = function () {
 Collection.prototype.getSearchResults = function (search_string) {
 	'use strict';
 	//clear out the old search results
-	this.search_results.innerHTML = "";
+	if (this.limit_start === 0) {
+		this.search_results.innerHTML = "";
+	} else {
+		this.search_results.removeChild(this.search_results.getElementsByTagName('button')[0]);
+	}
 
 	//make an ajax call -- URL, method (get/post), Params, callback function name
 	var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
 	//make an ajax call -- URL, method (get/post), Params, callback function name
-	this.ajaxCall("/api/search/fonts", "POST", {search_string: search_string, type: font_type, user_id:this.user_id}, "loadMatchingFonts");
+	this.ajaxCall("/api/search/fonts", 
+				  "POST", 
+				  {search_string: search_string, 
+				   type: font_type, 
+				   user_id:this.user_id, 
+				   limit_start:this.limit_start, 
+				   limit_end:this.limit_end
+				  }, 
+				  "loadMatchingFonts");
 }; //end function: Collection --> getSearchResults
 
 
