@@ -227,15 +227,21 @@ Search.prototype.buildSearchResults = function () {
 Search.prototype.getSearchResults = function (search_string) {
 	'use strict';
 	//clear out the old search results
-	this.search_results.innerHTML = "";
+	if (this.limit_start === 0) {
+		this.search_results.innerHTML = "";
+	} else {
+		this.search_results.removeChild(this.search_results.getElementsByTagName('button')[0]);
+	}
 	var searching_fonts = true;
 	var searching_users = false;
+	var app = this;
 	
 	if (this.search_fonts && this.search_users) {
 		searching_fonts = this.font_search_chk.checked;
 		searching_users = this.user_search_chk.checked;
 	}
 	
+	this.results_length = 0;
 	//load any matching fonts - check for if there are any returned
 	if (this.search_fonts && searching_fonts) {
 		var font_type = (this.font_search_fam_chk.checked) ? "family" : "kind";
@@ -253,9 +259,15 @@ Search.prototype.getSearchResults = function (search_string) {
 	//load any matching users - check for if there are any returned
 	if (this.search_users && searching_users) {
 		//make an ajax call -- URL, method (get/post), Params, callback function name
-		this.ajaxCall("/api/search/users", "POST", {search_string: search_string}, "loadMatchingUsers");
+		this.ajaxCall("/api/search/users", 
+					  "POST", 
+					  {search_string: search_string,
+					   limit_start: this.limit_start,
+					   limit_end: this.limit_end
+					  }, 
+					  "loadMatchingUsers");
 	} //end if: can they search for fonts?
-
+	
 }; //end function: Search --> getSearchResults
 
 
@@ -269,12 +281,10 @@ Search.prototype.noResultsMessage = function () {
 */
 Search.prototype.loadMatchingFonts = function (font_list, err) {
 	'use strict';
-	
-	//clear any previous matches
-	this.search_results.innerHTML = "";
-	
+
 	if (!err) {
 		var font_amt = font_list.length;
+		this.results_length = font_amt;
 		if(font_amt > 0) {
 			var i, font_detail;
 			
@@ -286,6 +296,7 @@ Search.prototype.loadMatchingFonts = function (font_list, err) {
 					true
 				)); //end append font box
 			} //end for: go through all matching fonts
+			this.loadMoreButton();
 			return true;
 		} //end if: did we get any results?
 	} //end if: was there an error?
@@ -301,18 +312,15 @@ Search.prototype.loadMatchingFonts = function (font_list, err) {
 */
 Search.prototype.loadMatchingUsers = function (user_list, err) {
 	'use strict';
-	
-	//clear any previous matches
-	this.search_results.innerHTML = "";
-	
 	if (!err) {
 		var i,
 		user_amt = user_list.length;
-		
+		this.results_length = user_amt;
 		if (user_amt > 0) {
 			for (i = 0; i < user_amt; i++) {
 				this.addUser(user_list[i]);
 			} //end for: go through all the users in the list
+			this.loadMoreButton();
 			return true;
 		} //end if: do we have results?
 		
@@ -321,6 +329,21 @@ Search.prototype.loadMatchingUsers = function (user_list, err) {
 	this.noResultsMessage();
 }; //end function: Search --> loadMatchingUsers
 
+
+
+Search.prototype.loadMoreButton = function () {
+	var app = this;
+	if (this.results_length === 24) {
+		var load_more = document.createElement("button");
+		load_more.innerHTML = "load more fonts";
+		this.limit_start += 24;
+		this.limit_end = 24;
+		load_more.addEventListener("click", function () {
+			app.getSearchResults(app.search_input.value);
+		});
+		this.search_results.appendChild(load_more);
+	}
+};
 
 
 Search.prototype.addUser = function (user) {
